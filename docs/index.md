@@ -6,7 +6,7 @@
 ></iframe>
 <br/>
 <br/>
-<a href="https://cdn.discordapp.com/attachments/765297942470852682/765733108481523792/unknown.png" target="_blank"><strong>Availability Schedule for Team:</strong></a>
+<strong>Availability Schedule for Team:</strong>
 <iframe
   src="https://cdn.discordapp.com/attachments/765297942470852682/765733108481523792/unknown.png"
   style="width:100%; height:500px;"
