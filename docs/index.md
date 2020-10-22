@@ -17,5 +17,12 @@
   style="width:100%; height:500px;"
 ></iframe>
 <br/>
+<strong>Backlog grooming document: </strong>
+<iframe
+  src="https://docs.google.com/document/d/1DGsEXSumAt5zWQTwCrNj2bFLF_veMGaE8g7d4PfFEdw/edit"
+  style="width:100%; height:500px;"
+></iframe>
+<br/>
+
 
 
