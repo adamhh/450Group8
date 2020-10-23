@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Com Chat</string>
-    <string name ="home_title">Home</string>
+    <string name ="weather_title">Weather</string>
 </resources>
