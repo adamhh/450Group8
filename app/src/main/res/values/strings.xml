@@ -9,4 +9,13 @@
     <string name="edit_text_login_password">Password</string>
     <string name="button_login_sign_in">Sign In</string>
     <string name="button_login_register">Register</string>
+
+<!--    Register fragment-->
+    <string name="button_register_first_name">First Name</string>
+    <string name="button_register_last_name">Last Name</string>
+    <string name="edit_text_register_email">Email</string>
+    <string name="edit_text_register_nickname">Nickname</string>
+    <string name="edit_text_register_password">Password</string>
+    <string name="edit_text_register_password_retype">Retype Password</string>
+    <string name="button_register_register">Register</string>
 </resources>
