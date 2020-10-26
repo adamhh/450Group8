@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Com Chat</string>
-    <string name ="weather_title">Weather</string>
+    <string name="weather_title">Weather</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    Login fragment.-->
+    <string name="edit_text_login_email">Email</string>
+    <string name="edit_text_login_password">Password</string>
+    <string name="button_login_sign_in">Sign In</string>
+    <string name="button_login_register">Register</string>
 </resources>
