@@ -2,21 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_main"
-    app:startDestination="@id/loginFragment">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="edu.uw.comchat.ui.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-    </fragment>
+        android:id="@+id/navigation_home"
+        android:name="edu.uw.comchat.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="edu.uw.comchat.ui.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        android:id="@+id/settingsFragment"
+        android:name="edu.uw.comchat.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
