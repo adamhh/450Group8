@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            NavController navController = Navigation.findNavController(this, R.id.fragment_container_auth);
             navController.navigate(R.id.settingsFragment);
         }
 
