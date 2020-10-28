@@ -5,7 +5,7 @@
     android:id="@+id/layout_root_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RegisterFragment" >
+    tools:context=".ui.auth.RegisterFragment" >
 
     <EditText
         android:id="@+id/edit_text_first_name"
@@ -101,7 +101,7 @@
         app:layout_constraintVertical_bias="0.468" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
