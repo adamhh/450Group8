@@ -1,4 +1,4 @@
-package edu.uw.comchat.ui;
+package edu.uw.comchat.ui.auth;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ public class LoginFragment extends Fragment {
   private FragmentLoginBinding mBinding;
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     mBinding = FragmentLoginBinding.inflate(inflater, container, false);
@@ -40,10 +40,16 @@ public class LoginFragment extends Fragment {
   }
 
   /**
-   * TODO Provide behavior when Sign In button is pressed.
+   *
    */
   private void handleSignInButton() {
+    // TODO add Verification
+    Navigation.findNavController(getView()).navigate(
+            LoginFragmentDirections.actionLoginFragmentToMainActivity()
+    );
 
+    // Exit the activity so users cannot back navigate to login
+    getActivity().finish();
   }
 
   /**
