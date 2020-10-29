@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="edu.uw.comchat.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/navigation_chat"
