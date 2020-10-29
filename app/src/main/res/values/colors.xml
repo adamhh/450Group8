@@ -7,4 +7,29 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <!-- Sample 1 -->
+    <color name="backgroundLightMode">#FFFFFF</color>
+    <color name="toolbarLightMode">#34BAEB</color>
+    <color name="notificationBarLightMode">#2FA9D6</color>
+    <color name="titleTextLightMode">#FFFFFF</color>
+    <color name="textLightMode">#595959</color>
+    <color name="buttonLightMode">#2FA9D6</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="radioSelectedLight">#2FA9D6</color>
+    <color name="radioUnselectedLight">#595959</color>
+
+
+    <!-- Sample 2 -->
+<!--            <color name="backgroundLightMode">#DBDBDB</color>-->
+<!--            <color name="backgroundLightMode">#FFFFFF</color>-->
+<!--            <color name="toolbarLightMode">#212121</color>-->
+<!--            <color name="notificationBarLightMode">#212121</color>-->
+<!--            <color name="titleTextLightMode">#FFFFFF</color>-->
+<!--            <color name="textLightMode">#000000</color>-->
+<!--            <color name="buttonLightMode">#D32F2F</color>-->
+<!--            <color name="radioSelectedLight">#D32F2F</color>-->
+<!--            <color name="radioUnselectedLight">#5C5C5C</color>-->
+<!--            <color name="buttonText">#FFFFFF</color>-->
 </resources>
