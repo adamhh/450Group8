@@ -33,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.fragment_container_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
@@ -43,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            NavController navController = Navigation.findNavController(this, R.id.fragment_container_auth);
+            NavController navController = Navigation.findNavController(this, R.id.fragment_container_main);
             navController.navigate(R.id.navigation_settings);
         }
 
