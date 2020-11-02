@@ -1,9 +1,7 @@
 <br/>
 <a href="https://drive.google.com/drive/u/1/folders/1fAGIzUolKyg5KC5XTNv97xnsAah71IUu" target="_blank"><strong>Team Google Drive:</strong></a>
 <br/>
-<br/>
 <a href="https://drive.google.com/drive/u/1/folders/1Mkd1PaH3dmvCzxojph0iulLOJ-ziQTwX" target="_blank"><strong>Spring 0 Folder:</strong></a>
-<br/>
 <br/>
 <a href="https://drive.google.com/drive/u/1/folders/1s79pOQjcPwYjBctZnqoEz2Lfr2efa7no"><strong>Spring 1 Folder:</strong></a>
 <br/>
