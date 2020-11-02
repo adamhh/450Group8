@@ -19,7 +19,7 @@ import edu.uw.comchat.databinding.FragmentRegisterBinding;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * @author Hung Vu, Jerry
  */
 public class RegisterFragment extends Fragment {
 
@@ -27,6 +27,9 @@ public class RegisterFragment extends Fragment {
 
   private RegisterViewModel mRegisterModel;
 
+  /**
+   * Empty constructor (required).
+   */
   public RegisterFragment(){
 
   }
@@ -66,13 +69,12 @@ public class RegisterFragment extends Fragment {
    */
   private void handleAcceptButton() {
 
-    // TODO add verification
+    // TODO add verification (client side)
 
     this.verifyAuthWithServer();
   }
 
   private void verifyAuthWithServer() {
-    // Step 67.
     mRegisterModel.connect(
             mBinding.editTextFirstName.getText().toString(),
             mBinding.editTextLastName.getText().toString(),
@@ -89,25 +91,28 @@ public class RegisterFragment extends Fragment {
    * @param response the Response from the server
    */
   private void observeResponse(final JSONObject response) {
-    Log.i("JSON body", response.toString());
+//    Log.i("JSON body", response.toString());
     if (response.length() > 0) {
       if (response.has("code")) {
         try {
           mBinding.editTextEmail.setError(
-                  "Error Authenticating: " +
-                          response.getJSONObject("data").getString("message"));
+                  "Error Authenticating: " + response.getJSONObject("data").getString("message"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }
       } else {
-//        navigateToLogin();
+        navigateToLogin();
       }
     } else {
       Log.d("JSON Response", "No Response");
     }
   }
 
+  /**
+   * Navigate from register fragment to login fragment.
+   */
   private void navigateToLogin(){
+    // TODO Pass user name and password to login frogment.
     Navigation.findNavController(getView()).navigate(
             RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
     );

@@ -33,17 +33,30 @@ import edu.uw.comchat.io.RequestQueueSingleton;
 public class LoginViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
 
+  /**
+   * Constructor
+   * @param application
+   */
   public LoginViewModel(@NonNull Application application) {
     super(application);
     mResponse = new MutableLiveData<>();
     mResponse.setValue(new JSONObject());
   }
 
+  /**
+   * Add observer to a view model instance.
+   * @param owner life cycle of the class bound to model instance
+   * @param observer the response
+   */
   public void addResponseObserver(@NonNull LifecycleOwner owner,
                                   @NonNull Observer<? super JSONObject> observer) {
     mResponse.observe(owner, observer);
   }
 
+  /**
+   * Provide behavior when a HTTP error is returned.
+   * @param error HTTP error (encapsulated in VolleyError)
+   */
   private void handleError(final VolleyError error) {
     if (Objects.isNull(error.networkResponse)) {
       try {

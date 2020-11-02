@@ -90,6 +90,10 @@ public class RegisterViewModel extends AndroidViewModel {
             .add(request);
   }
 
+  /**
+   * Provide behavior when a HTTP error is returned.
+   * @param error HTTP error (encapsulated in VolleyError)
+   */
   private void handleError(final VolleyError error) {
 //    Log.i("JSON body", "true");
     if (Objects.isNull(error.networkResponse)) {
@@ -99,7 +103,7 @@ public class RegisterViewModel extends AndroidViewModel {
         Log.e("JSON PARSE", "JSON Parse Error in handleError");
       }
     } else {
-      Log.i("JSON body", "true");
+//      Log.i("JSON body", "true");
       String data = new String(error.networkResponse.data, Charset.defaultCharset())
               .replace('\"', '\'');
       try {

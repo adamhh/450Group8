@@ -25,9 +25,13 @@ public class LoginFragment extends Fragment {
   private FragmentLoginBinding mBinding;
   private LoginViewModel mLoginModel;
 
+  /**
+   * Empty constructor (required).
+   */
   public LoginFragment(){
 
   }
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -63,14 +67,14 @@ public class LoginFragment extends Fragment {
    *
    */
   private void handleSignInButton() {
-//    // TODO add Verification
+    // TODO add Verification (client side).
 //    Navigation.findNavController(getView()).navigate(
 //            LoginFragmentDirections.actionLoginFragmentToMainActivity()
 //    );
 
     // Exit the activity so users cannot back navigate to login
 //    getActivity().finish();
-    verifyAuthWithServer();
+    this.verifyAuthWithServer();
   }
 
   /**
@@ -82,8 +86,10 @@ public class LoginFragment extends Fragment {
     );
   }
 
+  /**
+   * Verify user name and password (server side).
+   */
   private void verifyAuthWithServer() {
-    // Step 78.
     mLoginModel.connect(
             mBinding.editTextLogin.getText().toString(),
             mBinding.editTextPassword.getText().toString());
@@ -99,22 +105,20 @@ public class LoginFragment extends Fragment {
    * @param response the Response from the server
    */
   private void observeResponse(final JSONObject response) {
-    // Step 79.
     if (response.length() > 0) {
       if (response.has("code")) {
         try {
           mBinding.editTextLogin.setError(
-                  "Error Authenticating: " +
-                          response.getJSONObject("data").getString("message"));
+                  "Error Authenticating: " + response.getJSONObject("data").getString("message"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }
       } else {
 //        try {
-//          navigateToMainActivity(
+          navigateToMainActivity(
 //                  binding.editTextEmail.getText().toString(),
 //                  response.getString("token")
-//          );
+          );
 //        }
 //        catch (JSONException e) {
 //          Log.e("JSON Parse Error", e.getMessage());
@@ -125,6 +129,10 @@ public class LoginFragment extends Fragment {
     }
 
   }
+
+  /**
+   * Navigate to home page.
+   */
   public void navigateToMainActivity(){
     Navigation.findNavController(getView())
             .navigate(LoginFragmentDirections
