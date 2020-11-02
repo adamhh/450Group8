@@ -7,7 +7,9 @@
 <br/>
 <a href="https://docs.google.com/document/d/1pKOffQPMIHg7vaGDFMvF3sHicAo6RKMmu9uvxcCtjpM/edit" target="_blank"><strong>Daily Scrum Notes:</strong></a>
 <br/>
-<iframe src="https://docs.google.com/document/d/1pKOffQPMIHg7vaGDFMvF3sHicAo6RKMmu9uvxcCtjpM/edit" target=" style="width:100%; height:500px;" ></iframe>
-
-
+<iframe
+  src="https://docs.google.com/document/d/1pKOffQPMIHg7vaGDFMvF3sHicAo6RKMmu9uvxcCtjpM/edit"
+  style="width:100%; height:500px;"
+></iframe>
+<br/>
 Last Update: 11/02/2020
