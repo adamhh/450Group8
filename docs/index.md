@@ -1,12 +1,15 @@
 <br/>
-<a href="https://docs.google.com/document/d/12TjiPLamkQV_481-1dKO1np7KrVPEHQpN5BisIlolus/edit" target="_blank"><strong>Spring 0 Checklist:</strong></a>
+<a href="https://drive.google.com/drive/u/1/folders/1fAGIzUolKyg5KC5XTNv97xnsAah71IUu" target="_blank"><strong>Team Google Drive:</strong></a>
+<br/>
+<br/>
+<a href="https://drive.google.com/drive/u/1/folders/1Mkd1PaH3dmvCzxojph0iulLOJ-ziQTwX" target="_blank"><strong>Spring 0 Folder:</strong></a>
+<br/>
+<br/>
+<a href="https://drive.google.com/drive/u/1/folders/1s79pOQjcPwYjBctZnqoEz2Lfr2efa7no"><strong>Spring 1 Folder:</strong></a>
 <br/>
 <a href="https://docs.google.com/document/d/1pKOffQPMIHg7vaGDFMvF3sHicAo6RKMmu9uvxcCtjpM/edit" target="_blank"><strong>Daily Scrum Notes</strong></a>
 <br/>
-<strong>Availability Schedule for Team:</strong>
-<br/>
-<strong>Backlog grooming document: </strong>
-<br/>
+
 
 
 
