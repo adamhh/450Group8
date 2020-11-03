@@ -37,7 +37,6 @@ public class RegisterFragment extends Fragment {
    * View binding of register page.
    */
   private FragmentRegisterBinding mBinding;
-
   /**
    * View model of register page.
    */

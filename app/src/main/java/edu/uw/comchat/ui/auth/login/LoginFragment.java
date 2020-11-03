@@ -16,14 +16,47 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.uw.comchat.databinding.FragmentLoginBinding;
+import edu.uw.comchat.util.EmailValidator;
+import edu.uw.comchat.util.PasswordValidator;
+
+import static edu.uw.comchat.util.EmailValidator.*;
+import static edu.uw.comchat.util.PasswordValidator.*;
 
 
 
-@SuppressWarnings("checkstyle:MemberName")
+/**
+ * This is a fragment for login page.
+ * @author Hung Vu, Jerry
+ */
 public class LoginFragment extends Fragment {
-
+  /**
+   * An error thrown when a user type in invalid account login information.
+   */
+  private static final String INVALID_ERROR = "Invalid username and/or password";
+  /**
+   * View binding of login page.
+   */
   private FragmentLoginBinding mBinding;
+  /**
+   * View model of login page.
+   */
   private LoginViewModel mLoginModel;
+
+  // TODO Apply combinator design pattern and refactor the code in next sprint.
+  /**
+   * A function to check whether password meets length requirement.
+   */
+  private PasswordValidator checkPasswordLength = checkPwdLength();
+
+  /**
+   * A function to check whether password contains at least 1 uppercase letter.
+   */
+  private PasswordValidator checkPasswordContainUpperCase = checkPwdContainUppercase();
+
+  /**
+   * A function to validates email address.
+   */
+  private EmailValidator checkValidEmail = checkEmail();
 
   /**
    * Empty constructor (required).
@@ -64,16 +97,26 @@ public class LoginFragment extends Fragment {
   }
 
   /**
-   *
+   * Provide behavior when Login button is pressed.
    */
   private void handleSignInButton() {
-    // TODO add Verification (client side).
-//    Navigation.findNavController(getView()).navigate(
-//            LoginFragmentDirections.actionLoginFragmentToMainActivity()
-//    );
+    // Is checking on login page a need?
+    // It is somewhat illogical since the check will let
+    // user with malicious intention have clue to search for correct combination.
 
-    // Exit the activity so users cannot back navigate to login
-//    getActivity().finish();
+    // Note, the code below is only partially implemented.
+//    boolean isValid = true;
+//    String emailString = mBinding.editTextLogin.getText().toString();
+//    String passwordString = mBinding.editTextPassword.getText().toString();
+//    if (EmailValidationResult.EMAIL_INVALID.equals(
+//            checkValidEmail
+//                    .apply(emailString)
+//                    .get())) {
+//      mBinding.editTextLogin.setError(INVALID_ERROR);
+//      mBinding.editTextPassword.setError(INVALID_ERROR);
+//      isValid = false;
+//    }
+
     this.verifyAuthWithServer();
   }
 
@@ -110,19 +153,22 @@ public class LoginFragment extends Fragment {
         try {
           mBinding.editTextLogin.setError(
                   "Error Authenticating: " + response.getJSONObject("data").getString("message"));
+          mBinding.editTextPassword.setError(
+                  "Error Authenticating: " + response.getJSONObject("data").getString("message"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }
       } else {
-//        try {
+        try {
           navigateToMainActivity(
-//                  binding.editTextEmail.getText().toString(),
-//                  response.getString("token")
+                  mBinding.editTextLogin.getText().toString(),
+                  response.getString("token")
           );
-//        }
-//        catch (JSONException e) {
-//          Log.e("JSON Parse Error", e.getMessage());
-//        }
+//          Log.i("jwt",response.getString("token"));
+        }
+        catch (JSONException e) {
+          Log.e("JSON Parse Error", e.getMessage());
+        }
       }
     } else {
       Log.d("JSON Response", "No Response");
@@ -133,10 +179,10 @@ public class LoginFragment extends Fragment {
   /**
    * Navigate to home page.
    */
-  public void navigateToMainActivity(){
+  public void navigateToMainActivity(String email, String jwt){
     Navigation.findNavController(getView())
             .navigate(LoginFragmentDirections
-                    .actionLoginFragmentToMainActivity());
+                    .actionLoginFragmentToMainActivity(email, jwt));
     getActivity().finish();
   }
 }
