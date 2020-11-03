@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import edu.uw.comchat.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A fragment that shows the list of messages in a group.
+ *
+ *  * @author Jerry Springer
+ *  * @version 3 November 2020
  */
 public class MessageListFragment extends Fragment {
 

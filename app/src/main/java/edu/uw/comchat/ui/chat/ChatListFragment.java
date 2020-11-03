@@ -19,7 +19,10 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatListBinding;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A fragment that shows the list of chats a user has with other.
+ *
+ *  * @author Jerry Springer
+ *  * @version 3 November 2020
  */
 public class ChatListFragment extends Fragment {
 
@@ -37,14 +40,17 @@ public class ChatListFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
     binding = FragmentChatListBinding.bind(view);
-    binding.floatingActionButtonMessage.setOnClickListener(button -> {
+    binding.floatingActionButtonChatListMessage.setOnClickListener(button -> {
       Navigation.findNavController(getView()).navigate(
-              ChatListFragmentDirections.actionNavigationChatToCreateFragment()
-      );
+              ChatListFragmentDirections.actionNavigationChatToCreateFragment());
     });
-    binding.listRoot.setAdapter(
+
+    // Sets the recycler view adapter for the list (re-use of elements when scrolling)
+    binding.listRootChat.setAdapter(
             new ChatRecyclerViewAdapter(ChatGenerator.getChatList()));
-    binding.listRoot.addItemDecoration(
+
+    // Adds a divider in the list
+    binding.listRootChat.addItemDecoration(
             new DividerItemDecoration(this.getActivity(), LinearLayout.VERTICAL));
   }
 

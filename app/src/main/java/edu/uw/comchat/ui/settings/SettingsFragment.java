@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import edu.uw.comchat.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The fragment that shows user settings.
+ *
+ * @author Jerry Springer
+ * @version 3 November 2020
  */
 public class SettingsFragment extends Fragment {
 

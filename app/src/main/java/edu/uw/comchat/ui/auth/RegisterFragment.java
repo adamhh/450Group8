@@ -31,7 +31,7 @@ public class RegisterFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mBinding.buttonAccept.setOnClickListener(button -> handleAcceptButton());
+    mBinding.buttonRegisterAccept.setOnClickListener(button -> handleAcceptButton());
   }
 
   @Override

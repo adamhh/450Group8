@@ -15,14 +15,17 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import edu.uw.comchat.R;
-import edu.uw.comchat.databinding.FragmentWeatherBinding;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment that shows the weather in a tabular layout for multiple
+ * types of weather reports.
+ *
+ * @author Jerry Springer
+ * @version 3 November 2020
  */
 public class WeatherFragment extends Fragment {
 
-  WeatherStateAdapter weatherStateAdapter;
+  private WeatherStateAdapter weatherStateAdapter;
   private ViewPager2 mViewPager;
 
   @Override
@@ -34,13 +37,12 @@ public class WeatherFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    // super.onViewCreated(view, savedInstanceState);
     weatherStateAdapter = new WeatherStateAdapter(this);
-    mViewPager = view.findViewById(R.id.pager);
+    mViewPager = view.findViewById(R.id.pager_weather);
     mViewPager.setAdapter(weatherStateAdapter);
 
-    TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+    TabLayout tabLayout = view.findViewById(R.id.tab_layout_weather);
     new TabLayoutMediator(tabLayout, mViewPager,
-            (tab, position) -> tab.setText("OBJECT " + (position + 1))).attach();
+            (tab, position) -> tab.setText("Weather " + (position + 1))).attach();
   }
 }

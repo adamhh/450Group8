@@ -14,7 +14,10 @@ import android.widget.TextView;
 import edu.uw.comchat.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A fragment that represents a single card for a weather report.
+ *
+ * @author Jerry Springer
+ * @version 3 November 2020
  */
 public class WeatherCardFragment extends Fragment {
 
@@ -30,7 +33,7 @@ public class WeatherCardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle args = getArguments();
-        ((TextView) view.findViewById(R.id.text_weather))
+        ((TextView) view.findViewById(R.id.text_weather_default))
                 .setText(Integer.toString(args.getInt(ARG_OBJECT)));
     }
 }

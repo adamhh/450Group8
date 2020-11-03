@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import edu.uw.comchat.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A fragment for the users home view.
+ *
+ * @author Jerry Springer
+ * @version 3 November 2020
  */
 public class HomeFragment extends Fragment {
 

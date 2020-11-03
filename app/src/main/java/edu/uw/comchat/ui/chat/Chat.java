@@ -2,6 +2,13 @@ package edu.uw.comchat.ui.chat;
 
 import java.io.Serializable;
 
+/**
+ * Represent a conversation between two people. Needs to be updated
+ * to be able to support more than two people.
+ *
+ * @author Jerry Springer
+ * @version 3 November 2020
+ */
 public class Chat implements Serializable {
 
     private final String mSender;
@@ -14,9 +21,9 @@ public class Chat implements Serializable {
      * @author Jerry Springer
      */
     public static class Builder {
-        private String mSender = "";
-        private String mReceiver = "";
-        private String mMessage = "";
+        private String mSender;
+        private String mReceiver;
+        private String mMessage;
 
         /**
          * Constructs a new builder.

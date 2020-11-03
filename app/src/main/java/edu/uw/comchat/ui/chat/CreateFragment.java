@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import edu.uw.comchat.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A fragment to create new groups of people for chats.
+ *
+ *  * @author Jerry Springer
+ *  * @version 3 November 2020
  */
 public class CreateFragment extends Fragment {
 
@@ -25,57 +28,9 @@ public class CreateFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_create, container, false);
     }
 
-    /*
-    @SuppressLint("RestrictedApi")
-    @Override
-    public void onResume() {
-        super.onResume();
-        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        supportActionBar.setShowHideAnimationEnabled(false);
-        if (supportActionBar != null)
-            supportActionBar.hide();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        if (supportActionBar != null)
-            supportActionBar.show();
-    }
-
-     */
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         getActivity().getMenuInflater().inflate(R.menu.toolbar_create, menu);
     }
-
-    /*
-    private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            MenuInflater inflater = actionMode.getMenuInflater();
-            inflater.inflate(R.menu.toolbar_context_message, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            actionMode = null;
-        }
-    };
-
-     */
 }
