@@ -3,39 +3,38 @@ package edu.uw.comchat.ui.auth.login;
 import android.app.Application;
 import android.util.Base64;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import edu.uw.comchat.io.RequestQueueSingleton;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import edu.uw.comchat.io.RequestQueueSingleton;
+
+
 
 /**
  * Class from lab 3.
- * This is for testing for purpose only.
  * Subject to modification later on - Hung Vu.
  */
+// Ignore checkstyle member name error.
 public class LoginViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
 
   /**
-   * Constructor
-   * @param application
+   * Constructor.
+   *
+   * @param application the application
    */
   public LoginViewModel(@NonNull Application application) {
     super(application);
@@ -45,6 +44,7 @@ public class LoginViewModel extends AndroidViewModel {
 
   /**
    * Add observer to a view model instance.
+   *
    * @param owner life cycle of the class bound to model instance
    * @param observer the response
    */
@@ -55,6 +55,7 @@ public class LoginViewModel extends AndroidViewModel {
 
   /**
    * Provide behavior when a HTTP error is returned.
+   *
    * @param error HTTP error (encapsulated in VolleyError)
    */
   private void handleError(final VolleyError error) {
@@ -78,6 +79,12 @@ public class LoginViewModel extends AndroidViewModel {
     }
   }
 
+  /**
+   * GET request to webservice to login.
+   *
+   * @param email user's email address
+   * @param password user's password
+   */
   public void connect(final String email, final String password) {
     String url = "https://comchat-backend.herokuapp.com/auth";
 
@@ -107,4 +114,5 @@ public class LoginViewModel extends AndroidViewModel {
     RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
             .addToRequestQueue(request);
   }
+  // Ignore checkstyle member name error.
 }

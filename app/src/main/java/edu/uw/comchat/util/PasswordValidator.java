@@ -1,13 +1,16 @@
 package edu.uw.comchat.util;
 
+import static edu.uw.comchat.util.PasswordValidator.PasswordValidationResult;
+
 import java.util.Optional;
 import java.util.function.Function;
 
-import static edu.uw.comchat.util.PasswordValidator.PasswordValidationResult;
+
 
 /**
  * This class provides a validator to check whether an input password
  * is valid (client-side).
+ *
  * @author Hung Vu
  */
 public interface PasswordValidator extends Function<String,
@@ -22,13 +25,13 @@ public interface PasswordValidator extends Function<String,
    * minimum requirement in length. For example, if the requirement
    * is 6, then the password must have at least 6 character.
    *
-   * When a String s is applied to the returning validator, it will evaluate
+   * <p>When a String s is applied to the returning validator, it will evaluate
    * to an Optional containing PasswordValidationResult.PWD_SUCCESS when s.length >= 6,
-   * otherwise PasswordValidationResult.PWD_INVALID_LENGTH.
+   * otherwise PasswordValidationResult.PWD_INVALID_LENGTH.</p>
    *
    * @return a validator validates the length of Password (String)
    */
-  static PasswordValidator checkPwdLength(){
+  static PasswordValidator checkPwdLength() {
     return checkPwdLength(MIN_PASSWORD_LENGTH);
   }
 
@@ -36,14 +39,14 @@ public interface PasswordValidator extends Function<String,
    * Return a validator to see whether a given password meets
    * minimum requirement in length.
    *
-   * When a String s is applied to the returning validator, it will evaluate
+   * <p>When a String s is applied to the returning validator, it will evaluate
    * to an Optional containing PasswordValidationResult.PWD_SUCCESS when
-   * s.length >= minPasswordLength, otherwise PasswordValidationResult.PWD_INVALID_LENGTH.
+   * s.length >= minPasswordLength, otherwise PasswordValidationResult.PWD_INVALID_LENGTH.</p>
    *
    * @param minPasswordLength a minimum password length
    * @return a validator validates the length of Password (String)
    */
-  static PasswordValidator checkPwdLength(int minPasswordLength){
+  static PasswordValidator checkPwdLength(int minPasswordLength) {
     return password -> Optional.of(
             password.length() >= minPasswordLength
                     ? PasswordValidationResult.PWD_SUCCESS
@@ -55,13 +58,13 @@ public interface PasswordValidator extends Function<String,
    * Return a validator to see whether a given password contains
    * at least 1 uppercase letter.
    *
-   * When a String s is applied to the returning validator, it will evaluate
+   * <p>When a String s is applied to the returning validator, it will evaluate
    * to an Optional containing PasswordValidationResult.PWD_SUCCESS when s has at least
-   * 1 uppercase letter, otherwise PasswordValidationResult.PWD_INVALID_LENGTH.
+   * 1 uppercase letter, otherwise PasswordValidationResult.PWD_INVALID_LENGTH.</p>
    *
    * @return a validator validates the length of Password (String)
    */
-  static PasswordValidator checkPwdContainUppercase(){
+  static PasswordValidator checkPwdContainsUppercase() {
     return password -> Optional.of(
             password.equals(password.toLowerCase())
                     ? PasswordValidationResult.PWD_MISSING_UPPER
@@ -78,4 +81,5 @@ public interface PasswordValidator extends Function<String,
     PWD_INVALID_LENGTH,
     PWD_MISSING_UPPER
   }
+  // Checkstyle: Done - Hung Vu
 }

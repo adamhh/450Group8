@@ -22,6 +22,9 @@
     <string name="edit_text_register_password">Password</string>
     <string name="edit_text_register_password_retype">Retype Password</string>
     <string name="button_register_register">Accept</string>
+    <string name="text_register_status">Status</string>
+    <string name="text_register_success">Register successfully. Tap anywhere to turn off this message.</string>
+    <string name="text_register_fail">Register fail. Tap anywhere to turn off this message.</string>
 
     <!-- Home Fragment -->
     <!-- Bottom navigation menu -->

@@ -1,7 +1,10 @@
 package edu.uw.comchat.ui.auth.register;
 
-import static edu.uw.comchat.util.PasswordValidator.*;
-import static edu.uw.comchat.util.EmailValidator.*;
+import static edu.uw.comchat.util.EmailValidator.EmailValidationResult;
+import static edu.uw.comchat.util.EmailValidator.checkEmail;
+import static edu.uw.comchat.util.PasswordValidator.PasswordValidationResult;
+import static edu.uw.comchat.util.PasswordValidator.checkPwdContainsUppercase;
+import static edu.uw.comchat.util.PasswordValidator.checkPwdLength;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,25 +12,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentRegisterBinding;
 import edu.uw.comchat.util.EmailValidator;
 import edu.uw.comchat.util.PasswordValidator;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This is a fragment for register page.
+ *
  * @author Hung Vu, Jerry
  */
+// Ignore checkstyle member name error.
 public class RegisterFragment extends Fragment {
   /**
    * Empty field error.
@@ -42,26 +45,26 @@ public class RegisterFragment extends Fragment {
    */
   private RegisterViewModel mRegisterModel;
 
-  // TODO Apply combinator design pattern and refactor the code in next sprint.
+  // TODO Apply combinator design pattern and refactor the code in next sprint - Hung Vu.
   /**
    * A function to check whether password meets length requirement.
    */
-  private PasswordValidator checkPasswordLength = checkPwdLength();
+  private static final PasswordValidator CHECK_PWD_LENGTH = checkPwdLength();
 
   /**
    * A function to check whether password contains at least 1 uppercase letter.
    */
-  private PasswordValidator checkPasswordContainUpperCase = checkPwdContainUppercase();
+  private static final PasswordValidator CHECK_CONTAIN_UPPERCASE = checkPwdContainsUppercase();
 
   /**
    * A function to validates email address.
    */
-  private EmailValidator checkValidEmail = checkEmail();
+  private static final EmailValidator CHECK_VALID_EMAIL = checkEmail();
 
   /**
    * Empty constructor (required).
    */
-  public RegisterFragment(){
+  public RegisterFragment() {
 
   }
 
@@ -102,7 +105,7 @@ public class RegisterFragment extends Fragment {
     // TODO Refactor the code after combinator design is applied.
     boolean isValid = true;
     EditText firstName = mBinding.editTextFirstName;
-    EditText lastName = mBinding. editTextLastName;
+    EditText lastName = mBinding.editTextLastName;
     EditText nickname = mBinding.editTextNickname;
     if (isLengthZero(firstName)) {
       firstName.setError(EMPTY_FIELD_ERROR);
@@ -120,20 +123,20 @@ public class RegisterFragment extends Fragment {
     String emailString = mBinding.editTextEmail.getText().toString();
     String passwordString = mBinding.editTextPassword.getText().toString();
     if (EmailValidationResult.EMAIL_INVALID.equals(
-            checkValidEmail
+            CHECK_VALID_EMAIL
                     .apply(emailString)
                     .get())) {
       mBinding.editTextEmail.setError("Invalid email");
       isValid = false;
     }
     if (PasswordValidationResult.PWD_INVALID_LENGTH.equals(
-            checkPasswordLength
+            CHECK_PWD_LENGTH
                     .apply(passwordString)
                     .get())) {
       mBinding.editTextPassword.setError("Invalid password length");
       isValid = false;
     } else if (PasswordValidationResult.PWD_MISSING_UPPER.equals(
-            checkPasswordContainUpperCase
+            CHECK_CONTAIN_UPPERCASE
                     .apply(passwordString)
                     .get())) {
       mBinding.editTextPassword.setError("Need at least 1 uppercase letter");
@@ -146,20 +149,23 @@ public class RegisterFragment extends Fragment {
       isValid = false;
     }
     if (isValid) {
+      mBinding.layoutWait.setClickable(true);
+      mBinding.layoutWait.setVisibility(View.VISIBLE);
       this.verifyAuthWithServer();
     }
   }
 
   /**
    * A helper method to see if a text of an EditText object is empty.
+   *
    * @param element the given UI's EditText object
    * @return true if the text if empty, false otherwise
    */
   private boolean isLengthZero(EditText element) {
     boolean isLengthZero = false;
-    if (element.getText().toString().length() == 0)
+    if (element.getText().toString().length() == 0) {
       isLengthZero = true;
-
+    }
     return isLengthZero;
   }
 
@@ -172,6 +178,7 @@ public class RegisterFragment extends Fragment {
             mBinding.editTextLastName.getText().toString(),
             mBinding.editTextEmail.getText().toString(),
             mBinding.editTextPassword.getText().toString());
+
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
   }
@@ -183,9 +190,15 @@ public class RegisterFragment extends Fragment {
    * @param response the Response from the server
    */
   private void observeResponse(final JSONObject response) {
-//    Log.i("JSON body", response.toString());
+    mBinding.layoutWait.setClickable(false);
+    mBinding.layoutWait.setVisibility(View.GONE);
+    //    Log.i("JSON body", response.toString());
     if (response.length() > 0) {
       if (response.has("code")) {
+        new MaterialAlertDialogBuilder(getActivity())
+                .setTitle(getResources().getString(R.string.text_register_status))
+                .setMessage(getResources().getString(R.string.text_register_fail))
+                .show();
         try {
           mBinding.editTextEmail.setError(
                   "Error Authenticating: " + response.getJSONObject("data").getString("message"));
@@ -193,6 +206,10 @@ public class RegisterFragment extends Fragment {
           Log.e("JSON Parse Error", e.getMessage());
         }
       } else {
+        new MaterialAlertDialogBuilder(getActivity())
+                .setTitle(getResources().getString(R.string.text_register_status))
+                .setMessage(getResources().getString(R.string.text_register_success))
+                .show();
         navigateToLogin();
       }
     } else {
@@ -203,9 +220,10 @@ public class RegisterFragment extends Fragment {
   /**
    * Navigate from register fragment to login fragment.
    */
-  private void navigateToLogin(){
+  private void navigateToLogin() {
     Navigation.findNavController(getView()).navigate(
             RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
     );
   }
+  // Checkstyle: Done - Hung Vu
 }

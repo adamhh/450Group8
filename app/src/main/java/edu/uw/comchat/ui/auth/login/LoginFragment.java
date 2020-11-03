@@ -1,5 +1,11 @@
 package edu.uw.comchat.ui.auth.login;
 
+import static edu.uw.comchat.util.EmailValidator.EmailValidationResult;
+import static edu.uw.comchat.util.EmailValidator.checkEmail;
+import static edu.uw.comchat.util.PasswordValidator.PasswordValidationResult;
+import static edu.uw.comchat.util.PasswordValidator.checkPwdContainsUppercase;
+import static edu.uw.comchat.util.PasswordValidator.checkPwdLength;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,26 +14,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.uw.comchat.databinding.FragmentLoginBinding;
 import edu.uw.comchat.util.EmailValidator;
 import edu.uw.comchat.util.PasswordValidator;
-
-import static edu.uw.comchat.util.EmailValidator.*;
-import static edu.uw.comchat.util.PasswordValidator.*;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
  * This is a fragment for login page.
+ *
  * @author Hung Vu, Jerry
  */
+// Ignore checkstyle member name error.
 public class LoginFragment extends Fragment {
   /**
    * An error thrown when a user type in invalid account login information.
@@ -42,7 +43,7 @@ public class LoginFragment extends Fragment {
    */
   private LoginViewModel mLoginModel;
 
-  // TODO Apply combinator design pattern and refactor the code in next sprint.
+  // TODO Apply combinator design pattern and refactor the code in next sprint - Hung Vu.
   /**
    * A function to check whether password meets length requirement.
    */
@@ -51,7 +52,7 @@ public class LoginFragment extends Fragment {
   /**
    * A function to check whether password contains at least 1 uppercase letter.
    */
-  private PasswordValidator checkPasswordContainUpperCase = checkPwdContainUppercase();
+  private PasswordValidator checkPasswordContainUpperCase = checkPwdContainsUppercase();
 
   /**
    * A function to validates email address.
@@ -72,6 +73,7 @@ public class LoginFragment extends Fragment {
             .get(LoginViewModel.class);
 
   }
+
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
@@ -100,24 +102,24 @@ public class LoginFragment extends Fragment {
    * Provide behavior when Login button is pressed.
    */
   private void handleSignInButton() {
-    // Is checking on login page a need?
-    // It is somewhat illogical since the check will let
-    // user with malicious intention have clue to search for correct combination.
+    // Intentionally give the same error message, unlike register page
+    // to avoid user with malicious intention guessing the account login information.
+    String emailString = mBinding.editTextLogin.getText().toString();
+    String passwordString = mBinding.editTextPassword.getText().toString();
+    if (EmailValidationResult.EMAIL_INVALID.equals(
+            checkValidEmail
+                    .apply(emailString)
+                    .get())
+            || PasswordValidationResult.PWD_INVALID_LENGTH.equals(
+                    checkPwdLength().apply(passwordString).get())
+            || PasswordValidationResult.PWD_MISSING_UPPER.equals(
+                    checkPwdContainsUppercase().apply(passwordString).get())) {
+      mBinding.editTextLogin.setError(INVALID_ERROR);
+      mBinding.editTextPassword.setError(INVALID_ERROR);
 
-    // Note, the code below is only partially implemented.
-//    boolean isValid = true;
-//    String emailString = mBinding.editTextLogin.getText().toString();
-//    String passwordString = mBinding.editTextPassword.getText().toString();
-//    if (EmailValidationResult.EMAIL_INVALID.equals(
-//            checkValidEmail
-//                    .apply(emailString)
-//                    .get())) {
-//      mBinding.editTextLogin.setError(INVALID_ERROR);
-//      mBinding.editTextPassword.setError(INVALID_ERROR);
-//      isValid = false;
-//    }
-
-    this.verifyAuthWithServer();
+    } else {
+      this.verifyAuthWithServer();
+    }
   }
 
   /**
@@ -164,9 +166,8 @@ public class LoginFragment extends Fragment {
                   mBinding.editTextLogin.getText().toString(),
                   response.getString("token")
           );
-//          Log.i("jwt",response.getString("token"));
-        }
-        catch (JSONException e) {
+        //          Log.i("jwt",response.getString("token"));
+        } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }
       }
@@ -179,10 +180,11 @@ public class LoginFragment extends Fragment {
   /**
    * Navigate to home page.
    */
-  public void navigateToMainActivity(String email, String jwt){
+  public void navigateToMainActivity(String email, String jwt) {
     Navigation.findNavController(getView())
             .navigate(LoginFragmentDirections
                     .actionLoginFragmentToMainActivity(email, jwt));
     getActivity().finish();
   }
+  // Checkstyle: Done - Hung Vu
 }

@@ -2,36 +2,34 @@ package edu.uw.comchat.ui.auth.register;
 
 import android.app.Application;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
+import java.nio.charset.Charset;
+import java.util.Objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.Charset;
-import java.util.Objects;
 
 /**
  * Class from lab 3.
- * This is for testing for purpose only.
  * Subject to modification later on - Hung Vu.
  */
+// Ignore checkstyle member name error.
 public class RegisterViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
 
   /**
    * Constructor.
-   * @param application
+   *
+   * @param application the application
    */
   public RegisterViewModel(@NonNull Application application) {
     super(application);
@@ -41,6 +39,7 @@ public class RegisterViewModel extends AndroidViewModel {
 
   /**
    * Add observer to a view model instance.
+   *
    * @param owner life cycle of the class bound to model instance
    * @param observer the response
    */
@@ -51,6 +50,7 @@ public class RegisterViewModel extends AndroidViewModel {
 
   /**
    * POST request to webservice for registering account.
+   *
    * @param first first name of user.
    * @param last last name of user.
    * @param email email of user.
@@ -68,7 +68,7 @@ public class RegisterViewModel extends AndroidViewModel {
       body.put("last", last);
       body.put("email", email);
       body.put("password", password);
-//      Log.i("JSON body", body.toString());
+      //      Log.i("JSON body", body.toString());
     } catch (JSONException e) {
       // TODO Have a better handler - Hung Vu.
       e.printStackTrace();
@@ -92,10 +92,11 @@ public class RegisterViewModel extends AndroidViewModel {
 
   /**
    * Provide behavior when a HTTP error is returned.
+   *
    * @param error HTTP error (encapsulated in VolleyError)
    */
   private void handleError(final VolleyError error) {
-//    Log.i("JSON body", "true");
+    //    Log.i("JSON body", "true");
     if (Objects.isNull(error.networkResponse)) {
       try {
         mResponse.setValue(new JSONObject("{" + "error:\"" + error.getMessage() + "\"}"));
@@ -103,7 +104,7 @@ public class RegisterViewModel extends AndroidViewModel {
         Log.e("JSON PARSE", "JSON Parse Error in handleError");
       }
     } else {
-//      Log.i("JSON body", "true");
+      //      Log.i("JSON body", "true");
       String data = new String(error.networkResponse.data, Charset.defaultCharset())
               .replace('\"', '\'');
       try {
@@ -111,10 +112,11 @@ public class RegisterViewModel extends AndroidViewModel {
         response.put("code", error.networkResponse.statusCode);
         response.put("data", new JSONObject(data));
         mResponse.setValue(response);
-//        Log.e("HTTP error", error.getMessage());
+        //        Log.e("HTTP error", error.getMessage());
       } catch (JSONException e) {
         Log.e("JSON PARSE", "JSON Parse Error in handleError");
       }
     }
   }
+  // Checkstyle: Done - Hung Vu
 }

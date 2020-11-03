@@ -1,12 +1,14 @@
 package edu.uw.comchat.util;
 
 import static edu.uw.comchat.util.EmailValidator.EmailValidationResult;
+
 import java.util.Optional;
 import java.util.function.Function;
 
 /**
  * This class provides validator to check whether
  * an input email address is valid (client-side).
+ *
  * @author Hung Vu
  */
 public interface EmailValidator extends Function<String,
@@ -37,13 +39,13 @@ public interface EmailValidator extends Function<String,
    * and dot (.) characters are permitted.
    * The domain must contain top-level domain such as .com, .edu, etc.
    *
-   * When a String s is applied to the returning validator, it will evaluate
+   * <p>When a String s is applied to the returning validator, it will evaluate
    * to an Optional containing EmailValidationResult.EMAIL_SUCCESS when the above rule
-   * above is followed, otherwise EmailValidationResult.EMAIL_INVALID.
+   * above is followed, otherwise EmailValidationResult.EMAIL_INVALID.</p>
    *
    * @return a validator validates an email address.
    */
-  static EmailValidator checkEmail(){
+  static EmailValidator checkEmail() {
     String pattern = USER_NAME + AT + DOMAIN + END_OF_ADDRESS;
     return email -> Optional.of(
             email.matches(pattern)
@@ -51,11 +53,13 @@ public interface EmailValidator extends Function<String,
                     : EmailValidationResult.EMAIL_INVALID
     );
   }
+
   /**
-   * Result of email validation
+   * Result of email validation.
    */
-  enum EmailValidationResult{
+  enum EmailValidationResult {
     EMAIL_SUCCESS,
     EMAIL_INVALID
   }
+  // Checkstyle: Done - Hung Vu
 }
