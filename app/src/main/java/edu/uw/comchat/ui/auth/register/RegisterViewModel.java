@@ -70,7 +70,7 @@ public class RegisterViewModel extends AndroidViewModel {
       body.put("password", password);
 //      Log.i("JSON body", body.toString());
     } catch (JSONException e) {
-      // TODO Have a better handler.
+      // TODO Have a better handler - Hung Vu.
       e.printStackTrace();
     }
 
