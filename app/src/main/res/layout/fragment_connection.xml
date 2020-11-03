@@ -7,14 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.connection.ConnectionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
 
     <TextView
         android:id="@+id/text_connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_connection"
+        android:text="@string/item_nav_connection"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
