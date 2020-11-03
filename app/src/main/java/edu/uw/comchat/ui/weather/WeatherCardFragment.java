@@ -30,7 +30,7 @@ public class WeatherCardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Bundle args = getArguments();
-        ((TextView) view.findViewById(R.id.test))
+        ((TextView) view.findViewById(R.id.text_weather))
                 .setText(Integer.toString(args.getInt(ARG_OBJECT)));
     }
 }
