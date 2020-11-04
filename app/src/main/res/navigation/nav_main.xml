@@ -24,14 +24,18 @@
             android:id="@+id/action_navigation_chat_to_createFragment"
             app:destination="@id/createFragment" />
         <action
-            android:id="@+id/action_navigation_chat_to_chatFragment"
+            android:id="@+id/action_navigation_chat_to_messageListFragment"
             app:destination="@id/messageListFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_connection"
         android:name="edu.uw.comchat.ui.connection.ConnectionFragment"
         android:label="@string/title_connection"
-        tools:layout="@layout/fragment_connection" />
+        tools:layout="@layout/fragment_connection" >
+        <action
+            android:id="@+id/action_navigation_connection_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_weather"
         android:name="edu.uw.comchat.ui.weather.WeatherFragment"
@@ -43,12 +47,25 @@
         android:label="@string/title_create"
         tools:layout="@layout/fragment_create" >
         <action
-            android:id="@+id/action_createFragment_to_chatFragment"
+            android:id="@+id/action_createFragment_to_messageListFragment"
             app:destination="@id/messageListFragment" />
     </fragment>
     <fragment
         android:id="@+id/messageListFragment"
         android:name="edu.uw.comchat.ui.chat.MessageListFragment"
         android:label="@string/title_message_list"
-        tools:layout="@layout/fragment_message_list" />
+        tools:layout="@layout/fragment_message_list" >
+        <argument
+            android:name="chatId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="edu.uw.comchat.ui.connection.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="profileId"
+            app:argType="string" />
+    </fragment>
 </navigation>
