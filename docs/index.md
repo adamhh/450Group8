@@ -1,28 +1,15 @@
 <br/>
-<a href="https://docs.google.com/document/d/12TjiPLamkQV_481-1dKO1np7KrVPEHQpN5BisIlolus/edit" target="_blank"><strong>Spring 0 Checklist:</strong></a>
+<a href="https://drive.google.com/drive/u/1/folders/1fAGIzUolKyg5KC5XTNv97xnsAah71IUu" target="_blank"><strong>Team Google Drive:</strong></a>
+<br/>
+<a href="https://drive.google.com/drive/u/1/folders/1Mkd1PaH3dmvCzxojph0iulLOJ-ziQTwX" target="_blank"><strong>Springt 0 Folder:</strong></a>
+<br/>
+<a href="https://drive.google.com/drive/u/1/folders/1s79pOQjcPwYjBctZnqoEz2Lfr2efa7no"><strong>Sprint 1 Folder:</strong></a>
+<br/>
+<a href="https://docs.google.com/document/d/1igER6zpsLUvkQbsv28jX1ZYr0rFdc2S4HmRs8IJHm7M/edit" target="_blank"><strong>Daily Scrum Notes:</strong></a>
+<br/>
 <iframe
-  src="https://docs.google.com/document/d/12TjiPLamkQV_481-1dKO1np7KrVPEHQpN5BisIlolus/edit"
+  src="https://docs.google.com/document/d/1igER6zpsLUvkQbsv28jX1ZYr0rFdc2S4HmRs8IJHm7M/edit"
   style="width:100%; height:500px;"
 ></iframe>
 <br/>
-<a href="https://docs.google.com/document/d/1pKOffQPMIHg7vaGDFMvF3sHicAo6RKMmu9uvxcCtjpM/edit" target="_blank"><strong>Daily Scrum Notes</strong></a>
-<iframe
-  src="https://docs.google.com/document/d/1pKOffQPMIHg7vaGDFMvF3sHicAo6RKMmu9uvxcCtjpM/edit"
-  style="width:100%; height:500px;"
-></iframe>
-<br/>
-<strong>Availability Schedule for Team:</strong>
-<iframe
-  src="https://cdn.discordapp.com/attachments/765297942470852682/765733108481523792/unknown.png"
-  style="width:100%; height:500px;"
-></iframe>
-<br/>
-<strong>Backlog grooming document: </strong>
-<iframe
-  src="https://docs.google.com/document/d/1DGsEXSumAt5zWQTwCrNj2bFLF_veMGaE8g7d4PfFEdw/edit"
-  style="width:100%; height:500px;"
-></iframe>
-<br/>
-
-
-
+Last Update: 11/02/2020
