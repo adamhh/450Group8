@@ -87,7 +87,7 @@ public class RegisterFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mBinding.buttonAccept.setOnClickListener(button -> handleAcceptButton());
+    mBinding.buttonRegisterAccept.setOnClickListener(button -> handleAcceptButton());
     mRegisterModel.addResponseObserver(
             getViewLifecycleOwner(), this::observeResponse);
   }
@@ -104,9 +104,9 @@ public class RegisterFragment extends Fragment {
   private void handleAcceptButton() {
     // TODO Refactor the code after combinator design is applied.
     boolean isValid = true;
-    EditText firstName = mBinding.editTextFirstName;
-    EditText lastName = mBinding.editTextLastName;
-    EditText nickname = mBinding.editTextNickname;
+    EditText firstName = mBinding.editTextRegisterFirstName;
+    EditText lastName = mBinding.editTextRegisterLastName;
+    EditText nickname = mBinding.editTextRegisterNickname;
     if (isLengthZero(firstName)) {
       firstName.setError(EMPTY_FIELD_ERROR);
       isValid = false;
@@ -120,32 +120,32 @@ public class RegisterFragment extends Fragment {
       isValid = false;
     }
 
-    String emailString = mBinding.editTextEmail.getText().toString();
-    String passwordString = mBinding.editTextPassword.getText().toString();
+    String emailString = mBinding.editTextRegisterEmail.getText().toString();
+    String passwordString = mBinding.editTextRegisterPassword.getText().toString();
     if (EmailValidationResult.EMAIL_INVALID.equals(
             CHECK_VALID_EMAIL
                     .apply(emailString)
                     .get())) {
-      mBinding.editTextEmail.setError("Invalid email");
+      mBinding.editTextRegisterEmail.setError("Invalid email");
       isValid = false;
     }
     if (PasswordValidationResult.PWD_INVALID_LENGTH.equals(
             CHECK_PWD_LENGTH
                     .apply(passwordString)
                     .get())) {
-      mBinding.editTextPassword.setError("Invalid password length");
+      mBinding.editTextRegisterPassword.setError("Invalid password length");
       isValid = false;
     } else if (PasswordValidationResult.PWD_MISSING_UPPER.equals(
             CHECK_CONTAIN_UPPERCASE
                     .apply(passwordString)
                     .get())) {
-      mBinding.editTextPassword.setError("Need at least 1 uppercase letter");
+      mBinding.editTextRegisterPassword.setError("Need at least 1 uppercase letter");
       isValid = false;
     }
 
-    String passwordRetypeString = mBinding.editTextPasswordRetype.getText().toString();
+    String passwordRetypeString = mBinding.editTextRegisterPasswordRetype.getText().toString();
     if (!passwordRetypeString.equals(passwordString)) {
-      mBinding.editTextPasswordRetype.setError("Password mismatches");
+      mBinding.editTextRegisterPasswordRetype.setError("Password mismatches");
       isValid = false;
     }
     if (isValid) {
@@ -174,10 +174,10 @@ public class RegisterFragment extends Fragment {
    */
   private void verifyAuthWithServer() {
     mRegisterModel.connect(
-            mBinding.editTextFirstName.getText().toString(),
-            mBinding.editTextLastName.getText().toString(),
-            mBinding.editTextEmail.getText().toString(),
-            mBinding.editTextPassword.getText().toString());
+            mBinding.editTextRegisterFirstName.getText().toString(),
+            mBinding.editTextRegisterLastName.getText().toString(),
+            mBinding.editTextRegisterEmail.getText().toString(),
+            mBinding.editTextRegisterPassword.getText().toString());
 
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
@@ -200,7 +200,7 @@ public class RegisterFragment extends Fragment {
                 .setMessage(getResources().getString(R.string.text_register_fail))
                 .show();
         try {
-          mBinding.editTextEmail.setError(
+          mBinding.editTextRegisterEmail.setError(
                   "Error Authenticating: " + response.getJSONObject("data").getString("message"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());

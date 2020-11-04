@@ -85,8 +85,8 @@ public class LoginFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mBinding.buttonSignIn.setOnClickListener(button -> handleSignInButton());
-    mBinding.buttonRegister.setOnClickListener(button -> handleRegisterButton());
+    mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
+    mBinding.buttonLoginRegister.setOnClickListener(button -> handleRegisterButton());
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
@@ -104,8 +104,8 @@ public class LoginFragment extends Fragment {
   private void handleSignInButton() {
     // Intentionally give the same error message, unlike register page
     // to avoid user with malicious intention guessing the account login information.
-    String emailString = mBinding.editTextLogin.getText().toString();
-    String passwordString = mBinding.editTextPassword.getText().toString();
+    String emailString = mBinding.editTextLoginEmail.getText().toString();
+    String passwordString = mBinding.editTextLoginPassword.getText().toString();
     if (EmailValidationResult.EMAIL_INVALID.equals(
             checkValidEmail
                     .apply(emailString)
@@ -114,8 +114,8 @@ public class LoginFragment extends Fragment {
                     checkPwdLength().apply(passwordString).get())
             || PasswordValidationResult.PWD_MISSING_UPPER.equals(
                     checkPwdContainsUppercase().apply(passwordString).get())) {
-      mBinding.editTextLogin.setError(INVALID_ERROR);
-      mBinding.editTextPassword.setError(INVALID_ERROR);
+      mBinding.editTextLoginEmail.setError(INVALID_ERROR);
+      mBinding.editTextLoginPassword.setError(INVALID_ERROR);
 
     } else {
       this.verifyAuthWithServer();
@@ -136,8 +136,8 @@ public class LoginFragment extends Fragment {
    */
   private void verifyAuthWithServer() {
     mLoginModel.connect(
-            mBinding.editTextLogin.getText().toString(),
-            mBinding.editTextPassword.getText().toString());
+            mBinding.editTextLoginEmail.getText().toString(),
+            mBinding.editTextLoginPassword.getText().toString());
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
 
@@ -153,9 +153,9 @@ public class LoginFragment extends Fragment {
     if (response.length() > 0) {
       if (response.has("code")) {
         try {
-          mBinding.editTextLogin.setError(
+          mBinding.editTextLoginEmail.setError(
                   "Error Authenticating: " + response.getJSONObject("data").getString("message"));
-          mBinding.editTextPassword.setError(
+          mBinding.editTextLoginPassword.setError(
                   "Error Authenticating: " + response.getJSONObject("data").getString("message"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
@@ -163,7 +163,7 @@ public class LoginFragment extends Fragment {
       } else {
         try {
           navigateToMainActivity(
-                  mBinding.editTextLogin.getText().toString(),
+                  mBinding.editTextLoginEmail.getText().toString(),
                   response.getString("token")
           );
         //          Log.i("jwt",response.getString("token"));
