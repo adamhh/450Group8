@@ -4,17 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_root_connection"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.connection.ConnectionFragment">
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/text_connection"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_connection"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/item_nav_connection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager_connection"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_connection" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
