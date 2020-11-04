@@ -1,4 +1,4 @@
-package edu.uw.comchat.ui.home;
+package edu.uw.comchat.ui.chat;
 
 import android.os.Bundle;
 
@@ -14,23 +14,23 @@ import android.view.ViewGroup;
 import edu.uw.comchat.R;
 
 /**
- * A fragment for the users home view.
+ * A fragment to create new groups of people for chats.
  *
- * @author Jerry Springer
- * @version 3 November 2020
+ *  * @author Jerry Springer
+ *  * @version 3 November 2020
  */
-public class HomeFragment extends Fragment {
+public class CreateFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_create, container, false);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        getActivity().getMenuInflater().inflate(R.menu.toolbar_home, menu);
+        getActivity().getMenuInflater().inflate(R.menu.toolbar_create, menu);
     }
 }

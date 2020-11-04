@@ -1,4 +1,4 @@
-package edu.uw.comchat.ui.settings;
+package edu.uw.comchat.ui.chat;
 
 import android.os.Bundle;
 
@@ -11,17 +11,17 @@ import android.view.ViewGroup;
 import edu.uw.comchat.R;
 
 /**
- * The fragment that shows user settings.
+ * A fragment that shows the list of messages in a group.
  *
- * @author Jerry Springer
- * @version 3 November 2020
+ *  * @author Jerry Springer
+ *  * @version 3 November 2020
  */
-public class SettingsFragment extends Fragment {
+public class MessageListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_message_list, container, false);
     }
 }
