@@ -8,7 +8,7 @@
     tools:context=".ui.chat.ChatListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_root"
+        android:id="@+id/list_root_chat"
         android:name="edu.uw.comchat.ui.chat.ChatListFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,11 +21,10 @@
         tools:listitem="@layout/fragment_chat_card" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button_message"
+        android:id="@+id/floating_action_button_chat_list_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

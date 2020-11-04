@@ -20,7 +20,8 @@
     <string name="button_register_register">Accept</string>
 
     <!-- Home Fragment -->
-    <string name="home_name">Home</string>
+    <string name="title_home">Home</string>
+    <string name="text_home_default">Home</string>
 
     <!-- Bottom navigation menu -->
     <string name="item_nav_home">Home</string>
@@ -30,11 +31,12 @@
 
     <!-- Settings Fragment -->
     <string name="title_settings">Settings</string>
+    <string name="text_settings_default">Settings</string>
     <string name="action_settings">Settings</string>
 
     <!-- Chat List Fragment -->
     <string name="title_chat_list">Chat</string>
-    
+
     <!-- Chat Card Fragment -->
     <string name="text_chat_name">Name</string>
     <string name="text_chat_date">Date</string>
@@ -42,6 +44,7 @@
 
     <!-- Message List Fragment -->
     <string name="title_message_list">Conversation</string>
+    <string name="text_message_list_default">Message</string>
 
     <!-- Connections Fragment -->
     <string name="title_connection">Connection</string>
@@ -51,9 +54,15 @@
     <string name="item_weather_hourly">Hourly</string>
     <string name="item_weather_daily">Daily</string>
     <string name="item_weather_weekly">Weekly</string>
+    <string name="text_weather_location">Location</string>
+    <string name="text_weather_default">Text</string>
 
     <!-- Create Fragment -->
     <string name="title_create">Message</string>
     <string name="action_create_search">Search</string>
     <string name="action_create_add">Add Contact</string>
+
+    <!-- Profile Fragment -->
+    <string name="title_profile">Profile</string>
+    <string name="text_profile_default">Profile</string>
 </resources>

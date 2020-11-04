@@ -13,7 +13,6 @@ import edu.uw.comchat.databinding.FragmentLoginBinding;
 /**
  * A simple {@link Fragment} subclass.
  */
-@SuppressWarnings("checkstyle:MemberName")
 public class LoginFragment extends Fragment {
 
   private FragmentLoginBinding mBinding;
@@ -29,8 +28,8 @@ public class LoginFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mBinding.buttonSignIn.setOnClickListener(button -> handleSignInButton());
-    mBinding.buttonRegister.setOnClickListener(button -> handleRegisterButton());
+    mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
+    mBinding.buttonLoginRegister.setOnClickListener(button -> handleRegisterButton());
   }
 
   @Override
