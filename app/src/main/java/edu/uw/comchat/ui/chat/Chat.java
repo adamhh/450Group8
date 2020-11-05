@@ -9,55 +9,58 @@ import java.io.Serializable;
  * @author Jerry Springer
  * @version 3 November 2020
  */
+// Ignore checkstyle member name error.
 public class Chat implements Serializable {
 
-    private final String mSender;
-    private final String mReceiver;
-    private final String mMessage;
+  private final String mSender;
+  private final String mReceiver;
+  private final String mMessage;
+
+  /**
+   * Helper class for building messages.
+   *
+   * @author Jerry Springer
+   */
+  public static class Builder {
+    private String mSender;
+    private String mReceiver;
+    private String mMessage;
 
     /**
-     * Helper class for building messages.
+     * Constructs a new builder.
      *
-     * @author Jerry Springer
+     * @param sender   the person sending the message.
+     * @param receiver the person receiving the message.
+     * @param message  the message being sent.
      */
-    public static class Builder {
-        private String mSender;
-        private String mReceiver;
-        private String mMessage;
-
-        /**
-         * Constructs a new builder.
-         *
-         * @param sender the person sending the message.
-         * @param receiver the person receiving the message.
-         * @param message the message being sent.
-         */
-        public Builder(String sender, String receiver, String message) {
-            this.mSender = sender;
-            this.mReceiver = receiver;
-            this.mMessage = message;
-        }
-
-        public Chat build() {
-            return new Chat(this);
-        }
+    public Builder(String sender, String receiver, String message) {
+      this.mSender = sender;
+      this.mReceiver = receiver;
+      this.mMessage = message;
     }
 
-    private Chat(final Builder builder) {
-        this.mSender = builder.mSender;
-        this.mReceiver = builder.mReceiver;
-        this.mMessage = builder.mMessage;
+    public Chat build() {
+      return new Chat(this);
     }
+  }
 
-    public String getSender() {
-        return mSender;
-    }
+  private Chat(final Builder builder) {
+    this.mSender = builder.mSender;
+    this.mReceiver = builder.mReceiver;
+    this.mMessage = builder.mMessage;
+  }
 
-    public String getReceiver() {
-        return mReceiver;
-    }
+  public String getSender() {
+    return mSender;
+  }
 
-    public String getMessage() {
-        return mMessage;
-    }
+  public String getReceiver() {
+    return mReceiver;
+  }
+
+  public String getMessage() {
+    return mMessage;
+  }
+
+  // Checkstyle: Done - Hung Vu
 }

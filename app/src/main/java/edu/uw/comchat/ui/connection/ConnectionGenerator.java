@@ -11,26 +11,28 @@ import java.util.List;
  * @author Jerry Springer
  * @version 3 November 2020
  */
+// Ignore checkstyle member name error.
 public class ConnectionGenerator {
 
-    private static final Connection[] CONNECTIONS;
-    public static final int COUNT = 20;
+  private static final Connection[] CONNECTIONS;
+  public static final int COUNT = 20;
 
-    static {
-        CONNECTIONS = new Connection[20];
-        for (int i = 0; i < COUNT; i++) {
-            CONNECTIONS[i] = new Connection
-                    .Builder(
-                            "Person1 " + (i + 1),
-                            "Person2 " + (i + 1))
-                    .build();
-        }
+  static {
+    CONNECTIONS = new Connection[20];
+    for (int i = 0; i < COUNT; i++) {
+      CONNECTIONS[i] = new Connection
+              .Builder(
+              "Person1 " + (i + 1),
+              "Person2 " + (i + 1))
+              .build();
     }
+  }
 
-    public static List<Connection> getConnections() {
-        return Arrays.asList(CONNECTIONS);
-    }
+  public static List<Connection> getConnections() {
+    return Arrays.asList(CONNECTIONS);
+  }
 
-    private ConnectionGenerator() {
-    }
+  private ConnectionGenerator() {
+  }
+  // Checkstyle: Done - Hung Vu
 }

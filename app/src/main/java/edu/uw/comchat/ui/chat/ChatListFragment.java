@@ -1,29 +1,27 @@
 package edu.uw.comchat.ui.chat;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatListBinding;
 
 /**
  * A fragment that shows the list of chats a user has with other.
- *
- *  * @author Jerry Springer
- *  * @version 3 November 2020
+ * <p></p>
+ * * @author Jerry Springer
+ * * @version 3 November 2020
  */
+// Ignore checkstyle member name error.
 public class ChatListFragment extends Fragment {
 
   FragmentChatListBinding binding;
@@ -59,4 +57,6 @@ public class ChatListFragment extends Fragment {
     super.onCreateOptionsMenu(menu, inflater);
     getActivity().getMenuInflater().inflate(R.menu.toolbar_create, menu);
   }
+
+  // Checkstyle: Done - Hung Vu
 }

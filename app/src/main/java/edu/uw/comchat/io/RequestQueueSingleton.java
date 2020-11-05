@@ -11,8 +11,9 @@ import com.android.volley.toolbox.Volley;
 /**
  * Class used for request queue in lab 3.
  * This is for testing for purpose only, subject to modification later on - Hung Vu.
+ * Javadoc are intentionally not included since the class is the same to what we has in lab 3.
  */
-// As of 11/2/2020, the implementation is the same to its original state.
+// Ignore checkstyle member name error.
 public class RequestQueueSingleton {
   private static edu.uw.comchat.io.RequestQueueSingleton instance;
   private static Context context;
@@ -63,4 +64,5 @@ public class RequestQueueSingleton {
   public ImageLoader getmImageLoader() {
     return mImageLoader;
   }
+  // Checkstyle: Done - Hung Vu
 }

@@ -114,5 +114,5 @@ public class LoginViewModel extends AndroidViewModel {
     RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
             .addToRequestQueue(request);
   }
-  // Ignore checkstyle member name error.
+  // Checkstyle: Done - Hung Vu
 }
