@@ -5,6 +5,8 @@
 <br/>
 <a href="https://drive.google.com/drive/u/1/folders/1s79pOQjcPwYjBctZnqoEz2Lfr2efa7no"><strong>Sprint 1 Folder:</strong></a>
 <br/>
+<a href="https://drive.google.com/drive/u/1/folders/1xREGO4vLV1MXiWQp5RJrvTpJMQc-y5WN"><strong>Sprint 2 Folder:</strong></a>
+<br/>
 <a href="https://docs.google.com/document/d/1igER6zpsLUvkQbsv28jX1ZYr0rFdc2S4HmRs8IJHm7M/edit" target="_blank"><strong>Daily Scrum Notes:</strong></a>
 <br/>
 <iframe
