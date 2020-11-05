@@ -1,19 +1,15 @@
 package edu.uw.comchat.ui.weather;
 
 import android.os.Bundle;
-
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
 import edu.uw.comchat.R;
 
 /**
@@ -23,6 +19,7 @@ import edu.uw.comchat.R;
  * @author Jerry Springer
  * @version 3 November 2020
  */
+// Ignore checkstyle member name error.
 public class WeatherFragment extends Fragment {
 
   private WeatherStateAdapter weatherStateAdapter;
@@ -45,4 +42,5 @@ public class WeatherFragment extends Fragment {
     new TabLayoutMediator(tabLayout, mViewPager,
             (tab, position) -> tab.setText("Weather " + (position + 1))).attach();
   }
+  // Checkstyle: Done - Hung Vu
 }
