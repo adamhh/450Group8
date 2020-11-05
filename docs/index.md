@@ -7,10 +7,10 @@
 <br/>
 <a href="https://drive.google.com/drive/u/1/folders/1xREGO4vLV1MXiWQp5RJrvTpJMQc-y5WN"><strong>Sprint 2 Folder:</strong></a>
 <br/>
-<a href="https://docs.google.com/document/d/1igER6zpsLUvkQbsv28jX1ZYr0rFdc2S4HmRs8IJHm7M/edit" target="_blank"><strong>Daily Scrum Notes:</strong></a>
+<a href="https://docs.google.com/document/d/1bmwMbq92U3R8XcKOi3ASWTtM35Y3q6Hnt-qoUNKZHXk/edit" target="_blank"><strong>Daily Scrum Notes:</strong></a>
 <br/>
 <iframe
-  src="https://docs.google.com/document/d/1igER6zpsLUvkQbsv28jX1ZYr0rFdc2S4HmRs8IJHm7M/edit"
+  src="https://docs.google.com/document/d/1bmwMbq92U3R8XcKOi3ASWTtM35Y3q6Hnt-qoUNKZHXk/edit"
   style="width:100%; height:500px;"
 ></iframe>
 <br/>
