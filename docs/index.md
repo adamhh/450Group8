@@ -1,7 +1,7 @@
 <br/>
 <a href="https://drive.google.com/drive/u/1/folders/1fAGIzUolKyg5KC5XTNv97xnsAah71IUu" target="_blank"><strong>Team Google Drive:</strong></a>
 <br/>
-<a href="https://drive.google.com/drive/u/1/folders/1Mkd1PaH3dmvCzxojph0iulLOJ-ziQTwX" target="_blank"><strong>Springt 0 Folder:</strong></a>
+<a href="https://drive.google.com/drive/u/1/folders/1Mkd1PaH3dmvCzxojph0iulLOJ-ziQTwX" target="_blank"><strong>Sprint 0 Folder:</strong></a>
 <br/>
 <a href="https://drive.google.com/drive/u/1/folders/1s79pOQjcPwYjBctZnqoEz2Lfr2efa7no"><strong>Sprint 1 Folder:</strong></a>
 <br/>
