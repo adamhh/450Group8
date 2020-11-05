@@ -102,7 +102,7 @@
 
     <Button
         android:id="@+id/button_register_accept"
-        android:layout_width="92dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/button_register_register"

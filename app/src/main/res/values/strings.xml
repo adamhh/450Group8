@@ -2,6 +2,8 @@
     <!-- App Resources -->
     <string name="title_app_name">ComChat</string>
 
+    <!-- Organized by top level nav fragment in order then alphabetically -->
+
     <!-- Login Fragment -->
     <string name="title_login">Login</string>
     <string name="edit_text_login_email">Email</string>
@@ -22,6 +24,7 @@
     <string name="text_register_success">Register successfully. Tap anywhere to turn off this message.</string>
     <string name="text_register_fail">Register fail. Tap anywhere to turn off this message.</string>
 
+
     <!-- Home Fragment -->
     <string name="title_home">Home</string>
     <string name="text_home_default">Home</string>
@@ -37,20 +40,6 @@
     <string name="text_settings_default">Settings</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Chat List Fragment -->
-    <string name="title_chat_list">Chat</string>
-
-    <!-- Chat Card Fragment -->
-    <string name="text_chat_name">Name</string>
-    <string name="text_chat_date">Date</string>
-    <string name="text_chat_message">Message</string>
-
-    <!-- Message List Fragment -->
-    <string name="title_message_list">Conversation</string>
-    <string name="text_message_list_default">Message</string>
-
-    <!-- Connections Fragment -->
-    <string name="title_connection">Connection</string>
 
     <!-- Weather Fragment -->
     <string name="title_weather">Weather</string>
@@ -60,12 +49,31 @@
     <string name="text_weather_location">Location</string>
     <string name="text_weather_default">Text</string>
 
+
+    <!-- Connections Fragment -->
+    <string name="title_connection">Connection</string>
+
+    <!-- Profile Fragment -->
+    <string name="title_profile">Profile</string>
+    <string name="text_profile_default">Profile</string>
+
+
+    <!-- Chat List Fragment -->
+    <string name="title_chat_list">Chat</string>
+
+    <!-- Chat Card Fragment -->
+    <string name="text_chat_name">Name</string>
+    <string name="text_chat_date">Date</string>
+    <string name="text_chat_message">Message</string>
+
+
+    <!-- Message List Fragment -->
+    <string name="title_message_list">Conversation</string>
+    <string name="text_message_list_default">Message</string>
+
     <!-- Create Fragment -->
     <string name="title_create">Message</string>
     <string name="action_create_search">Search</string>
     <string name="action_create_add">Add Contact</string>
 
-    <!-- Profile Fragment -->
-    <string name="title_profile">Profile</string>
-    <string name="text_profile_default">Profile</string>
 </resources>

@@ -9,7 +9,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_field_message_list"
-        android:layout_width="416dp"
+        android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"

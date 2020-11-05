@@ -71,7 +71,7 @@ public class RegisterFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mRegisterModel = new ViewModelProvider(getActivity())
+    mRegisterModel = new ViewModelProvider(this)
             .get(RegisterViewModel.class);
   }
 
