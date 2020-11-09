@@ -26,11 +26,19 @@
     <string name="text_register_fail">Register fail. Tap anywhere to turn off this message.</string>
 
     <!-- Password Recovery Fragment -->
+    <!-- Email section -->
     <string name="text_view_password_recovery_instruction_title">Instruction</string>
-    <string name="text_view_password_recovery_instruction_detail">1. Please provide your account email. <br></br> 2. A PIN code will be sent to your email. <br></br>
+    <string name="text_view_password_recovery_instruction_detail">
+        1. Please provide your account email. <br></br>
+        2. A PIN code will be sent to your email. <br></br>
         3. You are required to provide the PIN code on the next page.</string>
     <string name="edit_text_password_recovery_email">Email</string>
     <string name="button_password_recovery_send_pin">Send PIN</string>
+    <!-- Update password section -->
+    <string name="edit_text_password_recovery_pin">PIN code</string>
+    <string name="edit_Text_password_recovery_new_password">New password</string>
+    <string name="edit_text_password_recovery_password_retype">Retype password</string>
+    <string name="button_password_recovery_accept">Accept</string>
 
     <!-- Home Fragment -->
     <string name="title_home">Home</string>

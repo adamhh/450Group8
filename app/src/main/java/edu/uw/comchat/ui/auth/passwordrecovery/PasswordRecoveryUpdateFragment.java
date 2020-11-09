@@ -13,31 +13,39 @@ import android.view.ViewGroup;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentPasswordRecoveryBinding;
+import edu.uw.comchat.databinding.FragmentPasswordRecoveryUpdateBinding;
 
 /**
  * @author Hung Vu
  */
-public class PasswordRecoveryFragment extends Fragment {
-
-  private FragmentPasswordRecoveryBinding mBinding;
-
+public class PasswordRecoveryUpdateFragment extends Fragment {
+  private FragmentPasswordRecoveryUpdateBinding mBinding;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    mBinding = FragmentPasswordRecoveryBinding.inflate(inflater);
+    // Inflate the layout for this fragment
+    mBinding = FragmentPasswordRecoveryUpdateBinding.inflate(inflater);
     return mBinding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mBinding.buttonPasswordRecoverySendPin.setOnClickListener(button -> handleSendPinButton());
+    mBinding.buttonPasswordRecoveryUpdateAccept.setOnClickListener(button -> handleAcceptButton());
+
   }
 
-  private void handleSendPinButton() {
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+  }
+
+  private void handleAcceptButton() {
     Navigation.findNavController(getView()).navigate(
-            PasswordRecoveryFragmentDirections.actionPasswordRecoveryFragmentToPasswordRecoveryUpdateFragment()
+            PasswordRecoveryUpdateFragmentDirections.actionPasswordRecoveryUpdateFragmentToLoginFragment()
     );
   }
+
 }

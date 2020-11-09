@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_loginFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_loginFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -38,4 +41,22 @@
             android:name="jwt"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/passwordRecoveryFragment"
+        android:name="edu.uw.comchat.ui.auth.passwordrecovery.PasswordRecoveryFragment"
+        android:label="fragment_password_recovery"
+        tools:layout="@layout/fragment_password_recovery" >
+        <action
+            android:id="@+id/action_passwordRecoveryFragment_to_passwordRecoveryUpdateFragment"
+            app:destination="@id/passwordRecoveryUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordRecoveryUpdateFragment"
+        android:name="edu.uw.comchat.ui.auth.passwordrecovery.PasswordRecoveryUpdateFragment"
+        android:label="fragment_password_recovery_update"
+        tools:layout="@layout/fragment_password_recovery_update" >
+        <action
+            android:id="@+id/action_passwordRecoveryUpdateFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

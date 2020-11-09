@@ -87,9 +87,16 @@ public class LoginFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
     mBinding.buttonLoginRegister.setOnClickListener(button -> handleRegisterButton());
+    mBinding.buttonLoginPasswordRecovery.setOnClickListener(button -> handlePasswordRecoveryButton());
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
+  }
+
+  private void handlePasswordRecoveryButton() {
+    Navigation.findNavController(getView()).navigate(
+            LoginFragmentDirections.actionLoginFragmentToPasswordRecoveryFragment()
+    );
   }
 
   @Override
