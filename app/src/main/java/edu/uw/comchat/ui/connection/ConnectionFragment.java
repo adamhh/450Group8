@@ -40,8 +40,10 @@ public class ConnectionFragment extends Fragment {
     mViewPager.setAdapter(connectionStateAdapter);
 
     TabLayout tabLayout = view.findViewById(R.id.tab_layout_connection);
+
+    String[] tabNames = {"Existing Connections", "Incoming Requests", "Outgoing Requests"};
     new TabLayoutMediator(tabLayout, mViewPager,
-            (tab, position) -> tab.setText("Connections " + (position + 1))).attach();
+            (tab, position) -> tab.setText(tabNames[position])).attach();
   }
 
   @Override
