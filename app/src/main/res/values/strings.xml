@@ -10,6 +10,7 @@
     <string name="edit_text_login_password">Password</string>
     <string name="button_login_sign_in">Sign In</string>
     <string name="button_login_register">Register</string>
+    <string name="button_login_password_recovery">Forgot your password?</string>
 
     <!-- Register Fragment -->
     <string name="title_register">Register</string>
@@ -24,6 +25,12 @@
     <string name="text_register_success">Register successfully. Tap anywhere to turn off this message.</string>
     <string name="text_register_fail">Register fail. Tap anywhere to turn off this message.</string>
 
+    <!-- Password Recovery Fragment -->
+    <string name="text_view_password_recovery_instruction_title">Instruction</string>
+    <string name="text_view_password_recovery_instruction_detail">1. Please provide your account email. <br></br> 2. A PIN code will be sent to your email. <br></br>
+        3. You are required to provide the PIN code on the next page.</string>
+    <string name="edit_text_password_recovery_email">Email</string>
+    <string name="button_password_recovery_send_pin">Send PIN</string>
 
     <!-- Home Fragment -->
     <string name="title_home">Home</string>
@@ -75,5 +82,7 @@
     <string name="title_create">Message</string>
     <string name="action_create_search">Search</string>
     <string name="action_create_add">Add Contact</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
