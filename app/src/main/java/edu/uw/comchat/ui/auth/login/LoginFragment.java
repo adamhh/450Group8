@@ -136,7 +136,7 @@ public class LoginFragment extends Fragment {
    */
   private void verifyAuthWithServer() {
     mLoginModel.connect(
-            mBinding.editTextLoginEmail.getText().toString(),
+            mBinding.editTextLoginEmail.getText().toString().toUpperCase(),
             mBinding.editTextLoginPassword.getText().toString());
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
