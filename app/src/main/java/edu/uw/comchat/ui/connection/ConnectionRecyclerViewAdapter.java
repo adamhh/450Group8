@@ -108,7 +108,7 @@ public class ConnectionRecyclerViewAdapter extends
       mConnection = connection;
 
       // TODO Make this get the person who is not you, if not found throw error
-      binding.textName.setText(connection.getPerson2());
+      binding.cardNameId.setText(connection.getPerson2());
     }
   }
   // Checkstyle: Done - Hung Vu

@@ -14,52 +14,54 @@
         android:layout_height="71dp">
 
         <TextView
-            android:id="@+id/text_name"
+            android:id="@+id/card_name_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:text="@string/text_chat_name"
+            android:text="@string/connection_card_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toTopOf="@+id/email_connection_card"
+            app:layout_constraintBottom_toTopOf="@+id/email_card_id"
             app:layout_constraintStart_toEndOf="@+id/test_avatar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/email_connection_card"
+            android:id="@+id/email_card_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="12dp"
-            android:text="testemail@email.com"
+            android:text="@string/connection_card_email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/test_avatar" />
 
         <ImageButton
-            android:id="@+id/messageButton_connection"
+            android:id="@+id/connection_card_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="#FFFFFF"
+            android:contentDescription="@string/card_message_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_chat_message_black_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/connection_card_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
             android:background="#FFFFFF"
+            android:contentDescription="@string/card_settings_description"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/messageButton_connection"
+            app:layout_constraintEnd_toStartOf="@+id/connection_card_message"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_connection_black_24dp" />
 
@@ -70,6 +72,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="11dp"
+            android:contentDescription="@string/card_avatar_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
