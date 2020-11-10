@@ -39,8 +39,18 @@ public class WeatherFragment extends Fragment {
     mViewPager.setAdapter(weatherStateAdapter);
 
     TabLayout tabLayout = view.findViewById(R.id.tab_layout_weather);
+
+    String[] tabNames = {getString(R.string.item_weather_current),
+            getString(R.string.item_weather_daily),
+            getString(R.string.item_weather_ten_day)};
+
     new TabLayoutMediator(tabLayout, mViewPager,
-            (tab, position) -> tab.setText("Weather " + (position + 1))).attach();
+            new TabLayoutMediator.TabConfigurationStrategy() {
+              @Override
+              public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(tabNames[position]);
+              }
+            }).attach();
   }
   // Checkstyle: Done - Hung Vu
 }

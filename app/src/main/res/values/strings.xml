@@ -43,11 +43,27 @@
 
     <!-- Weather Fragment -->
     <string name="title_weather">Weather</string>
-    <string name="item_weather_hourly">Hourly</string>
-    <string name="item_weather_daily">Daily</string>
-    <string name="item_weather_weekly">Weekly</string>
     <string name="text_weather_location">Location</string>
     <string name="text_weather_default">Text</string>
+    
+    <string name="item_weather_current">Current</string>
+    <string name="text_weather_current_temp">Temp</string>
+    <string name="text_weather_current_wind_chill">Wind Chill</string>
+    <string name="text_weather_current_wind_direction">Wind Direction</string>
+    <string name="text_weather_current_wind_speed">Wind Speed</string>
+    <string name="text_weather_current_description">Description</string>
+
+    
+    <string name="item_weather_daily">24-Hour</string>
+    <string name="text_weather_daily_time">Time</string>
+    <string name="text_weather_daily_temp">Temp</string>
+    <string name="text_weather_daily_humidity">Humidity</string>
+    
+    <string name="item_weather_ten_day">10 Day</string>
+    <string name="text_weather_ten_day_date">Date</string>
+    <string name="text_weather_ten_day_temp">Temp</string>
+    <string name="text_weather_ten_day_description">Description</string>
+    <string name="text_weather_ten_day_humidity">Humidity</string>
 
 
     <!-- Connections Fragment -->

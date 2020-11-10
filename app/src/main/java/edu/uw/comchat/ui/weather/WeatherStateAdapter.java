@@ -25,7 +25,7 @@ public class WeatherStateAdapter extends FragmentStateAdapter {
 
     // TODO Have the weather card be populated with some actual data
     Bundle args = new Bundle();
-    args.putInt(WeatherCardFragment.ARG_OBJECT, position + 1);
+    args.putInt(WeatherCardFragment.ARG_POSITION, position + 1);
     fragment.setArguments(args);
     return fragment;
   }
