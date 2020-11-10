@@ -18,6 +18,8 @@ import edu.uw.comchat.R;
  * A fragment that holds the UI for a user managing their connections.
  *
  * @author Jerry Springer
+ * Added a tab, and changed the names
+ * @author Adam Hall
  * @version 3 November 2020
  */
 // Ignore checkstyle member name error.
@@ -41,10 +43,12 @@ public class ConnectionFragment extends Fragment {
 
     TabLayout tabLayout = view.findViewById(R.id.tab_layout_connection);
 
-    String[] tabNames = {"Existing Connections", "Incoming Requests", "Outgoing Requests"};
+    String[] tabNames = {"Existing", "Incoming", "Outgoing", "Suggested"};
     new TabLayoutMediator(tabLayout, mViewPager,
             (tab, position) -> tab.setText(tabNames[position])).attach();
+
   }
+
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
