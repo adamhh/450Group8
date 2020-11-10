@@ -31,14 +31,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/edit_text_login_password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_login_email"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_login_email" />
 
     <Button
         android:id="@+id/button_login_sign_in"
@@ -62,6 +62,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_login_password" />
 
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -71,5 +72,17 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_text_login_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_login_password_recovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:text="@string/button_login_password_recovery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_login_password" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

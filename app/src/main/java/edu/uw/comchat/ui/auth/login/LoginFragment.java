@@ -87,9 +87,16 @@ public class LoginFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
     mBinding.buttonLoginRegister.setOnClickListener(button -> handleRegisterButton());
+    mBinding.buttonLoginPasswordRecovery.setOnClickListener(button -> handlePasswordRecoveryButton());
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
+  }
+
+  private void handlePasswordRecoveryButton() {
+    Navigation.findNavController(getView()).navigate(
+            LoginFragmentDirections.actionLoginFragmentToPasswordRecoveryFragment()
+    );
   }
 
   @Override
@@ -136,7 +143,7 @@ public class LoginFragment extends Fragment {
    */
   private void verifyAuthWithServer() {
     mLoginModel.connect(
-            mBinding.editTextLoginEmail.getText().toString(),
+            mBinding.editTextLoginEmail.getText().toString().toUpperCase(),
             mBinding.editTextLoginPassword.getText().toString());
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
