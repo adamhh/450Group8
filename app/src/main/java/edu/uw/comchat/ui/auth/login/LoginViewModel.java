@@ -13,6 +13,8 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.util.HandleRequestError;
+
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,31 +55,6 @@ public class LoginViewModel extends AndroidViewModel {
     mResponse.observe(owner, observer);
   }
 
-  /**
-   * Provide behavior when a HTTP error is returned.
-   *
-   * @param error HTTP error (encapsulated in VolleyError)
-   */
-  private void handleError(final VolleyError error) {
-    if (Objects.isNull(error.networkResponse)) {
-      try {
-        mResponse.setValue(new JSONObject("{" + "error:\"" + error.getMessage() + "\"}"));
-      } catch (JSONException e) {
-        Log.e("JSON PARSE", "JSON Parse Error in handleError");
-      }
-    } else {
-      String data = new String(error.networkResponse.data, Charset.defaultCharset())
-              .replace('\"', '\'');
-      try {
-        JSONObject response = new JSONObject();
-        response.put("code", error.networkResponse.statusCode);
-        response.put("data", new JSONObject(data));
-        mResponse.setValue(response);
-      } catch (JSONException e) {
-        Log.e("JSON PARSE", "JSON Parse Error in handleError");
-      }
-    }
-  }
 
   /**
    * GET request to webservice to login.
@@ -93,7 +70,7 @@ public class LoginViewModel extends AndroidViewModel {
             url,
             null, //no body for this get request
             mResponse::setValue,
-            this::handleError) {
+            error -> HandleRequestError.handleError(error, mResponse)) {
       @Override
       public Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();

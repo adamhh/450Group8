@@ -17,6 +17,8 @@ import java.util.Objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.comchat.util.HandleRequestError;
+
 
 /**
  * Class from lab 3.
@@ -79,7 +81,7 @@ public class RegisterViewModel extends AndroidViewModel {
             url,
             body,
             mResponse::setValue,
-            this::handleError);
+            error -> HandleRequestError.handleError(error, mResponse));
 
     request.setRetryPolicy(new DefaultRetryPolicy(
             10_000,
@@ -90,33 +92,5 @@ public class RegisterViewModel extends AndroidViewModel {
             .add(request);
   }
 
-  /**
-   * Provide behavior when a HTTP error is returned.
-   *
-   * @param error HTTP error (encapsulated in VolleyError)
-   */
-  private void handleError(final VolleyError error) {
-    //    Log.i("JSON body", "true");
-    if (Objects.isNull(error.networkResponse)) {
-      try {
-        mResponse.setValue(new JSONObject("{" + "error:\"" + error.getMessage() + "\"}"));
-      } catch (JSONException e) {
-        Log.e("JSON PARSE", "JSON Parse Error in handleError");
-      }
-    } else {
-      //      Log.i("JSON body", "true");
-      String data = new String(error.networkResponse.data, Charset.defaultCharset())
-              .replace('\"', '\'');
-      try {
-        JSONObject response = new JSONObject();
-        response.put("code", error.networkResponse.statusCode);
-        response.put("data", new JSONObject(data));
-        mResponse.setValue(response);
-        //        Log.e("HTTP error", error.getMessage());
-      } catch (JSONException e) {
-        Log.e("JSON PARSE", "JSON Parse Error in handleError");
-      }
-    }
-  }
   // Checkstyle: Done - Hung Vu
 }

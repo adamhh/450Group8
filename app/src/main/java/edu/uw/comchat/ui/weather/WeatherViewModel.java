@@ -21,6 +21,7 @@ import java.nio.charset.Charset;
 import java.util.Objects;
 
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.util.HandleRequestError;
 
 /**
  * This class provide data and backend connection to webservice for weather fragment.
@@ -40,27 +41,6 @@ public class WeatherViewModel extends AndroidViewModel {
     mResponse.observe(owner, observer);
   }
 
-  private void handleError(final VolleyError error){
-    if (Objects.isNull(error.networkResponse)) {
-      try {
-        mResponse.setValue(new JSONObject("{" + "error:\"" + error.getMessage() + "\"}"));
-      } catch (JSONException e) {
-        Log.e("JSON PARSE", "JSON Parse Error in handleError");
-      }
-    } else {
-      String data = new String(error.networkResponse.data, Charset.defaultCharset())
-              .replace('\"', '\'');
-      try {
-        JSONObject response = new JSONObject();
-        response.put("code", error.networkResponse.statusCode);
-        response.put("data", new JSONObject(data));
-        mResponse.setValue(response);
-      } catch (JSONException e) {
-        Log.e("JSON PARSE", "JSON Parse Error in handleError");
-      }
-    }
-  }
-
   private void connect(String latitude, String longitude){
     final String url = "https://comchat-backend.herokuapp.com/weather";
     JSONObject body = new JSONObject();
@@ -75,8 +55,8 @@ public class WeatherViewModel extends AndroidViewModel {
             url,
             null,
             mResponse::setValue,
-            this::handleError);
-    
+            error -> HandleRequestError.handleError(error, mResponse));
+
     request.setRetryPolicy(new DefaultRetryPolicy(
             10_000,
             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
