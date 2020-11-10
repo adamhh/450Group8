@@ -84,9 +84,21 @@
     <!-- Connections Fragment -->
     <string name="title_connection">Connection</string>
 
+    <!-- Connections Card Fragment -->
+    <string name="connection_card_name">Name</string>
+    <string name="connection_card_email">temporaryemail@uw.edu</string>
+    <string name="card_message_description">message connection in card</string>
+    <string name="card_settings_description">manage settings</string>
+    <string name="card_avatar_description">avatar for user</string>
+
     <!-- Profile Fragment -->
+    <string name="nickname_profile">NickName</string>
+    <string name="name_profile">Sample Name</string>
+    <string name="email_profile">samplemail@test.edu</string>
+    <string name="connect_status_profile">Connect Status</string>
+    <string name="message_profile">Send Message</string>
     <string name="title_profile">Profile</string>
-    <string name="text_profile_default">Profile</string>
+    <string name="avatar_profile_description">Avatar for profile</string>
 
 
     <!-- Chat List Fragment -->

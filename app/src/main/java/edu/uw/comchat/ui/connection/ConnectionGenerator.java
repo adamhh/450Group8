@@ -22,8 +22,8 @@ public class ConnectionGenerator {
     for (int i = 0; i < COUNT; i++) {
       CONNECTIONS[i] = new Connection
               .Builder(
-              "Person1 " + (i + 1),
-              "Person2 " + (i + 1))
+              "Person " + (i + 1),
+              "Person " + (i + 1))
               .build();
     }
   }
