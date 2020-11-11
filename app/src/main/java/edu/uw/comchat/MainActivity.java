@@ -1,6 +1,8 @@
 package edu.uw.comchat;
 
+import android.app.TaskStackBuilder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -17,9 +19,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 // Ignore checkstyle member name error.
 public class MainActivity extends AppCompatActivity {
   private AppBarConfiguration mAppBarConfiguration;
+  private boolean mBoo = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    //We need to set theme each activity before it is created
+    if (mBoo) {
+      setTheme(R.style.Theme_ComChatBlueGrey);
+    }
+    mBoo = false;
+    //or we can recreate activity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
@@ -67,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void recreate() {
+    Log.d("HEARD", "CLICK HEARD");
+    setTheme(R.style.Theme_ComChatRed);
   }
   // Checkstyle: Done - Hung Vu
 }
