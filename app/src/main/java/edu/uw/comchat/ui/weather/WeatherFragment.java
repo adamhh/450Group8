@@ -1,22 +1,33 @@
 package edu.uw.comchat.ui.weather;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import edu.uw.comchat.R;
+import edu.uw.comchat.databinding.FragmentWeatherBinding;
+import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
+import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
+import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple
  * types of weather reports.
  *
- * @author Jerry Springer
+ * @author Jerry Springer (UI), Hung Vu (connect to webservice and populate data).
  * @version 3 November 2020
  */
 // Ignore checkstyle member name error.
@@ -25,11 +36,26 @@ public class WeatherFragment extends Fragment {
   private WeatherStateAdapter weatherStateAdapter;
   private ViewPager2 mViewPager;
 
+  // Connect to webservice - Hung Vu.
+  private WeatherViewModel mWeatherModel;
+  private FragmentWeatherBinding mWeatherBinding;
+
+
+  public WeatherFragment() {
+
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mWeatherModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_weather, container, false);
+    mWeatherBinding = FragmentWeatherBinding.inflate(inflater);
+    return mWeatherBinding.getRoot();
   }
 
   @Override
@@ -51,6 +77,42 @@ public class WeatherFragment extends Fragment {
                 tab.setText(tabNames[position]);
               }
             }).attach();
+
+    // Connect to webservice - Hung Vu.
+    mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
+    mWeatherModel.connect("98402");
+//    mWeatherCurrentBinding = FragmentWeatherCurrentBinding.bind(getView());
   }
-  // Checkstyle: Done - Hung Vu
+
+  private void observeResponse(JSONObject response) {
+    if (response.length() > 0) {
+      if (response.has("code")) {
+        try {
+          Log.i("JSON error", response.getJSONObject("data").getString("message"));
+        } catch (JSONException e) {
+          Log.e("JSON Parse Error", e.getMessage());
+        }
+      } else {
+        try {
+          populateWeatherPage(response);
+        } catch (JSONException e){
+          e.printStackTrace();
+        }
+      }
+    } else {
+      Log.d("JSON Response", "No Response");
+    }
+  }
+
+  private void populateWeatherPage(JSONObject response) throws JSONException {
+    JSONObject location = response.getJSONObject("location");
+    mWeatherBinding.textWeatherLocation.setText(
+            "Location: " + location.getString("city")
+                    + ", " + location.getString("region")
+                    + ", " + location.getString("country")
+    );
+
+  }
+
+
 }
