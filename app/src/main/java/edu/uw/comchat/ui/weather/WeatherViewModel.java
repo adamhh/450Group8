@@ -41,15 +41,9 @@ public class WeatherViewModel extends AndroidViewModel {
     mResponse.observe(owner, observer);
   }
 
-  private void connect(String latitude, String longitude){
-    final String url = "https://comchat-backend.herokuapp.com/weather";
+  public void connect(String zip){
+    final String url = "https://comchat-backend.herokuapp.com/weather?zip=" + zip;
     JSONObject body = new JSONObject();
-    try {
-      body.put("lat", 37.372);
-      body.put("lon", -122.038);
-    } catch (JSONException e){
-      e.printStackTrace();
-    }
     Request request = new JsonObjectRequest(
             Request.Method.GET,
             url,
