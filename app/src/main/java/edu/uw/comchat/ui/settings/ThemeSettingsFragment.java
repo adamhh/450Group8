@@ -17,13 +17,16 @@ import android.view.ViewGroup;
 import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentThemeSettingsBinding;
+import edu.uw.comchat.Theme;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ThemeSettingsFragment extends Fragment {
 
-
+    private final String mRedTheme = "red";
+    private final String mDefaultTheme = "default";
+    private final String mBlueGreyTheme = "grey";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +67,7 @@ public class ThemeSettingsFragment extends Fragment {
      * @param view
      */
     private void defaultTheme(View view) {
+        Theme.setTheme(mDefaultTheme);
         getActivity().recreate();
         TaskStackBuilder.create(getActivity())
                 .addNextIntent(new Intent(getActivity(), MainActivity.class))
@@ -76,7 +80,12 @@ public class ThemeSettingsFragment extends Fragment {
      * @param view
      */
     private void greyTheme(View view) {
+        Theme.setTheme(mBlueGreyTheme);
         getActivity().recreate();
+        TaskStackBuilder.create(getActivity())
+                .addNextIntent(new Intent(getActivity(), MainActivity.class))
+                .addNextIntent(getActivity().getIntent())
+                .startActivities();
     }
 
     /**
@@ -84,8 +93,12 @@ public class ThemeSettingsFragment extends Fragment {
      * @param view
      */
     private void redTheme(View view) {
-        Log.d("CLICKED", "WE GOT A CLICK");
+        Theme.setTheme(mRedTheme);
         getActivity().recreate();
+        TaskStackBuilder.create(getActivity())
+                .addNextIntent(new Intent(getActivity(), MainActivity.class))
+                .addNextIntent(getActivity().getIntent())
+                .startActivities();
     }
 
 

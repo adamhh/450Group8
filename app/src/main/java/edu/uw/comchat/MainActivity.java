@@ -19,15 +19,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 // Ignore checkstyle member name error.
 public class MainActivity extends AppCompatActivity {
   private AppBarConfiguration mAppBarConfiguration;
-  private boolean mBoo = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     //We need to set theme each activity before it is created
-    if (mBoo) {
-      setTheme(R.style.Theme_ComChatBlueGrey);
-    }
-    mBoo = false;
+    setTheme(Theme.getTheme());
     //or we can recreate activity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
