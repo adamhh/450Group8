@@ -22,15 +22,22 @@
     <color name="radioUnselectedLight">#595959</color>
 
 
-    <!-- Sample 2 -->
-<!--            <color name="backgroundLightMode">#DBDBDB</color>-->
-<!--            <color name="backgroundLightMode">#FFFFFF</color>-->
-<!--            <color name="toolbarLightMode">#212121</color>-->
-<!--            <color name="notificationBarLightMode">#212121</color>-->
-<!--            <color name="titleTextLightMode">#FFFFFF</color>-->
-<!--            <color name="textLightMode">#000000</color>-->
-<!--            <color name="buttonLightMode">#D32F2F</color>-->
-<!--            <color name="radioSelectedLight">#D32F2F</color>-->
-<!--            <color name="radioUnselectedLight">#5C5C5C</color>-->
-<!--            <color name="buttonText">#FFFFFF</color>-->
+    <!-- Blue Grey Theme -->
+    <color name="greySecondaryColorLight">#FFFFFF</color>
+    <color name="greyPrimaryLight">#607D8B</color>
+    <color name="greyNotificationBarLight">#587380</color>
+    <color name="greyTextLight">#000000</color>
+    <color name="greyButtonLight">#CCCCCC</color>
+    <color name="greyAccentColorLight">#B3B3B3</color>
+
+    <!-- Red Black Theme -->
+    <color name="redSecondaryColorLight">#FFFFFF</color>
+    <color name="redPrimaryColorLight">#000000</color>
+    <color name="redTitleTextLight">#FFFFFF</color>
+    <color name="redNotificationBarLight">#2E2E2E</color>
+    <color name="redTextLight">#595959</color>
+    <color name="redAccentColorLight">#9A0007</color>
+    <color name="redButtonLight">#9A0007</color>
+
+
 </resources>

@@ -14,7 +14,11 @@
         android:id="@+id/navigation_settings"
         android:name="edu.uw.comchat.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_themeSettingsFragment"
+            app:destination="@id/themeSettingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_chat"
         android:name="edu.uw.comchat.ui.chat.ChatListFragment"
@@ -68,4 +72,9 @@
             android:name="profileId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/themeSettingsFragment"
+        android:name="edu.uw.comchat.ui.settings.ThemeSettingsFragment"
+        android:label="fragment_theme_settings"
+        tools:layout="@layout/fragment_theme_settings" />
 </navigation>
