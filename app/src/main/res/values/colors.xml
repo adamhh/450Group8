@@ -34,7 +34,7 @@
     <color name="redSecondaryColorLight">#FFFFFF</color>
     <color name="redPrimaryColorLight">#000000</color>
     <color name="redTitleTextLight">#FFFFFF</color>
-    <color name="redNotificationBarLight">#000000</color>
+    <color name="redNotificationBarLight">#2E2E2E</color>
     <color name="redTextLight">#595959</color>
     <color name="redAccentColorLight">#9A0007</color>
     <color name="redButtonLight">#9A0007</color>

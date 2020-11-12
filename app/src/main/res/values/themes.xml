@@ -36,8 +36,8 @@
         <item name="android:windowBackground">@color/greySecondaryColorLight</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/greyNotificationBarLight</item>
         <item name="android:textColor">@color/greyTextLight</item>
-        <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
-        <item name="radioButtonStyle">@style/MaterialRadioButtonTheme</item>
+        <item name="materialButtonStyle">@style/MaterialButtonThemeGrey</item>
+        <item name="radioButtonStyle">@style/MaterialRadioButtonThemeGrey</item>
     </style>
 
 
@@ -55,22 +55,39 @@
         <item name="colorOnSecondary">@color/redAccentColorLight</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/redSecondaryColorLight</item>
-        <item name="android:buttonStyle">@style/ButtonColor</item>
-        <item name="android:button">@color/redButtonLight</item>
         <item name="android:colorButtonNormal">@color/redButtonLight</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/redNotificationBarLight</item>
         <item name="android:textColor">@color/redTextLight</item>
-        <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
-        <item name="radioButtonStyle">@style/MaterialRadioButtonTheme</item>
+        <item name="materialButtonStyle">@style/MaterialButtonThemeRed</item>
+        <item name="radioButtonStyle">@style/MaterialRadioButtonThemeRed</item>
 
     </style>
-    <style name="ButtonColor" parent ="@android:style/Widget.Button">
-        <item name="android:textColor">@color/redTextLight</item>
-    </style>
-
-
     <!--
-    Customized button design.
+    Customized button design for red button.
+    Source: https://stackoverflow.com/questions/56296694/material-design-components-button-global-theme-overriding-broken
+    -->
+    <style name="MaterialButtonThemeRed" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/CustomizedButtonStyleRed</item>
+    </style>
+
+    <style name="CustomizedButtonStyleRed">
+        <item name="colorPrimary">@color/redButtonLight</item>
+        <item name="colorOnPrimary">@color/redTitleTextLight</item>
+    </style>
+    <!--
+Customized button design for grey theme.
+Source: https://stackoverflow.com/questions/56296694/material-design-components-button-global-theme-overriding-broken
+-->
+    <style name="MaterialButtonThemeGrey" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/CustomizedButtonStyleGrey</item>
+    </style>
+
+    <style name="CustomizedButtonStyleGrey">
+        <item name="colorPrimary">@color/greyPrimaryLight</item>
+        <item name="colorOnPrimary">@color/buttonText</item>
+    </style>
+    <!--
+    Customized button design for default theme.
     Source: https://stackoverflow.com/questions/56296694/material-design-components-button-global-theme-overriding-broken
     -->
     <style name="MaterialButtonTheme" parent="Widget.MaterialComponents.Button">
@@ -83,9 +100,35 @@
     </style>
 
     <!--
-    Customized radio button design.
+    Customized radio button design for red theme.
     Source: https://material.io/develop/android/components/radiobuttons
      -->
+    <style name="MaterialRadioButtonThemeRed" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlayRed.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlayRed.App.RadioButton" parent = "">
+        <item name="colorOnSurface">@color/redPrimaryColorLight</item>
+        <item name="colorSecondary">@color/redAccentColorLight</item>
+    </style>
+
+    <!--
+Customized radio button design for grey theme.
+Source: https://material.io/develop/android/components/radiobuttons
+ -->
+    <style name="MaterialRadioButtonThemeGrey" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlayGrey.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlayGrey.App.RadioButton" parent = "">
+        <item name="colorOnSurface">@color/greyAccentColorLight</item>
+        <item name="colorSecondary">@color/radioSelectedLight</item>
+    </style>
+
+    <!--
+Customized radio button design.
+Source: https://material.io/develop/android/components/radiobuttons
+ -->
     <style name="MaterialRadioButtonTheme" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
     </style>
