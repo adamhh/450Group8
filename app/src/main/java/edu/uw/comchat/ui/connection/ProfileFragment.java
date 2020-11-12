@@ -37,5 +37,7 @@ public class ProfileFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     binding = FragmentProfileBinding.bind(view);
   }
+
+
   // Checkstyle: Done - Hung Vu
 }
