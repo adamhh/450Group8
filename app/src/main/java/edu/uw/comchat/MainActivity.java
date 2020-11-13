@@ -1,6 +1,7 @@
 package edu.uw.comchat;
 
 import android.app.TaskStackBuilder;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 /**
  * This class is a main activity for the program (homepage/weather/connection/chat/).
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.toolbar_main, menu);
+    getMenuInflater().inflate(R.menu.toolbar, menu);
     return true;
   }
 
@@ -65,10 +67,15 @@ public class MainActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     int id = item.getItemId();
 
-    if (id == R.id.action_settings) {
-      NavController navController = Navigation.findNavController(
-              this, R.id.fragment_container_main);
-      navController.navigate(R.id.navigation_settings);
+//    if (id == R.id.action_settings) {
+//      NavController navController = Navigation.findNavController(
+//              this, R.id.fragment_container_main);
+//      navController.navigate(R.id.navigation_settings);
+//    }
+    if(id == R.id.menu_profile){
+
+    } else if (id == R.id.menu_theme){
+      handleChangeThemeAction();
     }
 
     return super.onOptionsItemSelected(item);
@@ -79,5 +86,20 @@ public class MainActivity extends AppCompatActivity {
     Log.d("HEARD", "CLICK HEARD");
     setTheme(R.style.Theme_ComChatRed);
   }
-  // Checkstyle: Done - Hung Vu
+
+  private void handleChangeThemeAction(){
+    String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
+    new MaterialAlertDialogBuilder(this)
+            .setTitle("Theme Options")
+            .setSingleChoiceItems(themeOptions, 0, null)
+            .setPositiveButton(getResources().getString(R.string.item_menu_change_theme_accept),
+                    new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+
+                      }
+                    })
+            .show();
+  }
+
 }
