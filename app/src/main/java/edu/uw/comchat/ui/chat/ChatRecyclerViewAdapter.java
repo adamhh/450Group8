@@ -59,14 +59,14 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 
         public void setMessage(final ChatMessage message) {
             final Resources res = mView.getContext().getResources();
-            final MaterialCardView card = binding.cardRoot;
+            final MaterialCardView card = binding.cardRootChatMessage;
 
             int standard = (int) res.getDimension(R.dimen.chat_margin);
             int extended = (int) res.getDimension(R.dimen.chat_margin_sided);
 
             if (mEmail.equals(message.getSender())) {
                 // This message is from the user. Format is as such
-                binding.textMessage.setText(message.getMessage());
+                binding.textChatMessage.setText(message.getMessage());
                 ViewGroup.MarginLayoutParams layoutParams =
                         (ViewGroup.MarginLayoutParams) card.getLayoutParams();
                 //Set the left margin
@@ -104,7 +104,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                 card.requestLayout();
             } else {
                 //This message is from another user. Format it as such
-                binding.textMessage.setText(message.getSender() +
+                binding.textChatMessage.setText(message.getSender() +
                         ": " + message.getMessage());
                 ViewGroup.MarginLayoutParams layoutParams =
                         (ViewGroup.MarginLayoutParams) card.getLayoutParams();
