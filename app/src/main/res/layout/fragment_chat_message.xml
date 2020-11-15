@@ -13,7 +13,7 @@
 
     <!--  MaterialCardView instead of androidx.CardView  -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_root"
+        android:id="@+id/card_root_chat_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/chat_margin"
@@ -22,14 +22,14 @@
         android:layout_gravity="end">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_inner"
+            android:id="@+id/layout_inner_chat_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toTopOf="@+id/text_title"
             app:layout_constraintTop_toTopOf="@+id/text_title">
 
             <TextView
-                android:id="@+id/text_message"
+                android:id="@+id/text_chat_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
