@@ -26,10 +26,11 @@ public class HomeFragment extends Fragment {
     return inflater.inflate(R.layout.fragment_home, container, false);
   }
 
-  @Override
-  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
-    getActivity().getMenuInflater().inflate(R.menu.toolbar_home, menu);
-  }
+  // Setting across all fragments, should be in activity instead? - Hung Vu
+//  @Override
+//  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//    super.onCreateOptionsMenu(menu, inflater);
+//    getActivity().getMenuInflater().inflate(R.menu.toolbar_home, menu);
+//  }
   // Checkstyle: Done - Hung Vu
 }
