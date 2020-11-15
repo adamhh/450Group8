@@ -1,123 +1,147 @@
 package edu.uw.comchat.ui.chat;
 
-import android.text.Html;
+import android.content.res.Resources;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.uw.comchat.R;
-import edu.uw.comchat.databinding.FragmentChatCardBinding;
+
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.shape.CornerFamily;
+
 import java.util.List;
 
+import edu.uw.comchat.R;
+import edu.uw.comchat.databinding.FragmentChatMessageBinding;
 
-/**
- * A recycler view adapter to be used for the list of a conversations or chats that
- * a user is having with other.
- *
- * @author Jerry Springer
- * @version 3 November 2020
- */
-// Ignore checkstyle member name error.
-public class ChatRecyclerViewAdapter extends
-        RecyclerView.Adapter<ChatRecyclerViewAdapter.ChatViewHolder> {
+public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 
-  private final List<Chat> mChats;
-  private RecyclerView mRecyclerView;
+    private final List<ChatMessage> mMessages;
+    private final String mEmail;
 
-  /**
-   * Creates a new chat recycler view adapter with the given list of chats.
-   *
-   * @param items the list of chats to be displayed.
-   */
-  public ChatRecyclerViewAdapter(List<Chat> items) {
-    this.mChats = items;
-  }
-
-  @NonNull
-  @Override
-  public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View view = LayoutInflater
-            .from(parent.getContext())
-            .inflate(R.layout.fragment_chat_card, parent, false);
-
-    // Sets the on click listener for the view / card
-    view.setOnClickListener(this::onClick);
-    return new ChatViewHolder(view);
-  }
-
-  @Override
-  public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-    holder.setChat(mChats.get(position));
-  }
-
-  @Override
-  public int getItemCount() {
-    return mChats.size();
-  }
-
-  @Override
-  public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-    super.onAttachedToRecyclerView(recyclerView);
-
-    // Store the recycler view so we can unwrap the view index in on click
-    mRecyclerView = recyclerView;
-  }
-
-  /**
-   * Navigates to the conversation the user clicks on.
-   *
-   * @param view the view that was clicked on.
-   */
-  private void onClick(View view) {
-
-    // Gets the index of the clicked chat
-    int position = mRecyclerView.getChildAdapterPosition(view);
-
-    // TODO Make this use a chat ID
-    String chatId = "" + position;
-
-    // Navigates to the chat
-    Navigation.findNavController(view).navigate(
-            ChatListFragmentDirections
-                    .actionNavigationChatToMessageListFragment(chatId));
-  }
-
-  /**
-   * Objects from this class represent a single chat row view from the users chats.
-   */
-  public class ChatViewHolder extends RecyclerView.ViewHolder {
-    public final View mView;
-    public FragmentChatCardBinding binding;
-    private Chat mChat;
-
-    /**
-     * Creates a new view  holder containing the chat card fragment.
-     *
-     * @param view the corresponding view in the recycler view.
-     */
-    public ChatViewHolder(View view) {
-      super(view);
-      mView = view;
-      binding = FragmentChatCardBinding.bind(view);
+    public ChatRecyclerViewAdapter(List<ChatMessage> messages, String email) {
+        this.mMessages = messages;
+        mEmail = email;
     }
 
-    /**
-     * Stores the data of the corresponding chat and updates the view.
-     *
-     * @param chat the chat of the view holder.
-     */
-    void setChat(final Chat chat) {
-      mChat = chat;
-      binding.textChatCardName.setText(chat.getSender());
-
-      final String preview = Html.fromHtml(
-              chat.getMessage(),
-              Html.FROM_HTML_MODE_COMPACT)
-              .toString();
-      binding.textChatCardMessage.setText(preview);
+    @NonNull
+    @Override
+    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MessageViewHolder(LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.fragment_chat_message, parent, false));
     }
-  }
-  // Checkstyle: Done - Hung Vu
+
+    @Override
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+        holder.setMessage(mMessages.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMessages.size();
+    }
+
+    class MessageViewHolder extends RecyclerView.ViewHolder {
+        private final View mView;
+        private FragmentChatMessageBinding binding;
+
+        public MessageViewHolder(@NonNull View view) {
+            super(view);
+            mView = view;
+            binding = FragmentChatMessageBinding.bind(view);
+        }
+
+        public void setMessage(final ChatMessage message) {
+            final Resources res = mView.getContext().getResources();
+            final MaterialCardView card = binding.cardRoot;
+
+            int standard = (int) res.getDimension(R.dimen.chat_margin);
+            int extended = (int) res.getDimension(R.dimen.chat_margin_sided);
+
+            if (mEmail.equals(message.getSender())) {
+                // This message is from the user. Format is as such
+                binding.textMessage.setText(message.getMessage());
+                ViewGroup.MarginLayoutParams layoutParams =
+                        (ViewGroup.MarginLayoutParams) card.getLayoutParams();
+                //Set the left margin
+                layoutParams.setMargins(extended, standard, standard, standard);
+                // Set this View to the right (end) side
+                ((FrameLayout.LayoutParams) card.getLayoutParams()).gravity =
+                        Gravity.END;
+
+                // TODO Add color components
+                /*
+                card.setCardBackgroundColor(
+                        ColorUtils.setAlphaComponent(
+                                res.getColor(R.color.primaryLightColor, null),
+                                16));
+                binding.textMessage.setTextColor(
+                        res.getColor(R.color.secondaryTextColorFade, null));
+
+                card.setStrokeWidth(standard / 5);
+                card.setStrokeColor(ColorUtils.setAlphaComponent(
+                        res.getColor(R.color.primaryLightColor, null),
+                        200));
+
+                 */
+
+                //Round the corners on the left side
+                card.setShapeAppearanceModel(
+                        card.getShapeAppearanceModel()
+                                .toBuilder()
+                                .setTopLeftCorner(CornerFamily.ROUNDED,standard * 2)
+                                .setBottomLeftCorner(CornerFamily.ROUNDED,standard * 2)
+                                .setBottomRightCornerSize(0)
+                                .setTopRightCornerSize(0)
+                                .build());
+
+                card.requestLayout();
+            } else {
+                //This message is from another user. Format it as such
+                binding.textMessage.setText(message.getSender() +
+                        ": " + message.getMessage());
+                ViewGroup.MarginLayoutParams layoutParams =
+                        (ViewGroup.MarginLayoutParams) card.getLayoutParams();
+
+                //Set the right margin
+                layoutParams.setMargins(standard, standard, extended, standard);
+                // Set this View to the left (start) side
+                ((FrameLayout.LayoutParams) card.getLayoutParams()).gravity =
+                        Gravity.START;
+
+                /*
+                card.setCardBackgroundColor(
+                        ColorUtils.setAlphaComponent(
+                                res.getColor(R.color.secondaryLightColor, null),
+                                16));
+
+                card.setStrokeWidth(standard / 5);
+                card.setStrokeColor(ColorUtils.setAlphaComponent(
+                        res.getColor(R.color.secondaryLightColor, null),
+                        200));
+
+                binding.textMessage.setTextColor(
+                        res.getColor(R.color.secondaryTextColorFade, null));
+
+                 */
+
+                //Round the corners on the right side
+                card.setShapeAppearanceModel(
+                        card.getShapeAppearanceModel()
+                                .toBuilder()
+                                .setTopRightCorner(CornerFamily.ROUNDED,standard * 2)
+                                .setBottomRightCorner(CornerFamily.ROUNDED,standard * 2)
+                                .setBottomLeftCornerSize(0)
+                                .setTopLeftCornerSize(0)
+                                .build());
+                card.requestLayout();
+            }
+        }
+    }
 }
