@@ -22,6 +22,7 @@ import edu.uw.comchat.databinding.FragmentWeatherBinding;
 import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
+import edu.uw.comchat.model.UserInfoViewModel;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple
@@ -49,6 +50,13 @@ public class WeatherFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mWeatherModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+
+    // Set jwt dynamically.
+    UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+    String jwt = userInfoViewModel.getJwt();
+    mWeatherModel.getToken().setValue(jwt);
+
+
   }
 
   @Override

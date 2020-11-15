@@ -30,18 +30,31 @@ import edu.uw.comchat.util.HandleRequestError;
  */
 public class WeatherViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
+
+  private MutableLiveData<String> mToken;
+
   public WeatherViewModel(@NonNull Application application) {
     super(application);
     mResponse = new MutableLiveData<>();
     mResponse.setValue(new JSONObject());
+    mToken = new MutableLiveData<>();
+    mToken.setValue("");
   }
 
-  public void addResponseObserver (@NonNull LifecycleOwner owner,
-                                   @NonNull Observer<? super JSONObject> observer){
+  /**
+   * Make token holder become accessible from fragment.
+   * @return a holder of jwt.
+   */
+  public MutableLiveData<String> getToken(){
+    return mToken;
+  }
+
+  public void addResponseObserver(@NonNull LifecycleOwner owner,
+                                  @NonNull Observer<? super JSONObject> observer) {
     mResponse.observe(owner, observer);
   }
 
-  public void connect(String zip){
+  public void connect(String zip) {
     final String url = "https://comchat-backend.herokuapp.com/weather?zip=" + zip;
     JSONObject body = new JSONObject();
     Request request = new JsonObjectRequest(
