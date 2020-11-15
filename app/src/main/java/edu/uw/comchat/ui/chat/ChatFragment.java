@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import edu.uw.comchat.R;
-import edu.uw.comchat.databinding.FragmentChatListBinding;
+import edu.uw.comchat.databinding.FragmentChatBinding;
 
 /**
  * A fragment that shows the list of chats a user has with other.
@@ -22,30 +22,30 @@ import edu.uw.comchat.databinding.FragmentChatListBinding;
  * * @version 3 November 2020
  */
 // Ignore checkstyle member name error.
-public class ChatListFragment extends Fragment {
+public class ChatFragment extends Fragment {
 
-  FragmentChatListBinding binding;
+  FragmentChatBinding binding;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-    return inflater.inflate(R.layout.fragment_chat_list, container, false);
+    return inflater.inflate(R.layout.fragment_chat, container, false);
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    binding = FragmentChatListBinding.bind(view);
-    binding.floatingActionButtonChatListMessage.setOnClickListener(button -> {
+    binding = FragmentChatBinding.bind(view);
+    binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
       Navigation.findNavController(getView()).navigate(
-              ChatListFragmentDirections.actionNavigationChatToCreateFragment());
+              ChatFragmentDirections.actionNavigationChatToCreateFragment());
     });
 
     // Sets the recycler view adapter for the list (re-use of elements when scrolling)
     binding.listRootChat.setAdapter(
-            new ChatRecyclerViewAdapter(ChatGenerator.getChatList()));
+            new GroupRecyclerViewAdapter(GroupGenerator.getGroupList()));
 
     // Adds a divider in the list
     binding.listRootChat.addItemDecoration(
