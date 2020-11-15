@@ -20,7 +20,7 @@
         <item name="radioButtonStyle">@style/MaterialRadioButtonTheme</item>
     </style>
 
-    <!-- Blue Grey Chat Theme -->
+    <!-- Blue Grey ChatMessage Theme -->
     <style name="Theme.ComChatBlueGrey" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <!-- Toolbar -->
@@ -41,7 +41,7 @@
     </style>
 
 
-    <!-- Red Com Chat Theme -->
+    <!-- Red Com ChatMessage Theme -->
     <style name="Theme.ComChatRed" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <!-- Toolbar -->
