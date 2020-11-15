@@ -73,8 +73,8 @@
 
     <string name="item_weather_current">Current</string>
     <string name="text_weather_current_temp">Temp</string>
-    <string name="text_weather_current_wind_chill">Wind Chill</string>
-    <string name="text_weather_current_wind_direction">Wind Direction</string>
+    <string name="text_weather_current_feels_like">Feels Like</string>
+    <string name="text_weather_current_uvi">UV Index</string>
     <string name="text_weather_current_wind_speed">Wind Speed</string>
     <string name="text_weather_current_description">Description</string>
 

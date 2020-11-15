@@ -113,7 +113,7 @@ public class WeatherCardFragment extends Fragment {
               break;
           }
 
-        } catch (JSONException e){
+        } catch (JSONException e) {
           e.printStackTrace();
         }
       }
@@ -127,15 +127,18 @@ public class WeatherCardFragment extends Fragment {
     // TODO UGLY code, may need to somehow refactor this.
     FragmentWeatherCurrentBinding weatherCurrentBinding = FragmentWeatherCurrentBinding.bind(getView());
     JSONObject currentWeather = response.getJSONObject("current");
-    weatherCurrentBinding.textWeatherCurrentTemp.setText("Temp: " + currentWeather.getString("temp") + "F");
-//    weatherCurrentBinding.textWeatherCurrentWindChill.setText("Wind Deg: " + currentWeather.getString("wind_deg") + "F");
-//    weatherCurrentBinding.textWeatherCurrentWindDirection.setText("Wind Direction: " + currentWeather.getString("direction"));
-//    weatherCurrentBinding.textWeatherCurrentWindSpeed.setText("Wind Speed: " + currentWeather.getString("speed") + "MPH");
-//    weatherCurrentBinding.textWeatherCurrentDescription.setText("Description: " + currentWeather.getString("text"));
+    weatherCurrentBinding.textWeatherCurrentTemp.setText("Temp: " + currentWeather.getString("temp"));
+    weatherCurrentBinding.textWeatherCurrentFeelsLike.setText("Feels Like: " + currentWeather.getString("feels_like"));
+    weatherCurrentBinding.textWeatherCurrentUvi.setText("UV Index: " + currentWeather.getString("uvi"));
+    weatherCurrentBinding.textWeatherCurrentWindSpeed.setText("Wind Speed: " + currentWeather.getString("wind_speed"));
+    weatherCurrentBinding.textWeatherCurrentDescription.setText("Description: " + currentWeather.getJSONArray("weather")
+            .getJSONObject(0)
+            .getString("description"));
   }
 
-  private void updateWeatherDaily(JSONObject response)throws JSONException{
-    // No daily data.
+  // TODO This method vs. updateWeatherTenDay are similar, can refactor.
+  // Traverse json array.
+  private void updateWeatherDaily(JSONObject response) throws JSONException {
     JSONArray hourly = response.getJSONArray("hourly");
     for (int i = 0; i < hourly.length(); i++) {
       JSONObject hourReport = hourly.getJSONObject(i);
@@ -143,9 +146,10 @@ public class WeatherCardFragment extends Fragment {
     }
   }
 
+  // Update ui information.
   private void updateWeatherBasedOnHour(int hour, JSONObject response) throws JSONException {
     FragmentWeatherDailyBinding weatherDailyCardBinding = FragmentWeatherDailyBinding.bind(getView());
-    switch(hour){
+    switch (hour) {
       case 1:
         FragmentWeatherDailyCardBinding hour1 = weatherDailyCardBinding.weatherCurrentHour1;
         updateHourCard(hour1, response);
@@ -168,6 +172,8 @@ public class WeatherCardFragment extends Fragment {
         break;
     }
   }
+
+  // Helper method to update ui.
   private void updateHourCard(FragmentWeatherDailyCardBinding whichHour, JSONObject response) throws JSONException {
     JSONObject date = response.getJSONObject("dt");
     whichHour.textWeatherDailyTime.setText("Time: " + date.getString("hours") + ":" + date.getString("minutes") +
@@ -177,7 +183,8 @@ public class WeatherCardFragment extends Fragment {
 
   }
 
-  private void updateWeatherTenDay(JSONObject response)throws JSONException {
+  // Traverse JSON array.
+  private void updateWeatherTenDay(JSONObject response) throws JSONException {
     JSONArray forecast = response.getJSONArray("daily");
     for (int i = 0; i < forecast.length(); i++) {
       JSONObject day = forecast.getJSONObject(i);
@@ -185,10 +192,12 @@ public class WeatherCardFragment extends Fragment {
     }
   }
 
-  // TODO Very UGLY code, need to somehow refactor this. May want to use recycler view instead.
+  // TODO UGLY code, need to somehow refactor this. May want to use recycler view instead.
+  // Update ui information.
+  // TODO Current JSON response only allows the choice of 5 days forecast.
   private void updateWeatherBasedOnDay(int day, JSONObject response) throws JSONException {
     FragmentWeatherTenDayBinding weatherTenDayBinding = FragmentWeatherTenDayBinding.bind(getView());
-    switch(day){
+    switch (day) {
       case 1:
 //        JSONObject date = new JSONObject(response.getString("dt"));
         FragmentWeatherTenDayCardBinding forecastDay1 = weatherTenDayBinding.weatherTenDay1;
@@ -213,6 +222,8 @@ public class WeatherCardFragment extends Fragment {
     }
 
   }
+
+  // Helper method to update ui.
   private void updateTenDayCard(FragmentWeatherTenDayCardBinding whichDay, JSONObject response) throws JSONException {
     JSONObject date = response.getJSONObject("dt");
     Log.i("date", date.toString());
@@ -223,6 +234,6 @@ public class WeatherCardFragment extends Fragment {
     whichDay.textWeatherTenDayTemp.setText("Temp: " + temp.getString("day"));
 
     JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
-    whichDay.textWeatherTenDayDescription.setText("Description: "+ weather.getString("description"));
+    whichDay.textWeatherTenDayDescription.setText("Description: " + weather.getString("description"));
   }
 }
