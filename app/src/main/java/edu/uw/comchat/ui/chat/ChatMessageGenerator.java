@@ -9,30 +9,29 @@ import java.util.List;
  * local storage.
  *
  * @author Jerry Springer
- * @version 3 November 2020
+ * @version 11 November 2020
  */
 // Ignore checkstyle member name error.
-public final class ChatGenerator {
+public final class ChatMessageGenerator {
 
-  private static final Chat[] CHATS;
+  private static final ChatMessage[] CHATS;
   public static final int COUNT = 20;
 
   static {
-    CHATS = new Chat[COUNT];
+    CHATS = new ChatMessage[COUNT];
     for (int i = 0; i < CHATS.length; i++) {
-      CHATS[i] = new Chat
-              .Builder("Sender " + (i + 1),
-              "Receiver " + (i + 1),
-              "Message")
-              .build();
+      CHATS[i] = new ChatMessage((i + 1),
+              "Message",
+              "Sender " + (i + 1),
+              "Time");
     }
   }
 
-  public static List<Chat> getChatList() {
+  public static List<ChatMessage> getChatList() {
     return Arrays.asList(CHATS);
   }
 
-  private ChatGenerator() {
+  private ChatMessageGenerator() {
   }
   // Checkstyle: Done - Hung Vu
 }
