@@ -108,10 +108,10 @@
     <string name="avatar_profile_description">Avatar for profile</string>
 
 
-    <!-- Chat List Fragment -->
+    <!-- ChatMessage List Fragment -->
     <string name="title_chat_list">Chat</string>
 
-    <!-- Chat Card Fragment -->
+    <!-- ChatMessage Card Fragment -->
     <string name="text_chat_name">Name</string>
     <string name="text_chat_date">Date</string>
     <string name="text_chat_message">Message</string>
