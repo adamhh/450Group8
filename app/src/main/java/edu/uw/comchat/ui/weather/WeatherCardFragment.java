@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
+import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
 
 
 /**
@@ -123,16 +124,12 @@ public class WeatherCardFragment extends Fragment {
   private void updateWeatherCurrent(JSONObject response) throws JSONException {
     // TODO UGLY code, may need to somehow refactor this.
     FragmentWeatherCurrentBinding weatherCurrentBinding = FragmentWeatherCurrentBinding.bind(getView());
-    JSONObject currentWeather = response.getJSONObject("current_observation");
-    JSONObject wind = currentWeather.getJSONObject("wind");
-    JSONObject atmosphere = currentWeather.getJSONObject("atmosphere");
-    JSONObject astronomy = currentWeather.getJSONObject("astronomy");
-    JSONObject condition= currentWeather.getJSONObject("condition");
-    weatherCurrentBinding.textWeatherCurrentTemp.setText("Temp: " + condition.getString("temperature") + "F");
-    weatherCurrentBinding.textWeatherCurrentWindChill.setText("Wind Chill: " + wind.getString("chill") + "F");
-    weatherCurrentBinding.textWeatherCurrentWindDirection.setText("Wind Direction: " + wind.getString("direction"));
-    weatherCurrentBinding.textWeatherCurrentWindSpeed.setText("Wind Speed: " + wind.getString("speed") + "MPH");
-    weatherCurrentBinding.textWeatherCurrentDescription.setText("Description: " + condition.getString("text"));
+    JSONObject currentWeather = response.getJSONObject("current");
+    weatherCurrentBinding.textWeatherCurrentTemp.setText("Temp: " + currentWeather.getString("temp") + "F");
+//    weatherCurrentBinding.textWeatherCurrentWindChill.setText("Wind Deg: " + currentWeather.getString("wind_deg") + "F");
+//    weatherCurrentBinding.textWeatherCurrentWindDirection.setText("Wind Direction: " + currentWeather.getString("direction"));
+//    weatherCurrentBinding.textWeatherCurrentWindSpeed.setText("Wind Speed: " + currentWeather.getString("speed") + "MPH");
+//    weatherCurrentBinding.textWeatherCurrentDescription.setText("Description: " + currentWeather.getString("text"));
   }
 
   private void updateWeatherDaily(JSONObject response)throws JSONException{
@@ -140,77 +137,82 @@ public class WeatherCardFragment extends Fragment {
   }
 
   private void updateWeatherTenDay(JSONObject response)throws JSONException {
-    JSONArray forecast = response.getJSONArray("forecasts");
+    JSONArray forecast = response.getJSONArray("daily");
     for (int i = 0; i < forecast.length(); i++) {
       JSONObject day = forecast.getJSONObject(i);
-      updateWeatherBasedOnDay(i+1, day);
+      updateWeatherBasedOnDay(i, day);
     }
   }
 
-  // TODO Very UGLY code, need to somehow refactor this.
+  // TODO Very UGLY code, need to somehow refactor this. May want to use recycler view instead.
   private void updateWeatherBasedOnDay(int day, JSONObject response) throws JSONException {
     FragmentWeatherTenDayBinding weatherTenDayBinding = FragmentWeatherTenDayBinding.bind(getView());
+
     switch(day){
       case 1:
-        weatherTenDayBinding.weatherTenDay1.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay1.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay1.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+//        JSONObject date = new JSONObject(response.getString("dt"));
+        FragmentWeatherTenDayCardBinding forecastDay1 = weatherTenDayBinding.weatherTenDay1;
+        updateTenDayCard(forecastDay1, response);
         break;
       case 2:
-        weatherTenDayBinding.weatherTenDay2.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay2.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay2.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+        FragmentWeatherTenDayCardBinding forecastDay2 = weatherTenDayBinding.weatherTenDay2;
+        updateTenDayCard(forecastDay2, response);
         break;
       case 3:
-        weatherTenDayBinding.weatherTenDay3.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay3.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay3.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+        FragmentWeatherTenDayCardBinding forecastDay3 = weatherTenDayBinding.weatherTenDay3;
+        updateTenDayCard(forecastDay3, response);
         break;
       case 4:
-        weatherTenDayBinding.weatherTenDay4.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay4.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay4.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+        FragmentWeatherTenDayCardBinding forecastDay4 = weatherTenDayBinding.weatherTenDay4;
+        updateTenDayCard(forecastDay4, response);
         break;
       case 5:
-        weatherTenDayBinding.weatherTenDay5.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay5.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay5.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+        FragmentWeatherTenDayCardBinding forecastDay5 = weatherTenDayBinding.weatherTenDay5;
+        updateTenDayCard(forecastDay5, response);
         break;
-      case 6:
-        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-        break;
-      case 7:
-        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-        break;
-      case 8:
-        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-        break;
-      case 9:
-        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-        break;
-      case 10:
-        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-                "High: " + response.get("high") + "F");
-        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-        break;
+//      case 6:
+//        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
+//        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
+//                "High: " + response.get("high") + "F");
+//        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+//        break;
+//      case 7:
+//        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
+//        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
+//                "High: " + response.get("high") + "F");
+//        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+//        break;
+//      case 8:
+//        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
+//        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
+//                "High: " + response.get("high") + "F");
+//        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+//        break;
+//      case 9:
+//        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
+//        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
+//                "High: " + response.get("high") + "F");
+//        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+//        break;
+//      case 10:
+//        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
+//        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
+//                "High: " + response.get("high") + "F");
+//        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
+//        break;
     }
+
+  }
+  private void updateTenDayCard (FragmentWeatherTenDayCardBinding whichDay, JSONObject response) throws JSONException {
+    JSONObject date = response.getJSONObject("dt");
+    Log.i("date", date.toString());
+    whichDay.textWeatherTenDayDate.setText("Date: " +
+            date.getString("months") + "\\" + date.getString("dates") + "\\" + date.getString("years"));
+
+    JSONObject temp = response.getJSONObject("temp");
+    whichDay.textWeatherTenDayTemp.setText("Temp: " + temp.getString("day"));
+
+    JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
+    whichDay.textWeatherTenDayDescription.setText("Description: "+ weather.getString("description"));
   }
 }

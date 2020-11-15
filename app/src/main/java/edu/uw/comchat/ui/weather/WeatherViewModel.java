@@ -18,10 +18,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
+
+import static edu.uw.comchat.util.HandleRequestError.*;
 
 /**
  * This class provide data and backend connection to webservice for weather fragment.
@@ -62,7 +66,15 @@ public class WeatherViewModel extends AndroidViewModel {
             url,
             null,
             mResponse::setValue,
-            error -> HandleRequestError.handleError(error, mResponse));
+            error -> handleError(error, mResponse)){
+      @Override
+      public Map<String, String> getHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        // add headers <key,value>
+        headers.put("Authorization", mToken.getValue());
+        return headers;
+      }
+    };
 
     request.setRetryPolicy(new DefaultRetryPolicy(
             10_000,
