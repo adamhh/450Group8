@@ -15,12 +15,7 @@ public interface UpdateTheme extends BiConsumer<String, MainActivity> {
     Log.i("Change Theme", "Pressed");
     return (themeName, activity) -> {
       Theme.setTheme(themeName);
-      activity.finish();
       activity.recreate();
-      TaskStackBuilder.create(activity)
-              .addNextIntent(new Intent(activity, activity.getClass()))
-              .addNextIntent(activity.getIntent())
-              .startActivities();
     };
   }
 }

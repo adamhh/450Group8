@@ -107,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public void recreate() {
-    Log.d("HEARD", "CLICK HEARD");
-    setTheme(R.style.Theme_ComChatRed);
+    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+    startActivity(intent);
+    finish();
   }
 
   private void handleChangeThemeAction() {
