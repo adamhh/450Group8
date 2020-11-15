@@ -5,7 +5,7 @@
     android:id="@+id/layout_root_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.chat.ChatListFragment">
+    tools:context=".ui.chat.ChatFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_root_chat"
@@ -18,10 +18,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/fragment_chat_card" />
+        tools:listitem="@layout/fragment_chat_group" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button_chat_list_message"
+        android:id="@+id/floating_action_button_chat_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
