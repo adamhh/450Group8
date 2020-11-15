@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
+import edu.uw.comchat.databinding.FragmentWeatherDailyBinding;
+import edu.uw.comchat.databinding.FragmentWeatherDailyCardBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
 
@@ -134,6 +136,45 @@ public class WeatherCardFragment extends Fragment {
 
   private void updateWeatherDaily(JSONObject response)throws JSONException{
     // No daily data.
+    JSONArray hourly = response.getJSONArray("hourly");
+    for (int i = 0; i < hourly.length(); i++) {
+      JSONObject hourReport = hourly.getJSONObject(i);
+      updateWeatherBasedOnHour(i + 1, hourReport);
+    }
+  }
+
+  private void updateWeatherBasedOnHour(int hour, JSONObject response) throws JSONException {
+    FragmentWeatherDailyBinding weatherDailyCardBinding = FragmentWeatherDailyBinding.bind(getView());
+    switch(hour){
+      case 1:
+        FragmentWeatherDailyCardBinding hour1 = weatherDailyCardBinding.weatherCurrentHour1;
+        updateHourCard(hour1, response);
+        break;
+      case 2:
+        FragmentWeatherDailyCardBinding hour2 = weatherDailyCardBinding.weatherCurrentHour2;
+        updateHourCard(hour2, response);
+        break;
+      case 3:
+        FragmentWeatherDailyCardBinding hour3 = weatherDailyCardBinding.weatherCurrentHour3;
+        updateHourCard(hour3, response);
+        break;
+      case 4:
+        FragmentWeatherDailyCardBinding hour4 = weatherDailyCardBinding.weatherCurrentHour4;
+        updateHourCard(hour4, response);
+        break;
+      case 5:
+        FragmentWeatherDailyCardBinding hour5 = weatherDailyCardBinding.weatherCurrentHour5;
+        updateHourCard(hour5, response);
+        break;
+    }
+  }
+  private void updateHourCard(FragmentWeatherDailyCardBinding whichHour, JSONObject response) throws JSONException {
+    JSONObject date = response.getJSONObject("dt");
+    whichHour.textWeatherDailyTime.setText("Time: " + date.getString("hours") + ":" + date.getString("minutes") +
+            date.getString("ampms"));
+    whichHour.textWeatherDailyTemp.setText("Temp: " + response.getString("temp"));
+    whichHour.textWeatherDailyHumidity.setText("Humidity: " + response.getString("humidity"));
+
   }
 
   private void updateWeatherTenDay(JSONObject response)throws JSONException {
@@ -147,7 +188,6 @@ public class WeatherCardFragment extends Fragment {
   // TODO Very UGLY code, need to somehow refactor this. May want to use recycler view instead.
   private void updateWeatherBasedOnDay(int day, JSONObject response) throws JSONException {
     FragmentWeatherTenDayBinding weatherTenDayBinding = FragmentWeatherTenDayBinding.bind(getView());
-
     switch(day){
       case 1:
 //        JSONObject date = new JSONObject(response.getString("dt"));
@@ -170,40 +210,10 @@ public class WeatherCardFragment extends Fragment {
         FragmentWeatherTenDayCardBinding forecastDay5 = weatherTenDayBinding.weatherTenDay5;
         updateTenDayCard(forecastDay5, response);
         break;
-//      case 6:
-//        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-//        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-//                "High: " + response.get("high") + "F");
-//        weatherTenDayBinding.weatherTenDay6.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-//        break;
-//      case 7:
-//        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-//        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-//                "High: " + response.get("high") + "F");
-//        weatherTenDayBinding.weatherTenDay7.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-//        break;
-//      case 8:
-//        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-//        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-//                "High: " + response.get("high") + "F");
-//        weatherTenDayBinding.weatherTenDay8.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-//        break;
-//      case 9:
-//        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-//        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-//                "High: " + response.get("high") + "F");
-//        weatherTenDayBinding.weatherTenDay9.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-//        break;
-//      case 10:
-//        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayDate.setText("Day: " + response.getString("day"));
-//        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayTemp.setText("Low: " + response.getString("low") + "F " +
-//                "High: " + response.get("high") + "F");
-//        weatherTenDayBinding.weatherTenDay10.textWeatherTenDayDescription.setText("Description: "+ response.getString("text"));
-//        break;
     }
 
   }
-  private void updateTenDayCard (FragmentWeatherTenDayCardBinding whichDay, JSONObject response) throws JSONException {
+  private void updateTenDayCard(FragmentWeatherTenDayCardBinding whichDay, JSONObject response) throws JSONException {
     JSONObject date = response.getJSONObject("dt");
     Log.i("date", date.toString());
     whichDay.textWeatherTenDayDate.setText("Date: " +
