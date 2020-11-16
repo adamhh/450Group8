@@ -18,10 +18,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
+
+import static edu.uw.comchat.util.HandleRequestError.*;
 
 /**
  * This class provide data and backend connection to webservice for weather fragment.
@@ -30,18 +34,31 @@ import edu.uw.comchat.util.HandleRequestError;
  */
 public class WeatherViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
+
+  private MutableLiveData<String> mToken;
+
   public WeatherViewModel(@NonNull Application application) {
     super(application);
     mResponse = new MutableLiveData<>();
     mResponse.setValue(new JSONObject());
+    mToken = new MutableLiveData<>();
+    mToken.setValue("");
   }
 
-  public void addResponseObserver (@NonNull LifecycleOwner owner,
-                                   @NonNull Observer<? super JSONObject> observer){
+  /**
+   * Make token holder become accessible from fragment.
+   * @return a holder of jwt.
+   */
+  public MutableLiveData<String> getToken(){
+    return mToken;
+  }
+
+  public void addResponseObserver(@NonNull LifecycleOwner owner,
+                                  @NonNull Observer<? super JSONObject> observer) {
     mResponse.observe(owner, observer);
   }
 
-  public void connect(String zip){
+  public void connect(String zip) {
     final String url = "https://comchat-backend.herokuapp.com/weather?zip=" + zip;
     JSONObject body = new JSONObject();
     Request request = new JsonObjectRequest(
@@ -49,7 +66,15 @@ public class WeatherViewModel extends AndroidViewModel {
             url,
             null,
             mResponse::setValue,
-            error -> HandleRequestError.handleError(error, mResponse));
+            error -> handleError(error, mResponse)){
+      @Override
+      public Map<String, String> getHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        // add headers <key,value>
+        headers.put("Authorization", mToken.getValue());
+        return headers;
+      }
+    };
 
     request.setRetryPolicy(new DefaultRetryPolicy(
             10_000,

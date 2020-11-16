@@ -18,24 +18,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_weather_current_wind_chill"
+        android:id="@+id/text_weather_current_feels_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="@string/text_weather_current_wind_chill"
+        android:text="@string/text_weather_current_feels_like"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_weather_current_temp" />
 
     <TextView
-        android:id="@+id/text_weather_current_wind_direction"
+        android:id="@+id/text_weather_current_uvi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="@string/text_weather_current_wind_direction"
+        android:text="@string/text_weather_current_uvi"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_weather_current_wind_chill" />
+        app:layout_constraintTop_toBottomOf="@+id/text_weather_current_feels_like" />
 
     <TextView
         android:id="@+id/text_weather_current_wind_speed"
@@ -45,7 +45,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/text_weather_current_wind_speed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_weather_current_wind_direction" />
+        app:layout_constraintTop_toBottomOf="@+id/text_weather_current_uvi" />
 
     <TextView
         android:id="@+id/text_weather_current_description"
