@@ -2,6 +2,7 @@ package edu.uw.comchat;
 
 public class Theme {
     public static int mTheme = R.style.Theme_ComChat;
+    public static boolean mIsDark = false;
 
     public static int getTheme() {
         return mTheme;
@@ -24,5 +25,7 @@ public class Theme {
         mTheme = result;
 
     }
+
+
 
 }

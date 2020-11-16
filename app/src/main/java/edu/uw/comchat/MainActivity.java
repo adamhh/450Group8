@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.TaskStackBuilder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -121,6 +124,17 @@ public class MainActivity extends AppCompatActivity {
     Intent intent = new Intent(MainActivity.this, MainActivity.class);
     startActivity(intent);
     finish();
+  }
+
+  public void toggleDarkMode()  {
+    switch(getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK){
+      case Configuration.UI_MODE_NIGHT_YES:
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        break;
+      default:
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
   }
 
   private void handleChangeThemeAction() {
