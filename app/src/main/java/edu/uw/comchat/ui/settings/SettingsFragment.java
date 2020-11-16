@@ -53,7 +53,6 @@ public class SettingsFragment extends Fragment {
 
   private void toggleDark(View view) {
     ((MainActivity)getActivity()).toggleDarkMode();
-
   }
 
 }
