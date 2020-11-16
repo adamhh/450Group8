@@ -5,11 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -22,6 +24,7 @@ import edu.uw.comchat.databinding.FragmentWeatherBinding;
 import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
 import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
+import edu.uw.comchat.model.UserInfoViewModel;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple
@@ -49,6 +52,13 @@ public class WeatherFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mWeatherModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+
+    // Set jwt dynamically.
+    UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+    String jwt = userInfoViewModel.getJwt();
+    mWeatherModel.getToken().setValue(jwt);
+
+
   }
 
   @Override
@@ -95,7 +105,7 @@ public class WeatherFragment extends Fragment {
       } else {
         try {
           populateWeatherPage(response);
-        } catch (JSONException e){
+        } catch (JSONException e) {
           e.printStackTrace();
         }
       }
@@ -104,6 +114,7 @@ public class WeatherFragment extends Fragment {
     }
   }
 
+  // TODO there is no location info in JSON response. This method does nothing, just a template for later modification.
   private void populateWeatherPage(JSONObject response) throws JSONException {
     JSONObject location = response.getJSONObject("location");
     mWeatherBinding.textWeatherLocation.setText(

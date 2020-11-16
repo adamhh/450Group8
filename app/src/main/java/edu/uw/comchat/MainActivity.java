@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,6 +26,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.function.BiConsumer;
 
+import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.util.UpdateTheme;
 
 import static edu.uw.comchat.util.UpdateTheme.*;
@@ -52,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
+
+    // Store email and jwt upon creation - Hung Vu.
+    MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+    String email = args.getEmail();
+    String jwt = args.getJwt();
+    new ViewModelProvider(
+            this,
+            new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
+            .get(UserInfoViewModel.class); // First time initialize using inner factory method.
 
     // Passing each menu ID as a set of Ids because each
     // menu should be considered as top level destinations.
