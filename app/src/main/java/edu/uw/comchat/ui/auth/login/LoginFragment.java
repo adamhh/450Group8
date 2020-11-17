@@ -119,8 +119,11 @@ public class LoginFragment extends Fragment {
                     .get())
             || PasswordValidationResult.PWD_INVALID_LENGTH.equals(
                     checkPwdLength().apply(passwordString).get())
-            || PasswordValidationResult.PWD_MISSING_UPPER.equals(
-                    checkPwdContainsUppercase().apply(passwordString).get())) {
+            // TODO Re-enable uppercase check later on.
+//            ||
+//            PasswordValidationResult.PWD_MISSING_UPPER.equals(
+//                    checkPwdContainsUppercase().apply(passwordString).get())
+    ) {
       mBinding.editTextLoginEmail.setError(INVALID_ERROR);
       mBinding.editTextLoginPassword.setError(INVALID_ERROR);
 
@@ -143,7 +146,7 @@ public class LoginFragment extends Fragment {
    */
   private void verifyAuthWithServer() {
     mLoginModel.connect(
-            mBinding.editTextLoginEmail.getText().toString().toUpperCase(),
+            mBinding.editTextLoginEmail.getText().toString().toLowerCase(),
             mBinding.editTextLoginPassword.getText().toString());
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().

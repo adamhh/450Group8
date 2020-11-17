@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
+import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.chat.ChatMessageGenerator;
 import edu.uw.comchat.ui.chat.chatroom.ChatRecyclerViewAdapter;
 
@@ -22,11 +24,26 @@ import edu.uw.comchat.ui.chat.chatroom.ChatRecyclerViewAdapter;
  * * @version 11 November 2020
  */
 // Ignore checkstyle member name error.
-public class MessageListFragment extends Fragment {
+public class MessagePageFragment extends Fragment {
+
+  //The chat ID, for testing only - Hung Vu.
+  // TODO Remove hard-coded id
+  private static final int HARD_CODED_CHAT_ID = 1;
+
+  // Implement send message.
+  private ChatViewModel mChatModel;
+  private UserInfoViewModel mUserModel;
+  private ChatSendViewModel mSendModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ViewModelProvider provider = new ViewModelProvider(getActivity());
+    // Chat room.
+    mSendModel = provider.get(ChatSendViewModel.class);
+    mUserModel = provider.get(UserInfoViewModel.class);
+    mChatModel = provider.get(ChatViewModel.class);
+    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
   }
 
   @Override
@@ -45,7 +62,15 @@ public class MessageListFragment extends Fragment {
     // Send button was clicked. Send the message via the SendViewModel
     binding.buttonSend.setOnClickListener(button -> {
       // TODO Make send button functional
+      // Working on...
+      mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+              mUserModel.getJwt(),
+              binding.editMessageBox.getText().toString());
     });
+
+    //when we get the response back from the server, clear the edittext
+    mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
+            binding.editMessageBox.setText(""));
 
     // Shows the internal Swiper view progress bar until messages load
     // TODO Change this to true when there is actual loading
@@ -53,10 +78,13 @@ public class MessageListFragment extends Fragment {
 
     final RecyclerView rv = binding.recyclerMessages;
     // TODO make this use a UserInfo View Model
+    // Working on...
     // Sets the Adapter to hold a reference to the list for this group ID that the ViewModel holds
     rv.setAdapter(new ChatRecyclerViewAdapter(
-            ChatMessageGenerator.getChatList(),
-            "email@email.com"
+            // Dummy chat generator
+//            ChatMessageGenerator.getChatList(),
+            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+            mUserModel.getEmail()
     ));
 
     // TODO add on refresh listener and message observer

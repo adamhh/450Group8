@@ -11,7 +11,7 @@ import android.util.Log;
 import org.json.JSONException;
 
 import edu.uw.comchat.AuthenticationActivity;
-import edu.uw.comchat.ui.chat.ChatMessage;
+import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;

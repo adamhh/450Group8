@@ -12,17 +12,17 @@ import java.util.List;
 // Ignore checkstyle member name error.
 public final class GroupGenerator {
 
-  private static final Group[] GROUPS;
+  private static final ChatGroupInfo[] GROUPS;
   public static final int COUNT = 20;
 
   static {
-    GROUPS = new Group[COUNT];
+    GROUPS = new ChatGroupInfo[COUNT];
     for (int i = 0; i < GROUPS.length; i++) {
-      GROUPS[i] = new Group((i + 1), (i + 1));
+      GROUPS[i] = new ChatGroupInfo((i + 1), (i + 1));
     }
   }
 
-  public static List<Group> getGroupList() {
+  public static List<ChatGroupInfo> getGroupList() {
     return Arrays.asList(GROUPS);
   }
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author Jerry Springer
  * @version 11 November 2020
  */
-public class Group implements Serializable {
+public class ChatGroupInfo implements Serializable {
 
   private final int mGroupId;
   /**
@@ -20,12 +20,12 @@ public class Group implements Serializable {
    */
   private final int mMessageId;
 
-  public Group(int groupId, int messageId) {
+  public ChatGroupInfo(int groupId, int messageId) {
     mGroupId = groupId;
     mMessageId = messageId;
   }
 
-  public static Group createFromJsonString(final String groupAsJson) throws JSONException {
+  public static ChatGroupInfo createFromJsonString(final String groupAsJson) throws JSONException {
     // TODO Create group from a JSON String
     return null;
   }
@@ -47,8 +47,8 @@ public class Group implements Serializable {
   @Override
   public boolean equals(@Nullable Object other) {
     boolean result = false;
-    if (other instanceof Group) {
-      result = mGroupId == ((Group) other).mGroupId;
+    if (other instanceof ChatGroupInfo) {
+      result = mGroupId == ((ChatGroupInfo) other).mGroupId;
     }
 
     return result;

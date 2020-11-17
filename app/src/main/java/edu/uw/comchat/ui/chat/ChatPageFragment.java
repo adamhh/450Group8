@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
-import edu.uw.comchat.ui.chat.ChatFragmentDirections;
+
 
 
 /**
@@ -26,7 +26,7 @@ import edu.uw.comchat.ui.chat.ChatFragmentDirections;
  * * @version 3 November 2020
  */
 // Ignore checkstyle member name error.
-public class ChatFragment extends Fragment {
+public class ChatPageFragment extends Fragment {
 
   FragmentChatBinding binding;
 
@@ -44,7 +44,7 @@ public class ChatFragment extends Fragment {
     binding = FragmentChatBinding.bind(view);
     binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
       Navigation.findNavController(getView()).navigate(
-              ChatFragmentDirections.actionNavigationChatToCreateFragment());
+              ChatPageFragmentDirections.actionNavigationChatToCreateFragment());
     });
 
     // Sets the recycler view adapter for the list (re-use of elements when scrolling)

@@ -3,6 +3,8 @@ package edu.uw.comchat.ui.chat;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
+
 /**
  * This class is used to create dummy chats for development.
  * Actual chats will be obtained from our web server and possibly
