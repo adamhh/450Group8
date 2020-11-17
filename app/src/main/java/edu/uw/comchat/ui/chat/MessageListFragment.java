@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.uw.comchat.R;
-import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
+import edu.uw.comchat.ui.chat.chatroom.ChatRecyclerViewAdapter;
 
 /**
  * A fragment that shows the list of messages in a group.
