@@ -12,20 +12,20 @@ import java.util.List;
 // Ignore checkstyle member name error.
 public final class GroupGenerator {
 
-    private static final Group[] GROUPS;
-    public static final int COUNT = 20;
+  private static final Group[] GROUPS;
+  public static final int COUNT = 20;
 
-    static {
-        GROUPS = new Group[COUNT];
-        for (int i = 0; i < GROUPS.length; i++) {
-            GROUPS[i] = new Group((i + 1), (i + 1));
-        }
+  static {
+    GROUPS = new Group[COUNT];
+    for (int i = 0; i < GROUPS.length; i++) {
+      GROUPS[i] = new Group((i + 1), (i + 1));
     }
+  }
 
-    public static List<Group> getGroupList() {
-        return Arrays.asList(GROUPS);
-    }
+  public static List<Group> getGroupList() {
+    return Arrays.asList(GROUPS);
+  }
 
-    private GroupGenerator() {
-    }
+  private GroupGenerator() {
+  }
 }

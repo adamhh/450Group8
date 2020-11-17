@@ -51,6 +51,7 @@ public final class ChatMessage implements Serializable {
 
   /**
    * Provides equality solely based on MessageId.
+   *
    * @param other the other object to check for equality
    * @return true if other message ID matches this message ID, false otherwise
    */
