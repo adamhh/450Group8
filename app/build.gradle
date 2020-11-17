@@ -49,4 +49,7 @@ dependencies {
 
     // Enable safe args.
     apply plugin: "androidx.navigation.safeargs"
+
+    // Dependency for Pushy.
+    implementation 'me.pushy:sdk:1.0.54'
 }
