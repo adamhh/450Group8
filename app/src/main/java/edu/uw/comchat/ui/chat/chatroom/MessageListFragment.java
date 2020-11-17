@@ -1,4 +1,4 @@
-package edu.uw.comchat.ui.chat;
+package edu.uw.comchat.ui.chat.chatroom;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
+import edu.uw.comchat.ui.chat.ChatMessageGenerator;
 import edu.uw.comchat.ui.chat.chatroom.ChatRecyclerViewAdapter;
 
 /**

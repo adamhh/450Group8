@@ -17,6 +17,7 @@ import java.util.List;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatMessageBinding;
+import edu.uw.comchat.ui.chat.ChatMessage;
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 

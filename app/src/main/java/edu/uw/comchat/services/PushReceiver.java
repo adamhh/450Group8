@@ -8,14 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.core.app.NotificationCompat;
-
 import org.json.JSONException;
 
 import edu.uw.comchat.AuthenticationActivity;
-import edu.uw.comchat.R;
-import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
-import me.pushy.sdk.Pushy;
+import edu.uw.comchat.ui.chat.ChatMessage;
 
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;

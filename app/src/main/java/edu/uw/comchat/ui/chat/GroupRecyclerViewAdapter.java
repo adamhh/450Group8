@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
-import edu.uw.comchat.ui.chat.chatroom.ChatFragmentDirections;
+
 
 import java.util.List;
 

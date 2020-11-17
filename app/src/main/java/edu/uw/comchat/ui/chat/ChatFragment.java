@@ -1,4 +1,4 @@
-package edu.uw.comchat.ui.chat.chatroom;
+package edu.uw.comchat.ui.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
-//import edu.uw.comchat.ui.chat.ChatFragmentDirections;
-import edu.uw.comchat.ui.chat.GroupGenerator;
-import edu.uw.comchat.ui.chat.GroupRecyclerViewAdapter;
+import edu.uw.comchat.ui.chat.ChatFragmentDirections;
+
 
 /**
  * A fragment that shows the list of chats a user has with other.

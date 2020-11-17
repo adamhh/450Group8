@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.ui.chat.ChatMessage;
 
 // View model class from lab 5, subject to change - Hung Vu.
 public class ChatViewModel extends AndroidViewModel {
