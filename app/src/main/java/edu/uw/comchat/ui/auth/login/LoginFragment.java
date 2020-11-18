@@ -27,6 +27,7 @@ import org.json.JSONObject;
  * This is a fragment for login page.
  *
  * @author Hung Vu, Jerry
+ * @version 17 November 2020
  */
 // Ignore checkstyle member name error.
 public class LoginFragment extends Fragment {
@@ -86,7 +87,6 @@ public class LoginFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
-    mBinding.buttonLoginRegister.setOnClickListener(button -> handleRegisterButton());
     mBinding.buttonLoginPasswordRecovery.setOnClickListener(button -> handlePasswordRecoveryButton());
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
@@ -127,15 +127,6 @@ public class LoginFragment extends Fragment {
     } else {
       this.verifyAuthWithServer();
     }
-  }
-
-  /**
-   * Provide behavior when Register button is pressed.
-   */
-  private void handleRegisterButton() {
-    Navigation.findNavController(getView()).navigate(
-            LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
-    );
   }
 
   /**
