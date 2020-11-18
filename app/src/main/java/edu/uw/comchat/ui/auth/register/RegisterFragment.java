@@ -176,7 +176,7 @@ public class RegisterFragment extends Fragment {
     mRegisterModel.connect(
             mBinding.editTextRegisterFirstName.getText().toString(),
             mBinding.editTextRegisterLastName.getText().toString(),
-            mBinding.editTextRegisterEmail.getText().toString().toUpperCase(),
+            mBinding.editTextRegisterEmail.getText().toString().toLowerCase(),
             mBinding.editTextRegisterPassword.getText().toString());
 
     //This is an Asynchronous call. No statements after should rely on the

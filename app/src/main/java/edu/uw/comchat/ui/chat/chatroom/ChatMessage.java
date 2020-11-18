@@ -1,8 +1,9 @@
-package edu.uw.comchat.ui.chat;
+package edu.uw.comchat.ui.chat.chatroom;
 
 import androidx.annotation.Nullable;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -29,8 +30,12 @@ public final class ChatMessage implements Serializable {
   }
 
   public static ChatMessage createFromJsonString(final String cmAsJson) throws JSONException {
-    // TODO create message from a Json String
-    return null;
+    // TODO create message from a Json String - Done, Hung Vu
+    final JSONObject msg = new JSONObject(cmAsJson);
+    return new ChatMessage(msg.getInt("messageid"),
+            msg.getString("message"),
+            msg.getString("email"),
+            msg.getString("timestamp"));
   }
 
   public int getMessageId() {
@@ -51,6 +56,7 @@ public final class ChatMessage implements Serializable {
 
   /**
    * Provides equality solely based on MessageId.
+   *
    * @param other the other object to check for equality
    * @return true if other message ID matches this message ID, false otherwise
    */

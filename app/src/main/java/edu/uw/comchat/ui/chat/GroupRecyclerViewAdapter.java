@@ -4,11 +4,14 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
+
 
 import java.util.List;
 
@@ -24,7 +27,7 @@ import java.util.List;
 public class GroupRecyclerViewAdapter extends
         RecyclerView.Adapter<GroupRecyclerViewAdapter.GroupViewHolder> {
 
-  private final List<Group> mGroups;
+  private final List<ChatGroupInfo> mGroups;
   private RecyclerView mRecyclerView;
 
   /**
@@ -32,7 +35,7 @@ public class GroupRecyclerViewAdapter extends
    *
    * @param items the list of groups to be displayed.
    */
-  public GroupRecyclerViewAdapter(List<Group> items) {
+  public GroupRecyclerViewAdapter(List<ChatGroupInfo> items) {
     this.mGroups = items;
   }
 
@@ -81,7 +84,7 @@ public class GroupRecyclerViewAdapter extends
 
     // Navigates to the group
     Navigation.findNavController(view).navigate(
-            ChatFragmentDirections
+            ChatPageFragmentDirections
                     .actionNavigationChatToMessageListFragment(groupId));
   }
 
@@ -91,7 +94,7 @@ public class GroupRecyclerViewAdapter extends
   class GroupViewHolder extends RecyclerView.ViewHolder {
     public final View mView;
     public FragmentChatGroupBinding binding;
-    private Group mGroup;
+    private ChatGroupInfo mGroup;
 
     /**
      * Creates a new view  holder containing the group card fragment.
@@ -109,7 +112,7 @@ public class GroupRecyclerViewAdapter extends
      *
      * @param group the group of the view holder.
      */
-    void setGroup(final Group group) {
+    void setGroup(final ChatGroupInfo group) {
       mGroup = group;
       binding.textChatGroupName.setText("" + group.getGroupId());
 

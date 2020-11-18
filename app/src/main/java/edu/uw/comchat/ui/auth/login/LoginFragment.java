@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import edu.uw.comchat.databinding.FragmentLoginBinding;
+import edu.uw.comchat.model.PushyTokenViewModel;
+import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.util.EmailValidator;
 import edu.uw.comchat.util.PasswordValidator;
 import org.json.JSONException;
@@ -59,6 +61,9 @@ public class LoginFragment extends Fragment {
    */
   private EmailValidator checkValidEmail = checkEmail();
 
+  private PushyTokenViewModel mPushyTokenViewModel;
+  private UserInfoViewModel mUserViewModel;
+
   /**
    * Empty constructor (required).
    */
@@ -71,6 +76,8 @@ public class LoginFragment extends Fragment {
     super.onCreate(savedInstanceState);
     mLoginModel = new ViewModelProvider(getActivity())
             .get(LoginViewModel.class);
+    mPushyTokenViewModel = new ViewModelProvider(getActivity())
+            .get(PushyTokenViewModel.class);
 
   }
 
@@ -85,12 +92,47 @@ public class LoginFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    //don't allow sign in until pushy token retrieved
+    mPushyTokenViewModel.addTokenObserver(getViewLifecycleOwner(), token ->
+            mBinding.buttonLoginSignIn.setEnabled(!token.isEmpty()));
+    mPushyTokenViewModel.addResponseObserver(
+            getViewLifecycleOwner(),
+            this::observePushyPutResponse);
+
     mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
     mBinding.buttonLoginRegister.setOnClickListener(button -> handleRegisterButton());
     mBinding.buttonLoginPasswordRecovery.setOnClickListener(button -> handlePasswordRecoveryButton());
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
+  }
+
+  /**
+   * Helper to abstract the request to send the pushy token to the web service
+   */
+  private void sendPushyToken() {
+    mPushyTokenViewModel.sendTokenToWebservice(mUserViewModel.getJwt());
+  }
+
+  /**
+   * An observer on the HTTP Response from the web server. This observer should be
+   * attached to PushyTokenViewModel.
+   *
+   * @param response the Response from the server
+   */
+  private void observePushyPutResponse(final JSONObject response) {
+    if (response.length() > 0) {
+      if (response.has("code")) {
+        //this error cannot be fixed by the user changing credentials...
+        mBinding.editTextLoginEmail.setError(
+                "Error Authenticating on Push Token. Please contact support");
+      } else {
+        navigateToMainActivity(
+                mBinding.editTextLoginEmail.getText().toString(),
+                mUserViewModel.getJwt()
+        );
+      }
+    }
   }
 
   private void handlePasswordRecoveryButton() {
@@ -119,8 +161,11 @@ public class LoginFragment extends Fragment {
                     .get())
             || PasswordValidationResult.PWD_INVALID_LENGTH.equals(
                     checkPwdLength().apply(passwordString).get())
-            || PasswordValidationResult.PWD_MISSING_UPPER.equals(
-                    checkPwdContainsUppercase().apply(passwordString).get())) {
+            // TODO Re-enable uppercase check later on.
+//            ||
+//            PasswordValidationResult.PWD_MISSING_UPPER.equals(
+//                    checkPwdContainsUppercase().apply(passwordString).get())
+    ) {
       mBinding.editTextLoginEmail.setError(INVALID_ERROR);
       mBinding.editTextLoginPassword.setError(INVALID_ERROR);
 
@@ -143,7 +188,7 @@ public class LoginFragment extends Fragment {
    */
   private void verifyAuthWithServer() {
     mLoginModel.connect(
-            mBinding.editTextLoginEmail.getText().toString().toUpperCase(),
+            mBinding.editTextLoginEmail.getText().toString().toLowerCase(),
             mBinding.editTextLoginPassword.getText().toString());
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
@@ -169,10 +214,17 @@ public class LoginFragment extends Fragment {
         }
       } else {
         try {
-          navigateToMainActivity(
-                  mBinding.editTextLoginEmail.getText().toString(),
-                  response.getString("token")
-          );
+          mUserViewModel = new ViewModelProvider(getActivity(),
+                  new UserInfoViewModel.UserInfoViewModelFactory(
+                          mBinding.editTextLoginEmail.getText().toString(),
+                          response.getString("token")
+                  )).get(UserInfoViewModel.class);
+
+          sendPushyToken();
+//          navigateToMainActivity(
+//                  mBinding.editTextLoginEmail.getText().toString(),
+//                  response.getString("token")
+//          );
         //          Log.i("jwt",response.getString("token"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());

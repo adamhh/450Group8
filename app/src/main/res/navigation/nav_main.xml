@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="edu.uw.comchat.ui.chat.ChatFragment"
+        android:name="edu.uw.comchat.ui.chat.ChatPageFragment"
         android:label="@string/title_chat_list"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/messageListFragment"
-        android:name="edu.uw.comchat.ui.chat.MessageListFragment"
+        android:name="edu.uw.comchat.ui.chat.chatroom.MessagePageFragment"
         android:label="@string/title_message_list"
         tools:layout="@layout/fragment_message_list" >
         <argument

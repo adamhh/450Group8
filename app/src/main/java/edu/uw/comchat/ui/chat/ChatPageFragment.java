@@ -7,13 +7,17 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
+import edu.uw.comchat.ui.chat.generatorfortesting.GroupGenerator;
+
 
 /**
  * A fragment that shows the list of chats a user has with other.
@@ -22,7 +26,7 @@ import edu.uw.comchat.databinding.FragmentChatBinding;
  * * @version 3 November 2020
  */
 // Ignore checkstyle member name error.
-public class ChatFragment extends Fragment {
+public class ChatPageFragment extends Fragment {
 
   FragmentChatBinding binding;
 
@@ -40,7 +44,7 @@ public class ChatFragment extends Fragment {
     binding = FragmentChatBinding.bind(view);
     binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
       Navigation.findNavController(getView()).navigate(
-              ChatFragmentDirections.actionNavigationChatToCreateFragment());
+              ChatPageFragmentDirections.actionNavigationChatToCreateFragment());
     });
 
     // Sets the recycler view adapter for the list (re-use of elements when scrolling)

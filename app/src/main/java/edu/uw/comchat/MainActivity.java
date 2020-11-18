@@ -1,7 +1,5 @@
 package edu.uw.comchat;
 
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,18 +12,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.function.BiConsumer;
 
+import edu.uw.comchat.databinding.ActivityMainBinding;
+import edu.uw.comchat.model.NewMessageCountViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 
 import static edu.uw.comchat.util.UpdateTheme.*;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Intent;
+import android.content.res.Configuration;
+import edu.uw.comchat.services.PushReceiver;
+import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
+import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
+import edu.uw.comchat.util.UpdateTheme;
 
 /**
  * This class is a main activity for the program (homepage/weather/connection/chat/).
@@ -41,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
   private final String DEFAULT_THEME = "default";
   private final String GREY_THEME = "grey";
 
+  private MainPushMessageReceiver mPushMessageReceiver;
+
+  private NewMessageCountViewModel mNewMessageModel;
+
+  private ActivityMainBinding mBinding;
 
   private static final BiConsumer<String, MainActivity> changeThemeHandler = updateThemeColor();
 
@@ -50,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
     setTheme(Theme.getTheme());
     //or we can recreate activity
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+    setContentView(mBinding.getRoot());
+
 
     BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
 
@@ -78,8 +98,82 @@ public class MainActivity extends AppCompatActivity {
 
     // Setup bottom nav
     NavigationUI.setupWithNavController(navView, navController);
+
+    mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
+
+    navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+      if (destination.getId() == R.id.navigation_chat) {
+        //When the user navigates to the chats page, reset the new message count.
+        //This will need some extra logic for your project as it should have
+        //multiple chat rooms.
+        mNewMessageModel.reset();
+      }
+    });
+
+    mNewMessageModel.addMessageCountObserver(this, count -> {
+      BadgeDrawable badge = mBinding.navMainBottomView.getOrCreateBadge(R.id.navigation_chat);
+      badge.setMaxCharacterCount(2);
+      if (count > 0) {
+        //new messages! update and show the notification badge.
+        badge.setNumber(count);
+        badge.setVisible(true);
+      } else {
+        //user did some action to clear the new messages, remove the badge
+        badge.clearNumber();
+        badge.setVisible(false);
+      }
+    });
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (mPushMessageReceiver == null) {
+      mPushMessageReceiver = new MainPushMessageReceiver();
+    }
+    IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
+    registerReceiver(mPushMessageReceiver, iFilter);
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    if (mPushMessageReceiver != null){
+      unregisterReceiver(mPushMessageReceiver);
+    }
+  }
+
+  /**
+   * A BroadcastReceiver that listens for messages sent from PushReceiver
+   */
+  private class MainPushMessageReceiver extends BroadcastReceiver {
+
+    private ChatViewModel mModel =
+            new ViewModelProvider(MainActivity.this)
+                    .get(ChatViewModel.class);
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      NavController nc =
+              Navigation.findNavController(
+                      MainActivity.this, R.id.fragment_container_main);
+      NavDestination nd = nc.getCurrentDestination();
+
+      if (intent.hasExtra("chatMessage")) {
+
+        ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
+
+        //If the user is not on the chat screen, update the
+        // NewMessageCountView Model
+        if (nd.getId() != R.id.navigation_chat) {
+          mNewMessageModel.increment();
+        }
+        //Inform the view model holding chatroom messages of the new
+        //message.
+        mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
+      }
+    }
+  }
 
   @Override
   public boolean onSupportNavigateUp() {
