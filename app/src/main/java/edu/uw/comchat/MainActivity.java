@@ -1,12 +1,5 @@
 package edu.uw.comchat;
 
-import android.app.Activity;
-import android.app.TaskStackBuilder;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +8,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -31,12 +26,19 @@ import java.util.function.BiConsumer;
 import edu.uw.comchat.databinding.ActivityMainBinding;
 import edu.uw.comchat.model.NewMessageCountViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
+
+import static edu.uw.comchat.util.UpdateTheme.*;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Intent;
+import android.content.res.Configuration;
 import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
 import edu.uw.comchat.util.UpdateTheme;
-
-import static edu.uw.comchat.util.UpdateTheme.*;
 
 /**
  * This class is a main activity for the program (homepage/weather/connection/chat/).
@@ -45,6 +47,8 @@ import static edu.uw.comchat.util.UpdateTheme.*;
 // Ignore checkstyle member name error.
 public class MainActivity extends AppCompatActivity {
   private AppBarConfiguration mAppBarConfiguration;
+  private UserInfoViewModel mModel;
+  private AlertDialog mAlertDialog;
 
   private final String RED_THEME = "red";
   private final String DEFAULT_THEME = "default";
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
     String email = args.getEmail();
     String jwt = args.getJwt();
-    new ViewModelProvider(
+    mModel = new ViewModelProvider(
             this,
             new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
             .get(UserInfoViewModel.class); // First time initialize using inner factory method.
@@ -82,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     // Passing each menu ID as a set of Ids because each
     // menu should be considered as top level destinations.
     mAppBarConfiguration = new AppBarConfiguration.Builder(
-            R.id.navigation_home, R.id.navigation_weather,
-            R.id.navigation_connection, R.id.navigation_chat)
+            R.id.navigation_home, R.id.navigation_connection,
+            R.id.navigation_chat, R.id.navigation_weather)
             .build();
 
     // Get nav controller
@@ -210,14 +214,31 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public void recreate() {
     Intent intent = new Intent(MainActivity.this, MainActivity.class);
+    intent.putExtra("email", mModel.getEmail());
+    intent.putExtra("jwt", mModel.getJwt());
+
+    if (mAlertDialog != null && mAlertDialog.isShowing())
+      mAlertDialog.dismiss();
+
     startActivity(intent);
     finish();
+  }
+
+  public void toggleDarkMode()  {
+    switch(getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK){
+      case Configuration.UI_MODE_NIGHT_YES:
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        break;
+      default:
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
   }
 
   private void handleChangeThemeAction() {
     String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
     MainActivity thisActivity = this;
-    new MaterialAlertDialogBuilder(this)
+    mAlertDialog = new MaterialAlertDialogBuilder(this)
             .setTitle("Theme Options")
             // Recreate activity = lose all info (still can backup using bundle).
             // Checked item is a default choice, can be stored in bundle too. - Hung Vu
@@ -252,5 +273,4 @@ public class MainActivity extends AppCompatActivity {
 //                    })
             .show();
   }
-
 }

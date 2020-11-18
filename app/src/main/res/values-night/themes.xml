@@ -1,16 +1,190 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Author: Hung Vu and Adam Hall  -->
+
+
+    <!-- ________________________START OF DEFAULT APP THEME DARK MODE____________________________-->
     <style name="Theme.ComChat" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <!-- Toolbar -->
+        <item name="colorPrimary">@color/toolbarLightMode</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/toolbarLightMode</item>
+        <!-- Title text -->
+        <item name="colorOnPrimary">@color/radioSelectedLight</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="colorSecondary">@color/toolbarLightMode</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/radioUnselectedLight</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/backgroundDarkMode</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/NotificationBarDarkMode</item>
+        <item name="android:textColor">@color/textDarkMode</item>
+        <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
+        <item name="radioButtonStyle">@style/MaterialRadioButtonTheme</item>
+        <item name="toolbarStyle">@style/MaterialToolBarNightDefault</item>
     </style>
+
+    <style name="MaterialToolBarNightDefault" parent="Widget.MaterialComponents.Toolbar">
+        <!--        <item name="materialThemeOverlay">@style/CustomizedActionBarRed</item>-->
+        <item name="android:background">@color/toolbarDarkMode</item>
+    </style>
+
+    <!--
+    Customized button design for default theme.
+    Source: https://stackoverflow.com/questions/56296694/material-design-components-button-global-theme-overriding-broken
+    -->
+    <style name="MaterialButtonTheme" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/CustomizedButtonStyle</item>
+    </style>
+
+    <style name="CustomizedButtonStyle">
+        <item name="colorPrimary">@color/buttonLightMode</item>
+        <item name="colorOnPrimary">@color/buttonText</item>
+    </style>
+
+    <!--
+Customized radio button design for default theme.
+Source: https://material.io/develop/android/components/radiobuttons
+ -->
+    <style name="MaterialRadioButtonTheme" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent = "">
+        <item name="colorOnSurface">@color/radioUnselectedLight</item>
+        <item name="colorSecondary">@color/radioSelectedLight</item>
+    </style>
+
+
+    <!--_______________________________________END OF DEFAULT THEME__________________________________-->
+
+
+
+
+
+
+
+
+    <!--________________________________________BLUE/GREY THEME______________________________________-->
+    <style name="Theme.ComChatBlueGrey" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <!-- Toolbar -->
+        <item name="colorPrimary">@color/greyAccentColorLight</item>
+        <item name="colorPrimaryVariant">@color/greyAccentColorLight</item>
+        <!-- Title text -->
+        <item name="colorOnPrimary">@color/greyTextLight</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/greySecondaryColorLight</item>
+        <item name="colorSecondaryVariant">@color/greyTextLight</item>>
+        <item name="colorOnSecondary">@color/greyAccentColorLight</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/greyBackgroundDark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/greyNotificationBarDark</item>
+        <item name="android:textColor">@color/greyTextDark</item>
+        <item name="materialButtonStyle">@style/MaterialButtonThemeGrey</item>
+        <item name="radioButtonStyle">@style/MaterialRadioButtonThemeGrey</item>
+        <item name="toolbarStyle">@style/MaterialToolBarThemeGrey</item>
+    </style>
+    <!--    Customized design for tool bar, to use black instead of primary color-->
+    <style name="MaterialToolBarThemeGrey" parent="Widget.MaterialComponents.Toolbar">
+        <!--        <item name="materialThemeOverlay">@style/CustomizedActionBarRed</item>-->
+        <item name="android:background">@color/greyToolBarDark</item>
+    </style>
+
+
+    <!--
+    Customized button design for grey theme.
+    Source: https://stackoverflow.com/questions/56296694/material-design-components-button-global-theme-overriding-broken
+    -->
+    <style name="MaterialButtonThemeGrey" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/CustomizedButtonStyleGrey</item>
+    </style>
+
+    <style name="CustomizedButtonStyleGrey">
+        <item name="colorPrimary">@color/greyPrimaryLight</item>
+        <item name="colorOnPrimary">@color/buttonText</item>
+    </style>
+
+    <!--
+    Customized radio button design for grey theme.
+    Source: https://material.io/develop/android/components/radiobuttons
+    -->
+    <style name="MaterialRadioButtonThemeGrey" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlayGrey.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlayGrey.App.RadioButton" parent = "">
+        <item name="colorOnSurface">@color/greyAccentColorLight</item>
+        <item name="colorSecondary">@color/radioSelectedLight</item>
+    </style>
+    <!--_____________________________________END OF BLUE/GREY THEME__________________________________-->
+
+
+
+
+
+
+
+
+
+
+    <!--____________________________________START OF RED THEME______________________________________ -->
+    <style name="Theme.ComChatRed" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <!-- Toolbar -->
+        <item name="colorPrimary">@color/redAccentColorLight</item>
+        <item name="colorPrimaryVariant">@color/redAccentColorLight</item>
+        <item name="colorPrimaryDark">@color/redPrimaryColorLight</item>
+        <!-- Title text -->
+        <item name="colorOnPrimary">@color/redTextLight</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/redAccentColorLight</item>
+        <item name="colorSecondaryVariant">@color/redTextLight</item>>
+        <item name="colorOnSecondary">@color/redTextDark</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/redBackgroundDark</item>
+
+        <item name="android:colorButtonNormal">@color/redButtonLight</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/redNotificationBarLight</item>
+        <item name="android:textColor">@color/redTextDark</item>
+        <item name="materialButtonStyle">@style/MaterialButtonThemeRed</item>
+        <item name="radioButtonStyle">@style/MaterialRadioButtonThemeRed</item>
+        <item name="toolbarStyle">@style/MaterialActionBarTheme</item>
+    </style>
+
+    <!--    Customized design for tool bar, to use black instead of primary color-->
+    <style name="MaterialActionBarTheme" parent="Widget.MaterialComponents.Toolbar">
+        <!--        <item name="materialThemeOverlay">@style/CustomizedActionBarRed</item>-->
+        <item name="android:background">@color/redToolbarDark</item>
+    </style>
+
+    <!--
+    Customized button design for red theme button.
+    Source: https://stackoverflow.com/questions/56296694/material-design-components-button-global-theme-overriding-broken
+    -->
+    <style name="MaterialButtonThemeRed" parent="Widget.MaterialComponents.ActionBar.Primary">
+        <item name="materialThemeOverlay">@style/CustomizedButtonStyleRed</item>
+    </style>
+
+    <style name="CustomizedButtonStyleRed">
+        <item name="colorPrimary">@color/redAccentColorLight</item>
+        <item name="colorOnPrimary">@color/redTextDark</item>
+        <item name="colorAccent">@color/redTextDark</item>
+    </style>
+
+    <!--
+    Customized radio button design for red theme.
+    Source: https://material.io/develop/android/components/radiobuttons
+    -->
+    <style name="MaterialRadioButtonThemeRed" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlayRed.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlayRed.App.RadioButton" parent = "">
+        <item name="colorOnSurface">@color/redPrimaryColorLight</item>
+        <item name="colorSecondary">@color/redAccentColorLight</item>
+    </style>
+
+    <!--__________________________________END OF RED THEME___________________________________________-->
+
 </resources>

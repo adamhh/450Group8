@@ -7,11 +7,6 @@
         android:title="@string/item_nav_home" />
 
     <item
-        android:id="@+id/navigation_weather"
-        android:icon="@drawable/ic_weather_black_24dp"
-        android:title="@string/item_nav_weather" />
-
-    <item
         android:id="@+id/navigation_connection"
         android:icon="@drawable/ic_connection_black_24dp"
         android:title="@string/item_nav_connection" />
@@ -20,6 +15,11 @@
         android:id="@+id/navigation_chat"
         android:icon="@drawable/ic_chat_black_24dp"
         android:title="@string/item_nav_chat" />
+
+    <item
+        android:id="@+id/navigation_weather"
+        android:icon="@drawable/ic_weather_black_24dp"
+        android:title="@string/item_nav_weather" />
 
 
 </menu>

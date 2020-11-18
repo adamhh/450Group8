@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.settings;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentSettingsBinding;
 
@@ -22,7 +24,8 @@ import edu.uw.comchat.databinding.FragmentSettingsBinding;
  */
 // Ignore checkstyle member name error.
 public class SettingsFragment extends Fragment {
-
+  private FragmentSettingsBinding mBinding;
+  private SettingsViewModel mModel;
   //required empty public constructor
   public SettingsFragment() {
 
@@ -32,6 +35,7 @@ public class SettingsFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
+
     return inflater.inflate(R.layout.fragment_settings, container, false);
   }
 
@@ -39,20 +43,16 @@ public class SettingsFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
-    //Local access to the ViewBinding object. No need to create as Instance Var as it is only
-    //used here.
-    FragmentSettingsBinding binding = FragmentSettingsBinding.bind(getView());
-    //Note argument sent to the ViewModelProvider constructor. It is the Activity that
-    //holds this fragment.
-    SettingsViewModel model = new ViewModelProvider(getActivity())
+    mModel = new ViewModelProvider(getActivity())
             .get(SettingsViewModel.class);
+    //Will save state of toggle once we used sharedpreferences
+    mBinding = FragmentSettingsBinding.bind(getView());
+    mBinding.darkThemeToggleId.setOnClickListener(this::toggleDark);
 
-    //set on click listener to theme settings
-    binding.themeSettingsButton.setOnClickListener(button ->
-            Navigation.findNavController(getView()).navigate(
-                    SettingsFragmentDirections
-                      .actionNavigationSettingsToThemeSettingsFragment()
-            ));
   }
+
+  private void toggleDark(View view) {
+    ((MainActivity)getActivity()).toggleDarkMode();
+  }
+
 }

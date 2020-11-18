@@ -8,9 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Changes has been made to color and theme naming convention. -->
-    <!-- It will be applied in sprint 2.   -->
-    <!-- Sample 1 -->
+    <!-- Default Theme -->
+        <!--Light Mode-->
     <color name="backgroundLightMode">#FFFFFF</color>
     <color name="toolbarLightMode">#34BAEB</color>
     <color name="notificationBarLightMode">#2FA9D6</color>
@@ -20,17 +19,30 @@
     <color name="buttonText">#FFFFFF</color>
     <color name="radioSelectedLight">#2FA9D6</color>
     <color name="radioUnselectedLight">#595959</color>
-
+        <!--Dark Mode-->
+    <color name="backgroundDarkMode">#404040</color>
+    <color name="toolbarDarkMode">#464646</color>
+    <color name="textDarkMode">#E6E6E6</color>
+    <color name="NotificationBarDarkMode">#000000</color>
 
     <!-- Blue Grey Theme -->
+        <!--Light Mode-->
     <color name="greySecondaryColorLight">#FFFFFF</color>
     <color name="greyPrimaryLight">#607D8B</color>
     <color name="greyNotificationBarLight">#587380</color>
     <color name="greyTextLight">#000000</color>
     <color name="greyButtonLight">#CCCCCC</color>
-    <color name="greyAccentColorLight">#B3B3B3</color>
+    <color name="greyAccentColorLight">#2FA9D6</color>
+        <!--Night Mode-->
+    <color name="greyBackgroundDark">#212121</color>
+    <color name="greyTextDark">#FFFFFF</color>
+    <color name="greyToolBarDark">#587380</color>
+    <color name="greyNotificationBarDark">#4E636E</color>
+
+
 
     <!-- Red Black Theme -->
+        <!--Light Mode-->
     <color name="redSecondaryColorLight">#FFFFFF</color>
     <color name="redPrimaryColorLight">#000000</color>
     <color name="redTitleTextLight">#FFFFFF</color>
@@ -38,6 +50,9 @@
     <color name="redTextLight">#595959</color>
     <color name="redAccentColorLight">#9A0007</color>
     <color name="redButtonLight">#9A0007</color>
-
+        <!--Dark Mode-->
+    <color name="redBackgroundDark">#3D3D3D</color>
+    <color name="redToolbarDark">#212121</color>
+    <color name="redTextDark">#FFFFFF</color>
 
 </resources>
