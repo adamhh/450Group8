@@ -57,7 +57,7 @@
         tools:layout="@layout/fragment_message_list" >
         <argument
             android:name="chatId"
-            app:argType="string" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

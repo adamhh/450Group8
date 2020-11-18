@@ -25,24 +25,22 @@ import edu.uw.comchat.model.UserInfoViewModel;
 // Ignore checkstyle member name error.
 public class MessagePageFragment extends Fragment {
 
-  //The chat ID, for testing only - Hung Vu.
-  // TODO Remove hard-coded id
-  private static final int HARD_CODED_CHAT_ID = 1;
-
   // Implement send message.
   private ChatViewModel mChatModel;
   private UserInfoViewModel mUserModel;
   private ChatSendViewModel mSendModel;
+  private int chatId;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ViewModelProvider provider = new ViewModelProvider(getActivity());
+    chatId = MessagePageFragmentArgs.fromBundle(getArguments()).getChatId();
     // Chat room.
     mSendModel = provider.get(ChatSendViewModel.class);
     mUserModel = provider.get(UserInfoViewModel.class);
     mChatModel = provider.get(ChatViewModel.class);
-    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
+    mChatModel.getFirstMessages(chatId, mUserModel.getJwt());
   }
 
   @Override
@@ -61,7 +59,7 @@ public class MessagePageFragment extends Fragment {
     // Send button was clicked. Send the message via the SendViewModel
     binding.buttonSend.setOnClickListener(button -> {
       // TODO Make send button functional - Done, Hung Vu
-      mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+      mSendModel.sendMessage(chatId,
               mUserModel.getJwt(),
               binding.editMessageBox.getText().toString());
     });
@@ -79,7 +77,7 @@ public class MessagePageFragment extends Fragment {
     // Working on...
     // Sets the Adapter to hold a reference to the list for this group ID that the ViewModel holds
     rv.setAdapter(new ChatRecyclerViewAdapter(
-            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+            mChatModel.getMessageListByChatId(chatId),
             mUserModel.getEmail()
     ));
 
@@ -87,10 +85,10 @@ public class MessagePageFragment extends Fragment {
     //When the user scrolls to the top of the RV, the swiper list will "refresh"
     //The user is out of messages, go out to the service and get more
     binding.swipeContainer.setOnRefreshListener(() -> {
-      mChatModel.getNextMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
+      mChatModel.getNextMessages(chatId, mUserModel.getJwt());
     });
 
-    mChatModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
+    mChatModel.addMessageObserver(chatId, getViewLifecycleOwner(),
             list -> {
               // TODO note from lab, need to consider
               /*
@@ -123,5 +121,4 @@ public class MessagePageFragment extends Fragment {
 //    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
   }
 
-  // Checkstyle: Done - Hung Vu
 }

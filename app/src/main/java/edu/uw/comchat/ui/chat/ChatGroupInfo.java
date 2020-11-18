@@ -28,11 +28,7 @@ public class ChatGroupInfo implements Serializable {
   }
 
   public static ChatGroupInfo createFromJsonString(final String groupAsJson) throws JSONException {
-    // TODO Create group from a JSON String
-    // We would need all fields like in ChatMessage, these 2 may not be enough.
-    // TODO We can have a map of GroupID as a key, ChatViewModel as a value so we can
-    //  initialize multiple different rooms. For now, all (dummy) room are the same as they own
-    //  the same view model. Will we use "Message" class for that? - Hung Vu
+    // TODO Create group from a JSON String - Done, Hung Vu
     final JSONObject group = new JSONObject(groupAsJson);
     return new ChatGroupInfo(
             group.getInt("chatId"),
