@@ -4,12 +4,16 @@
 
     <!-- Organized by top level nav fragment in order then alphabetically -->
 
+    <!-- Start Fragment -->
+    <string name="title_start">Start</string>
+    <string name="button_start_login">Login</string>
+    <string name="button_start_register">Register</string>
+
     <!-- Login Fragment -->
     <string name="title_login">Login</string>
     <string name="edit_text_login_email">Email</string>
     <string name="edit_text_login_password">Password</string>
     <string name="button_login_sign_in">Sign In</string>
-    <string name="button_login_register">Register</string>
     <string name="button_login_password_recovery">Forgot your password?</string>
 
     <!-- Register Fragment -->
@@ -27,11 +31,10 @@
 
     <!-- Password Recovery Fragment -->
     <!-- Email section -->
-    <string name="text_view_password_recovery_instruction_title">Instruction</string>
-    <string name="text_view_password_recovery_instruction_detail">
-        1. Please provide your account email. <br></br>
-        2. A PIN code will be sent to your email. <br></br>
-        3. You are required to provide the PIN code on the next page.</string>
+    <string name="text_password_recovery_instruction">Instructions</string>
+    <string name="text_password_recovery_instruction_one">1. Enter your account email</string>
+    <string name="text_password_recovery_instruction_two"> 2. Check your email for a PIN code</string>
+    <string name="text_password_recovery_instruction_three"> 3. Use your PIN code on the next page</string>
     <string name="edit_text_password_recovery_email">Email</string>
     <string name="button_password_recovery_send_pin">Send PIN</string>
     <!-- Update password section -->
@@ -88,11 +91,11 @@
     <string name="text_weather_daily_temp">Temp</string>
     <string name="text_weather_daily_humidity">Humidity</string>
 
-    <string name="item_weather_ten_day">10 Day</string>
-    <string name="text_weather_ten_day_date">Date</string>
-    <string name="text_weather_ten_day_temp">Temp</string>
-    <string name="text_weather_ten_day_description">Description</string>
-    <string name="text_weather_ten_day_humidity">Humidity</string>
+    <string name="item_weather_five_day">10 Day</string>
+    <string name="text_weather_five_day_date">Date</string>
+    <string name="text_weather_five_day_temp">Temp</string>
+    <string name="text_weather_five_day_description">Description</string>
+    <string name="text_weather_five_day_humidity">Humidity</string>
 
 
     <!-- Connections Fragment -->
@@ -132,8 +135,6 @@
     <string name="title_create">Message</string>
     <string name="action_create_search">Search</string>
     <string name="action_create_add">Add Contact</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- URL -->
     <string name="base_url">https://comchat-backend.herokuapp.com/</string>

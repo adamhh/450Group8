@@ -19,8 +19,8 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
 import edu.uw.comchat.databinding.FragmentWeatherDailyBinding;
 import edu.uw.comchat.databinding.FragmentWeatherDailyCardBinding;
-import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
-import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
+import edu.uw.comchat.databinding.FragmentWeatherFiveDayBinding;
+import edu.uw.comchat.databinding.FragmentWeatherFiveDayCardBinding;
 
 
 /**
@@ -65,7 +65,7 @@ public class WeatherCardFragment extends Fragment {
         break;
 
       case 3:
-        view = inflater.inflate(R.layout.fragment_weather_ten_day, container, false);
+        view = inflater.inflate(R.layout.fragment_weather_five_day, container, false);
         break;
 
       default:
@@ -196,27 +196,27 @@ public class WeatherCardFragment extends Fragment {
   // Update ui information.
   // TODO Current JSON response only allows the choice of 5 days forecast.
   private void updateWeatherBasedOnDay(int day, JSONObject response) throws JSONException {
-    FragmentWeatherTenDayBinding weatherTenDayBinding = FragmentWeatherTenDayBinding.bind(getView());
+    FragmentWeatherFiveDayBinding weatherTenDayBinding = FragmentWeatherFiveDayBinding.bind(getView());
     switch (day) {
       case 1:
 //        JSONObject date = new JSONObject(response.getString("dt"));
-        FragmentWeatherTenDayCardBinding forecastDay1 = weatherTenDayBinding.weatherTenDay1;
+        FragmentWeatherFiveDayCardBinding forecastDay1 = weatherTenDayBinding.weatherFiveDay1;
         updateTenDayCard(forecastDay1, response);
         break;
       case 2:
-        FragmentWeatherTenDayCardBinding forecastDay2 = weatherTenDayBinding.weatherTenDay2;
+        FragmentWeatherFiveDayCardBinding forecastDay2 = weatherTenDayBinding.weatherFiveDay2;
         updateTenDayCard(forecastDay2, response);
         break;
       case 3:
-        FragmentWeatherTenDayCardBinding forecastDay3 = weatherTenDayBinding.weatherTenDay3;
+        FragmentWeatherFiveDayCardBinding forecastDay3 = weatherTenDayBinding.weatherFiveDay3;
         updateTenDayCard(forecastDay3, response);
         break;
       case 4:
-        FragmentWeatherTenDayCardBinding forecastDay4 = weatherTenDayBinding.weatherTenDay4;
+        FragmentWeatherFiveDayCardBinding forecastDay4 = weatherTenDayBinding.weatherFiveDay4;
         updateTenDayCard(forecastDay4, response);
         break;
       case 5:
-        FragmentWeatherTenDayCardBinding forecastDay5 = weatherTenDayBinding.weatherTenDay5;
+        FragmentWeatherFiveDayCardBinding forecastDay5 = weatherTenDayBinding.weatherTenDay5;
         updateTenDayCard(forecastDay5, response);
         break;
     }
@@ -224,16 +224,16 @@ public class WeatherCardFragment extends Fragment {
   }
 
   // Helper method to update ui.
-  private void updateTenDayCard(FragmentWeatherTenDayCardBinding whichDay, JSONObject response) throws JSONException {
+  private void updateTenDayCard(FragmentWeatherFiveDayCardBinding whichDay, JSONObject response) throws JSONException {
     JSONObject date = response.getJSONObject("dt");
     Log.i("date", date.toString());
-    whichDay.textWeatherTenDayDate.setText("Date: " +
+    whichDay.textWeatherFiveDayDate.setText("Date: " +
             date.getString("months") + "\\" + date.getString("dates") + "\\" + date.getString("years"));
 
     JSONObject temp = response.getJSONObject("temp");
-    whichDay.textWeatherTenDayTemp.setText("Temp: " + temp.getString("day"));
+    whichDay.textWeatherFiveDayTemp.setText("Temp: " + temp.getString("day"));
 
     JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
-    whichDay.textWeatherTenDayDescription.setText("Description: " + weather.getString("description"));
+    whichDay.textWeatherFiveDayDescription.setText("Description: " + weather.getString("description"));
   }
 }

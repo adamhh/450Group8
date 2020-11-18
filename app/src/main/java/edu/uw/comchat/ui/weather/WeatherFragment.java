@@ -15,15 +15,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherBinding;
-import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
-import edu.uw.comchat.databinding.FragmentWeatherTenDayBinding;
-import edu.uw.comchat.databinding.FragmentWeatherTenDayCardBinding;
+import edu.uw.comchat.databinding.FragmentWeatherFiveDayBinding;
+import edu.uw.comchat.databinding.FragmentWeatherFiveDayCardBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 
 /**
@@ -78,7 +76,7 @@ public class WeatherFragment extends Fragment {
 
     String[] tabNames = {getString(R.string.item_weather_current),
             getString(R.string.item_weather_daily),
-            getString(R.string.item_weather_ten_day)};
+            getString(R.string.item_weather_five_day)};
 
     new TabLayoutMediator(tabLayout, mViewPager,
             new TabLayoutMediator.TabConfigurationStrategy() {
