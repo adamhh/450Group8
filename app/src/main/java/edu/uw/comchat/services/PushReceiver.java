@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
 import org.json.JSONException;
 
 import edu.uw.comchat.AuthenticationActivity;
+import edu.uw.comchat.R;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
+import me.pushy.sdk.Pushy;
 
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
@@ -71,23 +75,23 @@ public class PushReceiver extends BroadcastReceiver {
 
             //research more on notifications the how to display them
             //https://developer.android.com/guide/topics/ui/notifiers/notifications
-//            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-//                    .setAutoCancel(true)
-//                    .setSmallIcon(R.drawable.ic_chat_notification)
-//                    .setContentTitle("Message from: " + message.getSender())
-//                    .setContentText(message.getMessage())
-//                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                    .setContentIntent(pendingIntent);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setAutoCancel(true)
+                    .setSmallIcon(R.drawable.ic_chat_notification)
+                    .setContentTitle("Message from: " + message.getSender())
+                    .setContentText(message.getMessage())
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent);
 
             // Automatically configure a ChatMessageNotification Channel for devices running Android O+
-//            Pushy.setNotificationChannel(builder, context);
+            Pushy.setNotificationChannel(builder, context);
 
             // Get an instance of the NotificationManager service
             NotificationManager notificationManager =
                     (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
             // Build the notification and display it
-//            notificationManager.notify(1, builder.build());
+            notificationManager.notify(1, builder.build());
         }
 
     }

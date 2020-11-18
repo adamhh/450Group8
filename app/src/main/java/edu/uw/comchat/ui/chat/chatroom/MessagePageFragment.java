@@ -74,7 +74,7 @@ public class MessagePageFragment extends Fragment {
 
     // Shows the internal Swiper view progress bar until messages load
     // TODO Change this to true when there is actual loading
-    binding.swipeContainer.setRefreshing(false);
+    binding.swipeContainer.setRefreshing(true);
 
     final RecyclerView rv = binding.recyclerMessages;
     // TODO make this use a UserInfo View Model
@@ -88,6 +88,25 @@ public class MessagePageFragment extends Fragment {
     ));
 
     // TODO add on refresh listener and message observer
+    //When the user scrolls to the top of the RV, the swiper list will "refresh"
+    //The user is out of messages, go out to the service and get more
+    binding.swipeContainer.setOnRefreshListener(() -> {
+      mChatModel.getNextMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
+    });
+
+    mChatModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
+            list -> {
+              /*
+               * This solution needs work on the scroll position. As a group,
+               * you will need to come up with some solution to manage the
+               * recyclerview scroll position. You also should consider a
+               * solution for when the keyboard is on the screen.
+               */
+              //inform the RV that the underlying list has (possibly) changed
+              rv.getAdapter().notifyDataSetChanged();
+              rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
+              binding.swipeContainer.setRefreshing(false);
+            });
   }
 
   // Checkstyle: Done - Hung Vu
