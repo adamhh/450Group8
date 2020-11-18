@@ -2,46 +2,46 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_root_weather_ten_day_card"
+    android:id="@+id/layout_root_weather_five_day_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_weather_ten_day_date"
+        android:id="@+id/text_weather_five_day_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/text_weather_ten_day_date"
+        android:text="@string/text_weather_five_day_date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.445" />
 
     <TextView
-        android:id="@+id/text_weather_ten_day_temp"
+        android:id="@+id/text_weather_five_day_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/text_weather_ten_day_temp"
+        android:text="@string/text_weather_five_day_temp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_weather_ten_day_date"
+        app:layout_constraintStart_toEndOf="@+id/text_weather_five_day_date"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.445" />
 
     <TextView
-        android:id="@+id/text_weather_ten_day_description"
+        android:id="@+id/text_weather_five_day_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/text_weather_ten_day_description"
+        android:text="@string/text_weather_five_day_description"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_weather_ten_day_temp"
+        app:layout_constraintStart_toEndOf="@+id/text_weather_five_day_temp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.445" />
 
