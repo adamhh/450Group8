@@ -1,7 +1,9 @@
-package edu.uw.comchat.ui.chat;
+package edu.uw.comchat.ui.chat.generatorfortesting;
 
 import java.util.Arrays;
 import java.util.List;
+
+import edu.uw.comchat.ui.chat.ChatGroupInfo;
 
 /**
  * Creates dummy groups for development purposes.

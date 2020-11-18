@@ -1,4 +1,4 @@
-package edu.uw.comchat.ui.chat;
+package edu.uw.comchat.ui.chat.generatorfortesting;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,7 @@ import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
  * @author Jerry Springer
  * @version 11 November 2020
  */
-// Ignore checkstyle member name error.
+// TODO Do we still need to keep this class? - Hung Vu
 public final class ChatMessageGenerator {
 
   private static final ChatMessage[] CHATS;

@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
-import edu.uw.comchat.ui.chat.ChatMessageGenerator;
-import edu.uw.comchat.ui.chat.chatroom.ChatRecyclerViewAdapter;
+
 
 /**
  * A fragment that shows the list of messages in a group.
  * <p></p>
- * * @author Jerry Springer
+ * * @author Jerry Springer (UI), Hung Vu (back-end)
  * * @version 11 November 2020
  */
 // Ignore checkstyle member name error.
@@ -61,8 +60,7 @@ public class MessagePageFragment extends Fragment {
 
     // Send button was clicked. Send the message via the SendViewModel
     binding.buttonSend.setOnClickListener(button -> {
-      // TODO Make send button functional
-      // Working on...
+      // TODO Make send button functional - Done, Hung Vu
       mSendModel.sendMessage(HARD_CODED_CHAT_ID,
               mUserModel.getJwt(),
               binding.editMessageBox.getText().toString());
@@ -73,21 +71,19 @@ public class MessagePageFragment extends Fragment {
             binding.editMessageBox.setText(""));
 
     // Shows the internal Swiper view progress bar until messages load
-    // TODO Change this to true when there is actual loading
+    // TODO Change this to true when there is actual loading - Done, Hung Vu
     binding.swipeContainer.setRefreshing(true);
 
     final RecyclerView rv = binding.recyclerMessages;
-    // TODO make this use a UserInfo View Model
+    // TODO make this use a UserInfo View Model - Done, Hung Vu
     // Working on...
     // Sets the Adapter to hold a reference to the list for this group ID that the ViewModel holds
     rv.setAdapter(new ChatRecyclerViewAdapter(
-            // Dummy chat generator
-//            ChatMessageGenerator.getChatList(),
             mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
             mUserModel.getEmail()
     ));
 
-    // TODO add on refresh listener and message observer
+    // TODO add on refresh listener and message observer - Done, Hung Vu
     //When the user scrolls to the top of the RV, the swiper list will "refresh"
     //The user is out of messages, go out to the service and get more
     binding.swipeContainer.setOnRefreshListener(() -> {
@@ -96,6 +92,7 @@ public class MessagePageFragment extends Fragment {
 
     mChatModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
             list -> {
+              // TODO note from lab, need to consider
               /*
                * This solution needs work on the scroll position. As a group,
                * you will need to come up with some solution to manage the
@@ -107,6 +104,23 @@ public class MessagePageFragment extends Fragment {
               rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
               binding.swipeContainer.setRefreshing(false);
             });
+  }
+
+  @Override
+  public void onResume() {
+    // TODO When a user pause activity (app to background), user will receive msg over notification.
+    //  However, since there is no view, that msg is not drawn on anything so when we return to our app
+    //  The latest msg is not there. I haven't found out a way to fix this yet - Hung Vu
+    super.onResume();
+//    FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
+//    final RecyclerView rv = binding.recyclerMessages;
+//    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
+//    rv.setAdapter(new ChatRecyclerViewAdapter(
+//            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+//            mUserModel.getEmail()
+//    ));
+//    rv.getAdapter().notifyDataSetChanged();
+//    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
   }
 
   // Checkstyle: Done - Hung Vu

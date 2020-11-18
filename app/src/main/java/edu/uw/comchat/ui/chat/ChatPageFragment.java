@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
-
+import edu.uw.comchat.ui.chat.generatorfortesting.GroupGenerator;
 
 
 /**
