@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,23 +31,27 @@ import edu.uw.comchat.io.RequestQueueSingleton;
 
 /**
  * View model to hold required information to form groups in chat page.
+ *
  * @author Hung Vu
  */
-public class ChatGroupInfoViewModel extends AndroidViewModel {
-  private MutableLiveData<List<Integer>> mGroupInfo;
+public class ChatPageViewModel extends AndroidViewModel {
+  private MutableLiveData<List<ChatGroupInfo>> mGroupInfo;
 
-  public ChatGroupInfoViewModel (@NonNull Application application){
+  private static ChatGroupInfo[] mGroupArray;
+
+
+  public ChatPageViewModel(@NonNull Application application) {
     super(application);
     mGroupInfo = new MutableLiveData<>();
     mGroupInfo.setValue(new ArrayList<>());
   }
 
   public void addResponseObserver(@NonNull LifecycleOwner owner,
-                                  @NonNull Observer<? super List<Integer>> observer) {
+                                  @NonNull Observer<? super List<ChatGroupInfo>> observer) {
     mGroupInfo.observe(owner, observer);
   }
 
-  public void getAllUserCommunicationGroup(final String email, final String jwt){
+  public void getAllUserCommunicationGroup(final String email, final String jwt) {
     String url = getApplication().getResources().getString(R.string.base_url) +
             "chats/getchatid/" + email;
 
@@ -78,19 +83,21 @@ public class ChatGroupInfoViewModel extends AndroidViewModel {
   }
 
   private void handelSuccess(final JSONObject response) {
-    ArrayList<Integer> list = new ArrayList<>();
+    ArrayList<ChatGroupInfo> list = new ArrayList<>();
     if (!response.has("contacts")) {
-      throw new IllegalStateException("Unexpected response in ChatGroupInfoViewModel: " + response);
+      throw new IllegalStateException("Unexpected response in ChatPageViewModel: " + response);
     }
     try {
       JSONArray contactsArray = response.getJSONArray("contacts");
+      mGroupArray = new ChatGroupInfo[contactsArray.length()];
       for (int i = 0; i < contactsArray.length(); i++) {
-        JSONObject chatId = contactsArray.getJSONObject(i);
-        list.add(chatId.getInt("chatid"));
+//        JSONObject chatId = contactsArray.getJSONObject(i);
+//        list.add(chatId.getInt("chatid"));
+        mGroupArray[i] = new ChatGroupInfo((i + 1), (i + 1));
       }
-      mGroupInfo.setValue(list);
+      mGroupInfo.setValue(Arrays.asList(mGroupArray));
     } catch (JSONException e) {
-      Log.e("JSON PARSE ERROR", "Found in handle Success ChatGroupInfoViewModel");
+      Log.e("JSON PARSE ERROR", "Found in handle Success ChatPageViewModel");
       Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
     }
   }
