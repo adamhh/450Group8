@@ -42,6 +42,12 @@
     <string name="edit_Text_password_recovery_new_password">New password</string>
     <string name="edit_text_password_recovery_password_retype">Retype password</string>
     <string name="button_password_recovery_accept">Accept</string>
+    <!-- Dialog -->
+    <string name="text_recover_pw_status">Status</string>
+    <string name="text_recover_pw_fail">Email not found. Please enter different email. Tap anywhere to turn
+        off this message.</string>
+    <string name="text_recover_pw_success">A PIN code has been sent to your email. Please retrieve the PIN
+        code to complete password recovery process. Tap anywhere to turn off this message.</string>
 
     <!-- Home Fragment -->
     <string name="title_home">Home</string>
