@@ -12,6 +12,7 @@ import edu.uw.comchat.ui.chat.ChatGroupInfo;
  * @version 11 November 2020
  */
 // Ignore checkstyle member name error.
+// TODO Do we still need to keep this class? - Hung Vu
 public final class GroupGenerator {
 
   private static final ChatGroupInfo[] GROUPS;

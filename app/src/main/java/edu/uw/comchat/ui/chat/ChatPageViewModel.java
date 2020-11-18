@@ -36,7 +36,6 @@ import edu.uw.comchat.io.RequestQueueSingleton;
  */
 public class ChatPageViewModel extends AndroidViewModel {
   private MutableLiveData<List<ChatGroupInfo>> mGroupInfo;
-
   private static ChatGroupInfo[] mGroupArray;
 
 
@@ -51,9 +50,15 @@ public class ChatPageViewModel extends AndroidViewModel {
     mGroupInfo.observe(owner, observer);
   }
 
+  /**
+   * Make a call to server and get all chat room id of a provided user.
+   * E.g: Provide all chat room ids of test1@test.com
+   *
+   * @param email a user email.
+   * @param jwt   json web token.
+   */
   public void getAllUserCommunicationGroup(final String email, final String jwt) {
-    String url = getApplication().getResources().getString(R.string.base_url) +
-            "chats/getchatid/" + email;
+    String url = getApplication().getResources().getString(R.string.base_url) + "chats/getchatid/" + email;
 
     Request request = new JsonObjectRequest(
             Request.Method.GET,
@@ -82,6 +87,10 @@ public class ChatPageViewModel extends AndroidViewModel {
     //code here will run
   }
 
+  /**
+   * Upon receive chatIds, create their respective ChatGroupInfo.
+   * @param response web response
+   */
   private void handelSuccess(final JSONObject response) {
     ArrayList<ChatGroupInfo> list = new ArrayList<>();
     if (!response.has("contacts")) {
@@ -91,9 +100,8 @@ public class ChatPageViewModel extends AndroidViewModel {
       JSONArray contactsArray = response.getJSONArray("contacts");
       mGroupArray = new ChatGroupInfo[contactsArray.length()];
       for (int i = 0; i < contactsArray.length(); i++) {
-//        JSONObject chatId = contactsArray.getJSONObject(i);
-//        list.add(chatId.getInt("chatid"));
-        mGroupArray[i] = new ChatGroupInfo((i + 1), (i + 1));
+        // TODO messageid is still an arbitrary number (i+1), hasn't been implemented yet - Hung Vu.
+        mGroupArray[i] = new ChatGroupInfo(contactsArray.getJSONObject(i).getInt("chatid"), (i + 1));
       }
       mGroupInfo.setValue(Arrays.asList(mGroupArray));
     } catch (JSONException e) {
@@ -102,6 +110,10 @@ public class ChatPageViewModel extends AndroidViewModel {
     }
   }
 
+  /**
+   * Print to the console error messages.
+   * @param error an error received from server
+   */
   private void handleError(final VolleyError error) {
     if (Objects.isNull(error.networkResponse)) {
       Log.e("NETWORK ERROR", error.getMessage());

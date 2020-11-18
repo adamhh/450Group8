@@ -68,6 +68,10 @@ public class ChatPageFragment extends Fragment {
     getActivity().getMenuInflater().inflate(R.menu.toolbar_create, menu);
   }
 
+  /**
+   * When receive response from server, create chat rooms along with their respective groupId.
+   * @param chatIdList a list of ChatGroupInfo
+   */
   private void observeResponse(List<ChatGroupInfo> chatIdList){
     binding = FragmentChatBinding.bind(mChatPageView);
     binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
