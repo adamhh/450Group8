@@ -64,5 +64,5 @@ public class RequestQueueSingleton {
   public ImageLoader getmImageLoader() {
     return mImageLoader;
   }
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

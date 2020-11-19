@@ -29,4 +29,6 @@ public class NewMessageCountViewModel extends ViewModel {
   public void reset() {
     mNewMessageCount.setValue(0);
   }
+
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }
