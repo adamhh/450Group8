@@ -1,21 +1,15 @@
 package edu.uw.comchat.ui.chat;
 
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
-
-
 import java.util.List;
-
 
 /**
  * A recycler view adapter to be used for the list of chat groups
@@ -82,12 +76,6 @@ public class GroupRecyclerViewAdapter extends
 
     // TODO Make this use a group ID - Done, Hung vu
     Integer groupId = mGroups.get(position).getGroupId();
-//    Log.i("Chat group position", String.valueOf(position));
-//    Log.i("Group ID", String.valueOf(groupId));
-//    for(ChatGroupInfo i : mGroups){
-//      Log.i("All ID", String.valueOf(i.getGroupId()));
-//    }
-//    Log.i("List size", String.valueOf(mGroups.size()));
 
     // Navigates to the group
     Navigation.findNavController(view).navigate(
@@ -130,5 +118,5 @@ public class GroupRecyclerViewAdapter extends
       binding.textChatGroupMessage.setText(preview);
     }
   }
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

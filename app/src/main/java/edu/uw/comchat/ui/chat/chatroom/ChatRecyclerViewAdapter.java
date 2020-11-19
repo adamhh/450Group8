@@ -6,19 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.shape.CornerFamily;
-
-import java.util.List;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatMessageBinding;
+import java.util.List;
 
-public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
+
+
+public class ChatRecyclerViewAdapter extends
+        RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 
   private final List<ChatMessage> mMessages;
   private final String mEmail;
@@ -75,20 +74,20 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                 Gravity.END;
 
         // TODO Add color components
-                /*
-                card.setCardBackgroundColor(
-                        ColorUtils.setAlphaComponent(
-                                res.getColor(R.color.primaryLightColor, null),
-                                16));
-                binding.textMessage.setTextColor(
-                        res.getColor(R.color.secondaryTextColorFade, null));
-
-                card.setStrokeWidth(standard / 5);
-                card.setStrokeColor(ColorUtils.setAlphaComponent(
+        /*
+        card.setCardBackgroundColor(
+                ColorUtils.setAlphaComponent(
                         res.getColor(R.color.primaryLightColor, null),
-                        200));
+                        16));
+        binding.textMessage.setTextColor(
+                res.getColor(R.color.secondaryTextColorFade, null));
 
-                 */
+        card.setStrokeWidth(standard / 5);
+        card.setStrokeColor(ColorUtils.setAlphaComponent(
+                res.getColor(R.color.primaryLightColor, null),
+                200));
+
+         */
 
         //Round the corners on the left side
         card.setShapeAppearanceModel(
@@ -103,8 +102,8 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         card.requestLayout();
       } else {
         //This message is from another user. Format it as such
-        binding.textChatMessage.setText(message.getSender() +
-                ": " + message.getMessage());
+        binding.textChatMessage.setText(message.getSender()
+                + ": " + message.getMessage());
         ViewGroup.MarginLayoutParams layoutParams =
                 (ViewGroup.MarginLayoutParams) card.getLayoutParams();
 
@@ -114,21 +113,21 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         ((FrameLayout.LayoutParams) card.getLayoutParams()).gravity =
                 Gravity.START;
 
-                /*
-                card.setCardBackgroundColor(
-                        ColorUtils.setAlphaComponent(
-                                res.getColor(R.color.secondaryLightColor, null),
-                                16));
-
-                card.setStrokeWidth(standard / 5);
-                card.setStrokeColor(ColorUtils.setAlphaComponent(
+        /*
+        card.setCardBackgroundColor(
+                ColorUtils.setAlphaComponent(
                         res.getColor(R.color.secondaryLightColor, null),
-                        200));
+                        16));
 
-                binding.textMessage.setTextColor(
-                        res.getColor(R.color.secondaryTextColorFade, null));
+        card.setStrokeWidth(standard / 5);
+        card.setStrokeColor(ColorUtils.setAlphaComponent(
+                res.getColor(R.color.secondaryLightColor, null),
+                200));
 
-                 */
+        binding.textMessage.setTextColor(
+                res.getColor(R.color.secondaryTextColorFade, null));
+
+         */
 
         //Round the corners on the right side
         card.setShapeAppearanceModel(
@@ -143,4 +142,5 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
       }
     }
   }
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

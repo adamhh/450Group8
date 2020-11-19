@@ -7,21 +7,18 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
-import edu.uw.comchat.ui.chat.generatorfortesting.GroupGenerator;
+import java.util.List;
+
+
 
 
 /**
@@ -59,7 +56,9 @@ public class ChatPageFragment extends Fragment {
     mChatPageView = view;
     // Get group id upon creation - Hung Vu
     mChatPageViewModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
+    mChatPageViewModel.getAllUserCommunicationGroup(
+            mUserViewModel.getEmail(),
+            mUserViewModel.getJwt());
   }
 
   @Override
@@ -70,9 +69,10 @@ public class ChatPageFragment extends Fragment {
 
   /**
    * When receive response from server, create chat rooms along with their respective groupId.
+   *
    * @param chatIdList a list of ChatGroupInfo
    */
-  private void observeResponse(List<ChatGroupInfo> chatIdList){
+  private void observeResponse(List<ChatGroupInfo> chatIdList) {
     binding = FragmentChatBinding.bind(mChatPageView);
     binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
       Navigation.findNavController(getView()).navigate(
@@ -87,4 +87,5 @@ public class ChatPageFragment extends Fragment {
     binding.listRootChat.addItemDecoration(
             new DividerItemDecoration(this.getActivity(), LinearLayout.VERTICAL));
   }
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

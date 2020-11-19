@@ -1,9 +1,9 @@
 package edu.uw.comchat.ui.chat.generatorfortesting;
 
+import edu.uw.comchat.ui.chat.ChatGroupInfo;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.uw.comchat.ui.chat.ChatGroupInfo;
 
 /**
  * Creates dummy groups for development purposes.
@@ -31,4 +31,6 @@ public final class GroupGenerator {
 
   private GroupGenerator() {
   }
+
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

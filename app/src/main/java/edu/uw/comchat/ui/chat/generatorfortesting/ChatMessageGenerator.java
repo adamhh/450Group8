@@ -1,9 +1,8 @@
 package edu.uw.comchat.ui.chat.generatorfortesting;
 
+import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import java.util.Arrays;
 import java.util.List;
-
-import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 
 /**
  * This class is used to create dummy chats for development.
@@ -35,5 +34,5 @@ public final class ChatMessageGenerator {
 
   private ChatMessageGenerator() {
   }
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }
