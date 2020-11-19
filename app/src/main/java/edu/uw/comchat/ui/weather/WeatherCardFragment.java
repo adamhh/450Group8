@@ -5,23 +5,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherCurrentBinding;
 import edu.uw.comchat.databinding.FragmentWeatherDailyBinding;
 import edu.uw.comchat.databinding.FragmentWeatherDailyCardBinding;
 import edu.uw.comchat.databinding.FragmentWeatherFiveDayBinding;
 import edu.uw.comchat.databinding.FragmentWeatherFiveDayCardBinding;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A fragment that represents a single card for a weather report.
@@ -125,13 +121,19 @@ public class WeatherCardFragment extends Fragment {
 
   private void updateWeatherCurrent(JSONObject response) throws JSONException {
     // TODO UGLY code, may need to somehow refactor this.
-    FragmentWeatherCurrentBinding weatherCurrentBinding = FragmentWeatherCurrentBinding.bind(getView());
+    FragmentWeatherCurrentBinding weatherCurrentBinding =
+            FragmentWeatherCurrentBinding.bind(getView());
     JSONObject currentWeather = response.getJSONObject("current");
-    weatherCurrentBinding.textWeatherCurrentTemp.setText("Temp: " + currentWeather.getString("temp"));
-    weatherCurrentBinding.textWeatherCurrentFeelsLike.setText("Feels Like: " + currentWeather.getString("feels_like"));
-    weatherCurrentBinding.textWeatherCurrentUvi.setText("UV Index: " + currentWeather.getString("uvi"));
-    weatherCurrentBinding.textWeatherCurrentWindSpeed.setText("Wind Speed: " + currentWeather.getString("wind_speed"));
-    weatherCurrentBinding.textWeatherCurrentDescription.setText("Description: " + currentWeather.getJSONArray("weather")
+    weatherCurrentBinding.textWeatherCurrentTemp.setText("Temp: "
+            + currentWeather.getString("temp"));
+    weatherCurrentBinding.textWeatherCurrentFeelsLike.setText("Feels Like: "
+            + currentWeather.getString("feels_like"));
+    weatherCurrentBinding.textWeatherCurrentUvi.setText("UV Index: "
+            + currentWeather.getString("uvi"));
+    weatherCurrentBinding.textWeatherCurrentWindSpeed.setText("Wind Speed: "
+            + currentWeather.getString("wind_speed"));
+    weatherCurrentBinding.textWeatherCurrentDescription.setText("Description: "
+            + currentWeather.getJSONArray("weather")
             .getJSONObject(0)
             .getString("description"));
   }
@@ -148,7 +150,8 @@ public class WeatherCardFragment extends Fragment {
 
   // Update ui information.
   private void updateWeatherBasedOnHour(int hour, JSONObject response) throws JSONException {
-    FragmentWeatherDailyBinding weatherDailyCardBinding = FragmentWeatherDailyBinding.bind(getView());
+    FragmentWeatherDailyBinding weatherDailyCardBinding =
+            FragmentWeatherDailyBinding.bind(getView());
     switch (hour) {
       case 1:
         FragmentWeatherDailyCardBinding hour1 = weatherDailyCardBinding.weatherCurrentHour1;
@@ -174,10 +177,12 @@ public class WeatherCardFragment extends Fragment {
   }
 
   // Helper method to update ui.
-  private void updateHourCard(FragmentWeatherDailyCardBinding whichHour, JSONObject response) throws JSONException {
+  private void updateHourCard(FragmentWeatherDailyCardBinding whichHour, JSONObject response)
+          throws JSONException {
     JSONObject date = response.getJSONObject("dt");
-    whichHour.textWeatherDailyTime.setText("Time: " + date.getString("hours") + ":" + date.getString("minutes") +
-            date.getString("ampms"));
+    whichHour.textWeatherDailyTime.setText("Time: " + date.getString("hours") + ":"
+            + date.getString("minutes")
+            + date.getString("ampms"));
     whichHour.textWeatherDailyTemp.setText("Temp: " + response.getString("temp"));
     whichHour.textWeatherDailyHumidity.setText("Humidity: " + response.getString("humidity"));
 
@@ -193,13 +198,11 @@ public class WeatherCardFragment extends Fragment {
   }
 
   // TODO UGLY code, need to somehow refactor this. May want to use recycler view instead.
-  // Update ui information.
-  // TODO Current JSON response only allows the choice of 5 days forecast.
   private void updateWeatherBasedOnDay(int day, JSONObject response) throws JSONException {
-    FragmentWeatherFiveDayBinding weatherTenDayBinding = FragmentWeatherFiveDayBinding.bind(getView());
+    FragmentWeatherFiveDayBinding weatherTenDayBinding =
+            FragmentWeatherFiveDayBinding.bind(getView());
     switch (day) {
       case 1:
-//        JSONObject date = new JSONObject(response.getString("dt"));
         FragmentWeatherFiveDayCardBinding forecastDay1 = weatherTenDayBinding.weatherFiveDay1;
         updateTenDayCard(forecastDay1, response);
         break;
@@ -224,16 +227,22 @@ public class WeatherCardFragment extends Fragment {
   }
 
   // Helper method to update ui.
-  private void updateTenDayCard(FragmentWeatherFiveDayCardBinding whichDay, JSONObject response) throws JSONException {
+  private void updateTenDayCard(FragmentWeatherFiveDayCardBinding whichDay, JSONObject response)
+          throws JSONException {
     JSONObject date = response.getJSONObject("dt");
     Log.i("date", date.toString());
-    whichDay.textWeatherFiveDayDate.setText("Date: " +
-            date.getString("months") + "\\" + date.getString("dates") + "\\" + date.getString("years"));
+    whichDay.textWeatherFiveDayDate.setText("Date: "
+            + date.getString("months") + "\\"
+            + date.getString("dates")
+            + "\\" + date.getString("years"));
 
     JSONObject temp = response.getJSONObject("temp");
     whichDay.textWeatherFiveDayTemp.setText("Temp: " + temp.getString("day"));
 
     JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
-    whichDay.textWeatherFiveDayDescription.setText("Description: " + weather.getString("description"));
+    whichDay.textWeatherFiveDayDescription.setText("Description: "
+            + weather.getString("description"));
   }
+
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name/switch without default errors if they exist.
 }

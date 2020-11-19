@@ -25,4 +25,5 @@ public interface UpdateTheme extends BiConsumer<String, MainActivity> {
       activity.recreate();
     };
   }
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }
