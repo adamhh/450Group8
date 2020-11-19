@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -16,16 +17,21 @@ import com.google.android.material.shape.CornerFamily;
 import java.util.List;
 
 import edu.uw.comchat.R;
+import edu.uw.comchat.Theme;
 import edu.uw.comchat.databinding.FragmentChatMessageBinding;
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 
   private final List<ChatMessage> mMessages;
   private final String mEmail;
+  private final Resources.Theme mTheme;
 
-  public ChatRecyclerViewAdapter(List<ChatMessage> messages, String email) {
-    this.mMessages = messages;
+  public ChatRecyclerViewAdapter(List<ChatMessage> messages, String email, Resources.Theme theme) {
+    mMessages = messages;
     mEmail = email;
+
+    // TODO Make this come from the Theme class
+    mTheme = theme;
   }
 
   @NonNull
@@ -74,21 +80,17 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         ((FrameLayout.LayoutParams) card.getLayoutParams()).gravity =
                 Gravity.END;
 
-        // TODO Add color components
-                /*
-                card.setCardBackgroundColor(
-                        ColorUtils.setAlphaComponent(
-                                res.getColor(R.color.primaryLightColor, null),
-                                16));
-                binding.textMessage.setTextColor(
-                        res.getColor(R.color.secondaryTextColorFade, null));
+        card.setCardBackgroundColor(
+                ColorUtils.setAlphaComponent(
+                        res.getColor(R.color.primary, mTheme), 16));
 
-                card.setStrokeWidth(standard / 5);
-                card.setStrokeColor(ColorUtils.setAlphaComponent(
-                        res.getColor(R.color.primaryLightColor, null),
-                        200));
+        card.setStrokeWidth(standard / 5);
+        card.setStrokeColor(ColorUtils.setAlphaComponent(
+                res.getColor(R.color.primaryLight, mTheme), 200));
 
-                 */
+        binding.textChatMessage.setTextColor(
+                res.getColor(R.color.secondaryTextFade, mTheme));
+
 
         //Round the corners on the left side
         card.setShapeAppearanceModel(
@@ -114,21 +116,17 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         ((FrameLayout.LayoutParams) card.getLayoutParams()).gravity =
                 Gravity.START;
 
-                /*
-                card.setCardBackgroundColor(
-                        ColorUtils.setAlphaComponent(
-                                res.getColor(R.color.secondaryLightColor, null),
-                                16));
+        card.setCardBackgroundColor(
+                ColorUtils.setAlphaComponent(
+                        res.getColor(R.color.secondaryLight, mTheme), 16));
 
-                card.setStrokeWidth(standard / 5);
-                card.setStrokeColor(ColorUtils.setAlphaComponent(
-                        res.getColor(R.color.secondaryLightColor, null),
-                        200));
+        card.setStrokeWidth(standard / 5);
+        card.setStrokeColor(ColorUtils.setAlphaComponent(
+                res.getColor(R.color.secondaryLight, mTheme), 200));
 
-                binding.textMessage.setTextColor(
-                        res.getColor(R.color.secondaryTextColorFade, null));
+        binding.textChatMessage.setTextColor(
+                res.getColor(R.color.secondaryTextFade, mTheme));
 
-                 */
 
         //Round the corners on the right side
         card.setShapeAppearanceModel(
