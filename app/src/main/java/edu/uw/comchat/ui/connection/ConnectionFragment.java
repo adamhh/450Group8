@@ -60,12 +60,11 @@ public class ConnectionFragment extends Fragment {
 
 //  private String mEmail;
 
-
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
+
     return inflater.inflate(R.layout.fragment_connection, container, false);
   }
 
@@ -83,8 +82,6 @@ public class ConnectionFragment extends Fragment {
 
 
   }
-
-
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

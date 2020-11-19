@@ -27,30 +27,60 @@ import edu.uw.comchat.databinding.FragmentConnectionListBinding;
  */
 // Ignore checkstyle member name error.
 public class ConnectionListFragment extends Fragment {
-
+  public static final String ARG_POSITION = "position";
   private ConnectionListViewModel mModel;
+  private Bundle mArgs;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+//    super.onCreate(savedInstanceState);
+    mModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
+    mModel.connectGet();
+    super.onCreate(savedInstanceState);
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_connection_list, container, false);
+    View view;
+    switch (getArguments().getInt(ARG_POSITION)) {
+      // Not using layout ids as case as it is not recommended
+      // Layout ids are not final on runtime could cause error?
+      case 1:
+        view = inflater.inflate(R.layout.fragment_connection_existing, container, false);
+        break;
+
+      case 2:
+        view = inflater.inflate(R.layout.fragment_connection_incoming, container, false);
+        break;
+
+      case 3:
+        view = inflater.inflate(R.layout.fragment_connection_outgoing, container, false);
+        break;
+      case 4:
+        view = inflater.inflate(R.layout.fragment_connection_suggested, container, false);
+      default:
+        // TODO Throw error
+        view = null;
+        break;
+    }
+
+    return view;
   }
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
-    mModel.connectGet();
-
-  }
-
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+//    super.onViewCreated(view, savedInstanceState);
     FragmentConnectionListBinding binding = FragmentConnectionListBinding.bind(getView());
+    mArgs = getArguments();
+
+    /*hard coded recycler view only to populate for existing connections.
+    I need to figure out if I can reuse the recycler view for all four tabs
+    or if i'll have to have four different recycler views.  I should know more once the
+    the webservice is set up for incoming/outgoing requests and whatever we choose for suggested
+    */
 
     mModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
-      if (!connectionList.isEmpty()) {
+      if (!connectionList.isEmpty() && mArgs.getInt(ARG_POSITION) == 1) {
         binding.listRootConnection.setAdapter(
                 new ConnectionRecyclerViewAdapter(connectionList)
         );
@@ -58,5 +88,6 @@ public class ConnectionListFragment extends Fragment {
       }
     });
   }
+
   // Checkstyle: Done - Hung Vu
 }

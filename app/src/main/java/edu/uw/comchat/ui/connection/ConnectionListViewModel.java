@@ -51,6 +51,12 @@ public class ConnectionListViewModel extends AndroidViewModel {
         Log.e("CONNECTION ERROR", error.getLocalizedMessage());
         throw new IllegalStateException(error.getMessage());
     }
+
+    /**
+     * This method handles the resulting JSON object and parses it into
+     * list of strings, and then a list of connections.
+     * @param result The resulting JSON object from webservice GET request
+     */
     private void handleResult(final JSONObject result) {
         Log.d("ZZZ",result.toString());
         try {
@@ -71,6 +77,11 @@ public class ConnectionListViewModel extends AndroidViewModel {
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
         }
     }
+
+    /**
+     * This method will make the GET call to our webservice to retrieve a list of contacts
+     * a given user has
+     */
     public void connectGet() {
         String url = getApplication().getResources().getString(R.string.base_url) + "connections/test1@test.com";
         JSONObject j = new JSONObject();
