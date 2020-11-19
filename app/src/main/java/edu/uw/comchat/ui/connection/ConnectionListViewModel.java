@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -29,22 +30,44 @@ import java.util.function.IntFunction;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.chat.ChatGroupInfo;
 
 public class ConnectionListViewModel extends AndroidViewModel {
+    /**
+     * Mutable live data to store connection list.
+     */
     private MutableLiveData<List<Connection>> mFriendList;
+    /**
+     * The user's email.
+     */
+    private String mEmail = "";
+
+    /**
+     * Public constructor for the view model.
+     * @param application
+     */
     public ConnectionListViewModel(@NonNull Application application) {
         super(application);
         mFriendList = new MutableLiveData<>();
         mFriendList.setValue(new ArrayList<>());
+
     }
+
+    /**
+     * Adds an observer for our connection list.
+     * @param owner The owner
+     * @param observer The observer
+     */
     public void addConnectionListObserver(@NonNull LifecycleOwner owner,
                                     @NonNull Observer<? super List<Connection>> observer) {
         mFriendList.observe(owner, observer);
     }
-    private void hardCodeFriendsList() {
-        //JSONObject
-    }
+
+    /**
+     * Called if we receive an error from the webservice on our call.
+     * @param error The error
+     */
     private void handleError(final VolleyError error) {
         //you should add much better error handling in a production release.
         //i.e. YOUR PTOJECT
@@ -59,7 +82,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * @param result The resulting JSON object from webservice GET request
      */
     private void handleResult(final JSONObject result) {
-        Log.d("ZZZ",result.toString());
         try {
             JSONArray contactsArray = result.getJSONArray("contacts");
             List<String> temp = new ArrayList<>();
@@ -67,7 +89,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 temp.add(contactsArray.getJSONObject(i).getString("email"));
 
             }
-            Log.d("XXX", temp.toString());
             List<Connection> connList = new ArrayList<>();
             for (int i = 0; i < temp.size(); i++) {
                 connList.add(new Connection(temp.get(i)));
@@ -84,7 +105,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * a given user has
      */
     public void connectGet() {
-        String url = getApplication().getResources().getString(R.string.base_url) + "connections/test1@test.com";
+        String url = getApplication().getResources().getString(R.string.connections_url) + mEmail;
         JSONObject j = new JSONObject();
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -101,5 +122,12 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
 
 }
-//D/ZZZ: {"contactCount":3,"contacts":[{"email":"test2@test.com"},{"email":"test3@test.com"},{"email":"phongfly0705@gmail.com"}]}
+
+    /**
+     * This method sets the email for the user used in the GET request to the webservice
+     * @param email The email.
+     */
+    public void setUserEmailConnect(String email) {
+        mEmail = email.trim();
+    }
 }

@@ -19,8 +19,13 @@ import java.util.List;
 // Ignore checkstyle member name error.
 public class ConnectionRecyclerViewAdapter extends
         RecyclerView.Adapter<ConnectionRecyclerViewAdapter.ConnectionViewHolder> {
-
+  /**
+   * The list of our connection objects.
+   */
   private final List<Connection> mConnections;
+  /**
+   * An instance of the recycler view we are using.
+   */
   private RecyclerView mRecyclerView;
 
 

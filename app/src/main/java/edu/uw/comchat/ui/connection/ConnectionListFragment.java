@@ -18,6 +18,7 @@ import java.util.List;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentConnectionCardBinding;
 import edu.uw.comchat.databinding.FragmentConnectionListBinding;
+import edu.uw.comchat.model.UserInfoViewModel;
 
 /**
  * A fragment that is used to show connections in a list view.
@@ -27,21 +28,31 @@ import edu.uw.comchat.databinding.FragmentConnectionListBinding;
  */
 // Ignore checkstyle member name error.
 public class ConnectionListFragment extends Fragment {
+  /**
+   * The argument for which tab position.
+   */
   public static final String ARG_POSITION = "position";
+  /**
+   * An instance of the view model.
+   */
   private ConnectionListViewModel mModel;
+  /**
+   * A bundle that will give access to the arguments.
+   */
   private Bundle mArgs;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
-//    super.onCreate(savedInstanceState);
+    super.onCreate(savedInstanceState);
     mModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
     mModel.connectGet();
-    super.onCreate(savedInstanceState);
+
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+
     View view;
     switch (getArguments().getInt(ARG_POSITION)) {
       // Not using layout ids as case as it is not recommended

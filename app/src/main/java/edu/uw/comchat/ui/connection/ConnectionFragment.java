@@ -52,19 +52,38 @@ import edu.uw.comchat.util.HandleRequestError;
  */
 // Ignore checkstyle member name error.
 public class ConnectionFragment extends Fragment {
-  //UserInfoViewModel mUserViewModel;
 
+  /**
+   * An instance of the connection state adapter.
+   */
   private ConnectionStateAdapter connectionStateAdapter;
+  /**
+   * An instance of a page viewer.
+   */
   private ViewPager2 mViewPager;
+  /**
+   * An instance of the connection view model that this class will update with the email.
+   */
+  private ConnectionListViewModel mModel;
+  /**
+   * An instance of the user info view model that will provide email information.
+   */
+  private UserInfoViewModel mUserModel;
 
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mUserModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+    mModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
+    Log.d("???", mUserModel.getEmail());
+    mModel.setUserEmailConnect(mUserModel.getEmail());
 
-//  private String mEmail;
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-
     return inflater.inflate(R.layout.fragment_connection, container, false);
   }
 
@@ -76,11 +95,10 @@ public class ConnectionFragment extends Fragment {
 
     TabLayout tabLayout = view.findViewById(R.id.tab_layout_connection);
 
-    String[] tabNames = {"Existing", "Incoming", "Outgoing", "Suggested"};
+    String[] tabNames = {getString(R.string.connection_tab_existing), getString(R.string.connection_tab_incoming),
+            getString(R.string.connection_tab_outgoing), getString(R.string.connection_tab_suggested)};
     new TabLayoutMediator(tabLayout, mViewPager,
             (tab, position) -> tab.setText(tabNames[position])).attach();
-
-
   }
 
   @Override
