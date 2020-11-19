@@ -8,44 +8,39 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.IntFunction;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
-import edu.uw.comchat.model.UserInfoViewModel;
-import edu.uw.comchat.ui.chat.ChatGroupInfo;
 
+/**
+ * Used as the view model for the connections list.
+ *
+ * @author Adam Hall, Jerry Springer
+ * @version 19 November 2020
+ */
 public class ConnectionListViewModel extends AndroidViewModel {
     /**
      * Mutable live data to store connection list.
      */
     private MutableLiveData<List<Connection>> mFriendList;
-    /**
-     * The user's email.
-     */
-    private String mEmail = "";
 
     /**
      * Public constructor for the view model.
-     * @param application
+     * @param application the application context.
      */
     public ConnectionListViewModel(@NonNull Application application) {
         super(application);
@@ -70,7 +65,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
      */
     private void handleError(final VolleyError error) {
         //you should add much better error handling in a production release.
-        //i.e. YOUR PTOJECT
+        //i.e. YOUR PROJECT
         //TODO
         Log.e("CONNECTION ERROR", error.getLocalizedMessage());
         throw new IllegalStateException(error.getMessage());
@@ -102,17 +97,30 @@ public class ConnectionListViewModel extends AndroidViewModel {
 
     /**
      * This method will make the GET call to our webservice to retrieve a list of contacts
-     * a given user has
+     * a given user has.
+     *
+     * @param email The users email.
+     * @param jwt The users JWT given after authentication.
      */
-    public void connectGet() {
-        String url = getApplication().getResources().getString(R.string.connections_url) + mEmail;
+    public void getAllConnections(final String email, final String jwt) {
+        String url = getApplication().getResources().getString(R.string.connections_url) + email;
         JSONObject j = new JSONObject();
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null, //no body for this get request
                 this::handleResult,
-                this::handleError);
+                this::handleError) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -120,14 +128,5 @@ public class ConnectionListViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
-
-}
-
-    /**
-     * This method sets the email for the user used in the GET request to the webservice
-     * @param email The email.
-     */
-    public void setUserEmailConnect(String email) {
-        mEmail = email.trim();
     }
 }
