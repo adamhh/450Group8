@@ -33,6 +33,7 @@ import edu.uw.comchat.io.RequestQueueSingleton;
  * View model to hold required information to form groups in chat page.
  *
  * @author Hung Vu
+ * @version 19 November 2020
  */
 public class ChatPageViewModel extends AndroidViewModel {
     private MutableLiveData<List<ChatGroupInfo>> mGroupInfo;
@@ -83,8 +84,6 @@ public class ChatPageViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
-
-        //code here will run
     }
 
     /**
@@ -100,8 +99,7 @@ public class ChatPageViewModel extends AndroidViewModel {
             JSONArray contactsArray = response.getJSONArray("contacts");
             mGroupArray = new ChatGroupInfo[contactsArray.length()];
             for (int i = 0; i < contactsArray.length(); i++) {
-                // TODO messageid is still an arbitrary number (i+1), hasn't been implemented yet - Hung Vu.
-                mGroupArray[i] = new ChatGroupInfo(contactsArray.getJSONObject(i).getInt("chatid"), (i + 1));
+                mGroupArray[i] = ChatGroupInfo.createFromJsonString(contactsArray.getJSONObject(i).toString());
             }
             mGroupInfo.setValue(Arrays.asList(mGroupArray));
         } catch (JSONException e) {

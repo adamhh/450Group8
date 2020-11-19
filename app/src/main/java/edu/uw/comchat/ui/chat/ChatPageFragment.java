@@ -15,13 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
-import edu.uw.comchat.ui.chat.generatorfortesting.GroupGenerator;
 
 
 /**
@@ -85,6 +83,6 @@ public class ChatPageFragment extends Fragment {
 
     // Adds a divider in the list
     binding.listRootChat.addItemDecoration(
-            new DividerItemDecoration(this.getActivity(), LinearLayout.VERTICAL));
+            new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
   }
 }

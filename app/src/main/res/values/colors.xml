@@ -10,6 +10,10 @@
 
     <!-- Default Theme -->
         <!--Light Mode-->
+    <color name="primary">#0f81ab</color>
+    <color name="primaryLight">#34BAEB</color>
+    <color name="secondaryLight">#7a7a7a</color>
+    <color name="secondaryTextFade">#222222</color>
     <color name="backgroundLightMode">#FFFFFF</color>
     <color name="toolbarLightMode">#34BAEB</color>
     <color name="notificationBarLightMode">#2FA9D6</color>

@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.chat.chatroom;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,6 @@ public class MessagePageFragment extends Fragment {
 
     // Send button was clicked. Send the message via the SendViewModel
     binding.buttonSend.setOnClickListener(button -> {
-      // TODO Make send button functional - Done, Hung Vu
       mSendModel.sendMessage(chatId,
               mUserModel.getJwt(),
               binding.editMessageBox.getText().toString());
@@ -69,19 +69,17 @@ public class MessagePageFragment extends Fragment {
             binding.editMessageBox.setText(""));
 
     // Shows the internal Swiper view progress bar until messages load
-    // TODO Change this to true when there is actual loading - Done, Hung Vu
     binding.swipeContainer.setRefreshing(true);
 
     final RecyclerView rv = binding.recyclerMessages;
-    // TODO make this use a UserInfo View Model - Done, Hung Vu
     // Working on...
     // Sets the Adapter to hold a reference to the list for this group ID that the ViewModel holds
     rv.setAdapter(new ChatRecyclerViewAdapter(
             mChatModel.getMessageListByChatId(chatId),
-            mUserModel.getEmail()
+            mUserModel.getEmail(),
+            getActivity().getTheme()
     ));
-
-    // TODO add on refresh listener and message observer - Done, Hung Vu
+    
     //When the user scrolls to the top of the RV, the swiper list will "refresh"
     //The user is out of messages, go out to the service and get more
     binding.swipeContainer.setOnRefreshListener(() -> {

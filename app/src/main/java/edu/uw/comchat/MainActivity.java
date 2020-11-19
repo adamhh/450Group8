@@ -1,11 +1,13 @@
 package edu.uw.comchat;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -50,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
   private UserInfoViewModel mModel;
   private AlertDialog mAlertDialog;
 
-  private final String RED_THEME = "red";
-  private final String DEFAULT_THEME = "default";
-  private final String GREY_THEME = "grey";
-
   private MainPushMessageReceiver mPushMessageReceiver;
 
   private NewMessageCountViewModel mNewMessageModel;
@@ -70,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     mBinding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(mBinding.getRoot());
-
 
     BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
 
@@ -185,21 +182,9 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.toolbar, menu);
-    return true;
-  }
-
-
-  @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     int id = item.getItemId();
 
-//    if (id == R.id.action_settings) {
-//      NavController navController = Navigation.findNavController(
-//              this, R.id.fragment_container_main);
-//      navController.navigate(R.id.navigation_settings);
-//    }
     if (id == R.id.menu_profile) {
       // This can be changed to a profile page. Just mapping setting fragment
       //  here to show the button is working normally.
@@ -234,45 +219,54 @@ public class MainActivity extends AppCompatActivity {
       default:
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
-
+    Theme.toggleDark();
   }
 
   private void handleChangeThemeAction() {
     String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
-    MainActivity thisActivity = this;
+
+    int checked;
+    if (Theme.getThemeName() == Theme.GREY_THEME)
+      checked = 1;
+    else if (Theme.getThemeName() == Theme.RED_THEME)
+      checked = 2;
+    else
+      checked = 0;
+
     mAlertDialog = new MaterialAlertDialogBuilder(this)
             .setTitle("Theme Options")
             // Recreate activity = lose all info (still can backup using bundle).
-            // Checked item is a default choice, can be stored in bundle too. - Hung Vu
-            .setSingleChoiceItems(themeOptions, 0,
+
+            .setSingleChoiceItems(themeOptions, checked,
                     (dialog, which) -> {
-                      if (which == 0) {
-                        updateThemeColor().accept(DEFAULT_THEME, thisActivity);
 
-                      } else if (which == 1) {
-                        updateThemeColor().accept(GREY_THEME, thisActivity);
-                        Log.i("Theme name", "true");
+              if (which == 0)
+                Theme.setTheme(Theme.DEFAULT_THEME);
+              else if (which == 1)
+                Theme.setTheme(Theme.GREY_THEME);
+              else if (which == 2)
+                Theme.setTheme(Theme.RED_THEME);
+              recreate();
+            })
 
-                      } else if (which == 2) {
-                        updateThemeColor().accept(RED_THEME, thisActivity);
-
-                      }
-                    })
+            /*
             //  Require to press accept button after having a choice, but not working.
-//            .setPositiveButton(getResources().getString(R.string.item_menu_change_theme_accept),
-//                    (dialog, which) -> {
-//                      if (which == 0){
-//                        updateThemeColor().accept(DEFAULT_THEME, thisActivity);
-////                        changeTheme(DEFAULT_THEME);
-//                      } else if (which == 1){
-//                        updateThemeColor().accept(GREY_THEME, thisActivity);
-//                        Log.i("Theme name", "true");
-////                        changeTheme(GREY_THEME);
-//                      } else if (which == 2){
-//                        updateThemeColor().accept(RED_THEME, thisActivity);
-////                        changeTheme(RED_THEME);
-//                      }
-//                    })
+            .setPositiveButton(getResources().getString(R.string.item_menu_change_theme_accept),
+                    (dialog, which) -> {
+              if (which == 0){
+                updateThemeColor().accept(DEFAULT_THEME, thisActivity);
+                changeTheme(DEFAULT_THEME);
+              } else if (which == 1){
+                updateThemeColor().accept(GREY_THEME, thisActivity);
+                Log.i("Theme name", "true");
+                changeTheme(GREY_THEME);
+              } else if (which == 2){
+                updateThemeColor().accept(RED_THEME, thisActivity);
+                changeTheme(RED_THEME);
+              }
+            })
+             */
+
             .show();
   }
 }
