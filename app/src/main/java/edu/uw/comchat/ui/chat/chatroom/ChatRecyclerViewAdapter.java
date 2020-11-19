@@ -6,26 +6,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.shape.CornerFamily;
-
-import java.util.List;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.Theme;
 import edu.uw.comchat.databinding.FragmentChatMessageBinding;
+import java.util.List;
 
-public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
+
+
+public class ChatRecyclerViewAdapter extends
+        RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 
   private final List<ChatMessage> mMessages;
   private final String mEmail;
   private final Resources.Theme mTheme;
 
+  /**
+   * Constructor.
+   *
+   * @param messages List of message
+   * @param email a respective email
+   * @param theme a chosen theme
+   */
   public ChatRecyclerViewAdapter(List<ChatMessage> messages, String email, Resources.Theme theme) {
     mMessages = messages;
     mEmail = email;
@@ -80,6 +86,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         ((FrameLayout.LayoutParams) card.getLayoutParams()).gravity =
                 Gravity.END;
 
+
         card.setCardBackgroundColor(
                 ColorUtils.setAlphaComponent(
                         res.getColor(R.color.primary, mTheme), 16));
@@ -105,8 +112,8 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         card.requestLayout();
       } else {
         //This message is from another user. Format it as such
-        binding.textChatMessage.setText(message.getSender() +
-                ": " + message.getMessage());
+        binding.textChatMessage.setText(message.getSender()
+                + ": " + message.getMessage());
         ViewGroup.MarginLayoutParams layoutParams =
                 (ViewGroup.MarginLayoutParams) card.getLayoutParams();
 
@@ -141,4 +148,5 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
       }
     }
   }
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

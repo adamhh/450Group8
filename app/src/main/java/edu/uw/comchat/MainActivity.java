@@ -1,16 +1,17 @@
 package edu.uw.comchat;
 
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import static edu.uw.comchat.util.UpdateTheme.updateThemeColor;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.MenuItem;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -18,29 +19,19 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.function.BiConsumer;
-
 import edu.uw.comchat.databinding.ActivityMainBinding;
 import edu.uw.comchat.model.NewMessageCountViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
-
-import static edu.uw.comchat.util.UpdateTheme.*;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Intent;
-import android.content.res.Configuration;
 import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
-import edu.uw.comchat.util.UpdateTheme;
+import java.util.function.BiConsumer;
+
+
+
 
 /**
  * This class is a main activity for the program (homepage/weather/connection/chat/).
@@ -48,16 +39,15 @@ import edu.uw.comchat.util.UpdateTheme;
 // Minor adjustment so we use dialog instead of a whole fragment - Hung Vu
 // Ignore checkstyle member name error.
 public class MainActivity extends AppCompatActivity {
+  private static final String RED_THEME = "red";
+  private static final String DEFAULT_THEME = "default";
+  private static final String GREY_THEME = "grey";
   private AppBarConfiguration mAppBarConfiguration;
   private UserInfoViewModel mModel;
   private AlertDialog mAlertDialog;
-
   private MainPushMessageReceiver mPushMessageReceiver;
-
   private NewMessageCountViewModel mNewMessageModel;
-
   private ActivityMainBinding mBinding;
-
   private static final BiConsumer<String, MainActivity> changeThemeHandler = updateThemeColor();
 
   @Override
@@ -69,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     mBinding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(mBinding.getRoot());
 
-    BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
+    //    BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
 
     // Store email and jwt upon creation - Hung Vu.
     MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
@@ -92,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Setup toolbar
     NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
+    BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
 
     // Setup bottom nav
     NavigationUI.setupWithNavController(navView, navController);
@@ -121,9 +113,11 @@ public class MainActivity extends AppCompatActivity {
       }
     });
   }
-  public String getEmail(){
+
+  public String getEmail() {
     return mModel.getEmail();
   }
+
   @Override
   public void onResume() {
     super.onResume();
@@ -137,13 +131,13 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public void onPause() {
     super.onPause();
-    if (mPushMessageReceiver != null){
+    if (mPushMessageReceiver != null) {
       unregisterReceiver(mPushMessageReceiver);
     }
   }
 
   /**
-   * A BroadcastReceiver that listens for messages sent from PushReceiver
+   * A BroadcastReceiver that listens for messages sent from PushReceiver.
    */
   private class MainPushMessageReceiver extends BroadcastReceiver {
 
@@ -204,15 +198,19 @@ public class MainActivity extends AppCompatActivity {
     intent.putExtra("email", mModel.getEmail());
     intent.putExtra("jwt", mModel.getJwt());
 
-    if (mAlertDialog != null && mAlertDialog.isShowing())
+    if (mAlertDialog != null && mAlertDialog.isShowing()) {
       mAlertDialog.dismiss();
+    }
 
     startActivity(intent);
     finish();
   }
 
-  public void toggleDarkMode()  {
-    switch(getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK){
+  /**
+   * Enable or Disable dark mode.
+   */
+  public void toggleDarkMode() {
+    switch (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
       case Configuration.UI_MODE_NIGHT_YES:
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         break;
@@ -222,17 +220,20 @@ public class MainActivity extends AppCompatActivity {
     Theme.toggleDark();
   }
 
+  /**
+   * This method will change theme when a different theme is chosen.
+   */
   private void handleChangeThemeAction() {
     String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
 
     int checked;
-    if (Theme.getThemeName() == Theme.GREY_THEME)
+    if (Theme.getThemeName() == Theme.GREY_THEME) {
       checked = 1;
-    else if (Theme.getThemeName() == Theme.RED_THEME)
+    } else if (Theme.getThemeName() == Theme.RED_THEME) {
       checked = 2;
-    else
+    } else {
       checked = 0;
-
+    }
     mAlertDialog = new MaterialAlertDialogBuilder(this)
             .setTitle("Theme Options")
             // Recreate activity = lose all info (still can backup using bundle).
@@ -240,15 +241,15 @@ public class MainActivity extends AppCompatActivity {
             .setSingleChoiceItems(themeOptions, checked,
                     (dialog, which) -> {
 
-              if (which == 0)
-                Theme.setTheme(Theme.DEFAULT_THEME);
-              else if (which == 1)
-                Theme.setTheme(Theme.GREY_THEME);
-              else if (which == 2)
-                Theme.setTheme(Theme.RED_THEME);
-              recreate();
-            })
-
+                      if (which == 0) {
+                        Theme.setTheme(Theme.DEFAULT_THEME);
+                      } else if (which == 1) {
+                        Theme.setTheme(Theme.GREY_THEME);
+                      } else if (which == 2) {
+                        Theme.setTheme(Theme.RED_THEME);
+                      }
+                      recreate();
+                    })
             /*
             //  Require to press accept button after having a choice, but not working.
             .setPositiveButton(getResources().getString(R.string.item_menu_change_theme_accept),
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
               }
             })
              */
-
             .show();
   }
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

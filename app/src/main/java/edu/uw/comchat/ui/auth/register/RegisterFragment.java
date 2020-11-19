@@ -225,5 +225,5 @@ public class RegisterFragment extends Fragment {
             RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
     );
   }
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

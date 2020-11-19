@@ -5,24 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherBinding;
-import edu.uw.comchat.databinding.FragmentWeatherFiveDayBinding;
-import edu.uw.comchat.databinding.FragmentWeatherFiveDayCardBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple
@@ -52,7 +46,8 @@ public class WeatherFragment extends Fragment {
     mWeatherModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
 
     // Set jwt dynamically.
-    UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
+    UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity())
+            .get(UserInfoViewModel.class);
     String jwt = userInfoViewModel.getJwt();
     mWeatherModel.getToken().setValue(jwt);
 
@@ -78,18 +73,16 @@ public class WeatherFragment extends Fragment {
             getString(R.string.item_weather_daily),
             getString(R.string.item_weather_five_day)};
 
-    new TabLayoutMediator(tabLayout, mViewPager,
-            new TabLayoutMediator.TabConfigurationStrategy() {
-              @Override
-              public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(tabNames[position]);
-              }
-            }).attach();
+    new TabLayoutMediator(tabLayout, mViewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+      @Override
+      public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+        tab.setText(tabNames[position]);
+      }
+    }).attach();
 
     // Connect to webservice - Hung Vu.
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
     mWeatherModel.connect("98402");
-//    mWeatherCurrentBinding = FragmentWeatherCurrentBinding.bind(getView());
   }
 
   private void observeResponse(JSONObject response) {
@@ -112,7 +105,13 @@ public class WeatherFragment extends Fragment {
     }
   }
 
-  // TODO there is no location info in JSON response. This method does nothing, just a template for later modification.
+  /**
+   * Display location for weather page.
+   *
+   * @param response web service response
+   *
+   * @throws JSONException when something is wrong with the response
+   */
   private void populateWeatherPage(JSONObject response) throws JSONException {
     mWeatherBinding.textWeatherLocation.setText(
             "Location: " + response.getString("City")
@@ -121,6 +120,6 @@ public class WeatherFragment extends Fragment {
     );
 
   }
-
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 
 }

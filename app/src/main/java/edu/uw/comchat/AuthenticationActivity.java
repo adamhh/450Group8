@@ -3,7 +3,6 @@ package edu.uw.comchat;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-
 import edu.uw.comchat.model.PushyTokenViewModel;
 import me.pushy.sdk.Pushy;
 
@@ -21,7 +20,13 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     initiatePushyTokenRequest();
   }
+
+  /**
+   * Initiate pushy token request upon starting an application (auth activity).
+   */
   private void initiatePushyTokenRequest() {
     new ViewModelProvider(this).get(PushyTokenViewModel.class).retrieveToken();
   }
+
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

@@ -3,17 +3,12 @@ package edu.uw.comchat.ui.chat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
-
-
 import java.util.List;
-
 
 /**
  * A recycler view adapter to be used for the list of chat groups
@@ -119,5 +114,5 @@ public class GroupRecyclerViewAdapter extends
       binding.textChatGroupDate.setText("Date");
     }
   }
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

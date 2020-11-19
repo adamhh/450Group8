@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,6 +21,7 @@ import edu.uw.comchat.databinding.FragmentProfileBinding;
 // Ignore checkstyle member name error.
 public class ProfileFragment extends Fragment {
   FragmentProfileBinding binding;
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class ProfileFragment extends Fragment {
     image.setImageResource(R.drawable.ic_temp_avatar);
     return view;
   }
+
   //TODO need to get data from individual card to populate profile
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -39,5 +40,5 @@ public class ProfileFragment extends Fragment {
   }
 
 
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

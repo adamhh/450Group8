@@ -10,10 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
 import edu.uw.comchat.R;
 
 
@@ -21,7 +19,9 @@ import edu.uw.comchat.R;
  * A fragment that holds the UI for a user managing their connections.
  *
  * @author Jerry Springer
+ *
  * Added a tab, and changed the names
+ *
  * @author Adam Hall
  * @version 18 November 2020
  */
@@ -57,8 +57,10 @@ public class ConnectionFragment extends Fragment {
 
     TabLayout tabLayout = view.findViewById(R.id.tab_layout_connection);
 
-    String[] tabNames = {getString(R.string.connection_tab_existing), getString(R.string.connection_tab_incoming),
-            getString(R.string.connection_tab_outgoing), getString(R.string.connection_tab_suggested)};
+    String[] tabNames = {getString(R.string.connection_tab_existing),
+            getString(R.string.connection_tab_incoming),
+            getString(R.string.connection_tab_outgoing),
+            getString(R.string.connection_tab_suggested)};
     new TabLayoutMediator(tabLayout, mViewPager,
             (tab, position) -> tab.setText(tabNames[position])).attach();
   }
@@ -68,5 +70,5 @@ public class ConnectionFragment extends Fragment {
     super.onCreateOptionsMenu(menu, inflater);
     getActivity().getMenuInflater().inflate(R.menu.toolbar_connection, menu);
   }
-  // Checkstyle: Done - Hung Vu
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name/indentation errors if they exist.
 }
