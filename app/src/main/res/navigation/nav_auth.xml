@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_passwordRecoveryUpdateFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/startFragment"

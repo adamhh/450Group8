@@ -19,10 +19,10 @@ import org.json.JSONObject;
 
 
 /**
- * Store response from server for password recovery (first page).
+ * Store response from server for password recovery (second page).
  */
 // Ignore checkstyle member name error.
-public class PasswordRecoveryViewModel extends AndroidViewModel {
+public class PasswordRecoveryUpdateViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
 
   /**
@@ -30,7 +30,7 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
    *
    * @param application the application
    */
-  public PasswordRecoveryViewModel(@NonNull Application application) {
+  public PasswordRecoveryUpdateViewModel(@NonNull Application application) {
     super(application);
     mResponse = new MutableLiveData<>();
     mResponse.setValue(new JSONObject());
@@ -49,17 +49,20 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
 
 
   /**
-   * GET request to webservice to check if given account's pass (email-based)
-   * can be recovered or not.
+   * PUT request to webservice to reset password.
    *
    * @param email user's email address
+   * @param pin pin code
+   * @param password a new password
    */
-  public void connect(final String email) {
+  public void connect(final String email, final String pin, final String password) {
     String url = getApplication().getResources().getString(R.string.base_url)
-            + "resetpassword/" + email;
+            + "resetpassword?email=" + email
+            + "&pin=" + pin
+            + "&password=" + password;
 
     Request request = new JsonObjectRequest(
-            Request.Method.GET,
+            Request.Method.PUT,
             url,
             null, //no body for this get request
             mResponse::setValue,
@@ -72,5 +75,4 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
     RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
             .addToRequestQueue(request);
   }
-  // Checkstyle: Done - Hung Vu
 }

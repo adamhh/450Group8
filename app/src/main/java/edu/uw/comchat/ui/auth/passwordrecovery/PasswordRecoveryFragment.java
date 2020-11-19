@@ -75,7 +75,7 @@ public class PasswordRecoveryFragment extends Fragment {
       if (response.has("code")) {
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(getResources().getString(R.string.text_recover_pw_status))
-                .setMessage(getResources().getString(R.string.text_recover_pw_fail))
+                .setMessage(getResources().getString(R.string.text_recover_pw_fail_email_check))
                 .show();
         try {
           mBinding.editTextPasswordRecovery.setError(
@@ -86,7 +86,7 @@ public class PasswordRecoveryFragment extends Fragment {
       } else {
         new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(getResources().getString(R.string.text_recover_pw_status))
-                .setMessage(getResources().getString(R.string.text_recover_pw_success))
+                .setMessage(getResources().getString(R.string.text_recover_pw_success_email_check))
                 .show();
         navigateToEnterPinPage();
       }
@@ -97,7 +97,8 @@ public class PasswordRecoveryFragment extends Fragment {
 
   private void navigateToEnterPinPage() {
     Navigation.findNavController(getView()).navigate(
-            PasswordRecoveryFragmentDirections.actionPasswordRecoveryFragmentToPasswordRecoveryUpdateFragment()
+            PasswordRecoveryFragmentDirections.actionPasswordRecoveryFragmentToPasswordRecoveryUpdateFragment(
+                    mBinding.editTextPasswordRecovery.getText().toString())
     );
   }
 }
