@@ -216,7 +216,7 @@ public class WeatherCardFragment extends Fragment {
         updateTenDayCard(forecastDay4, response);
         break;
       case 5:
-        FragmentWeatherFiveDayCardBinding forecastDay5 = weatherTenDayBinding.weatherTenDay5;
+        FragmentWeatherFiveDayCardBinding forecastDay5 = weatherTenDayBinding.weatherFiveDay5;
         updateTenDayCard(forecastDay5, response);
         break;
     }

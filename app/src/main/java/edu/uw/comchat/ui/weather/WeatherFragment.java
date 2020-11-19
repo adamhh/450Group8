@@ -114,11 +114,10 @@ public class WeatherFragment extends Fragment {
 
   // TODO there is no location info in JSON response. This method does nothing, just a template for later modification.
   private void populateWeatherPage(JSONObject response) throws JSONException {
-    JSONObject location = response.getJSONObject("location");
     mWeatherBinding.textWeatherLocation.setText(
-            "Location: " + location.getString("city")
-                    + ", " + location.getString("region")
-                    + ", " + location.getString("country")
+            "Location: " + response.getString("City")
+                    + ", " + response.getString("State")
+                    + ", " + response.getString("Country")
     );
 
   }
