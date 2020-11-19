@@ -38,6 +38,6 @@ public class Theme {
     mTheme = result;
 
   }
-
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 
 }

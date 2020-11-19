@@ -221,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  /**
+   * This method will change theme when a different theme is chosen.
+   */
   private void handleChangeThemeAction() {
     String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
     MainActivity thisActivity = this;
@@ -244,5 +247,5 @@ public class MainActivity extends AppCompatActivity {
                     })
             .show();
   }
-  // Checkstyle done - Hung Vu.
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }
