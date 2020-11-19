@@ -1,11 +1,11 @@
 package edu.uw.comchat.ui.chat;
 
 import androidx.annotation.Nullable;
-import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import java.io.Serializable;
 
 /**
  * Represent a messaging group.
@@ -27,15 +27,6 @@ public class ChatGroupInfo implements Serializable {
     mMessageId = messageId;
   }
 
-  /**
-   * This method will create group from a json string. However, since webservice
-   * implementation has been changed, this method is redundant at the moment. We may
-   * or may not use it.
-   *
-   * @param groupAsJson json string contains information about chat group
-   * @return a ChatGroupInfo object.
-   * @throws JSONException an exception
-   */
   public static ChatGroupInfo createFromJsonString(final String groupAsJson) throws JSONException {
     final JSONObject group = new JSONObject(groupAsJson);
 
@@ -68,5 +59,4 @@ public class ChatGroupInfo implements Serializable {
 
     return result;
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

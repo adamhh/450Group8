@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentConnectionListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
@@ -73,7 +75,6 @@ public class ConnectionListFragment extends Fragment {
 
     return view;
   }
-
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
@@ -110,6 +111,5 @@ public class ConnectionListFragment extends Fragment {
     });
   }
 
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name and
-  //  switch fall through errors if they exist.
+  // Checkstyle: Done - Hung Vu
 }

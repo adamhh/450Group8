@@ -3,28 +3,30 @@ package edu.uw.comchat.model;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import edu.uw.comchat.R;
-import edu.uw.comchat.io.RequestQueueSingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import edu.uw.comchat.R;
+import edu.uw.comchat.io.RequestQueueSingleton;
 import me.pushy.sdk.Pushy;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-
-// View model class from lab 5, subject to change - Hung Vu.
-// Subject to change later on. Comment is intentionally left out.
 public class PushyTokenViewModel extends AndroidViewModel {
 
   private final MutableLiveData<String> mPushyToken;
@@ -100,7 +102,7 @@ public class PushyTokenViewModel extends AndroidViewModel {
   /**
    * Send this Pushy device token to the web service.
    *
-   * @param jwt a json web token
+   * @param jwt
    * @throws IllegalStateException when this method is called before the token is retrieve
    */
   public void sendTokenToWebservice(final String jwt) {
@@ -108,8 +110,8 @@ public class PushyTokenViewModel extends AndroidViewModel {
       throw new IllegalStateException("No pushy token. Do NOT call until token is retrieved");
     }
 
-    String url = getApplication().getResources().getString(R.string.base_url)
-            + "auth";
+    String url = getApplication().getResources().getString(R.string.base_url) +
+            "auth";
 
     JSONObject body = new JSONObject();
     try {
@@ -146,23 +148,22 @@ public class PushyTokenViewModel extends AndroidViewModel {
   private void handleError(final VolleyError error) {
     if (Objects.isNull(error.networkResponse)) {
       try {
-        mResponse.setValue(new JSONObject("{"
-                + "error:\"" + error.getMessage()
-                + "\"}"));
+        mResponse.setValue(new JSONObject("{" +
+                "error:\"" + error.getMessage() +
+                "\"}"));
       } catch (JSONException e) {
         Log.e("JSON PARSE", "JSON Parse Error in handleError");
       }
     } else {
       String data = new String(error.networkResponse.data, Charset.defaultCharset());
       try {
-        mResponse.setValue(new JSONObject("{"
-                + "code:" + error.networkResponse.statusCode
-                + ", data:" + data
-                + "}"));
+        mResponse.setValue(new JSONObject("{" +
+                "code:" + error.networkResponse.statusCode +
+                ", data:" + data +
+                "}"));
       } catch (JSONException e) {
         Log.e("JSON PARSE", "JSON Parse Error in handleError");
       }
     }
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

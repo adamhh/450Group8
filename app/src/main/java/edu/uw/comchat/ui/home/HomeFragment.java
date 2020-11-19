@@ -32,6 +32,5 @@ public class HomeFragment extends Fragment {
     getActivity().getMenuInflater().inflate(R.menu.toolbar_home, menu);
   }
 
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
-
+  // Checkstyle: Done - Hung Vu
 }

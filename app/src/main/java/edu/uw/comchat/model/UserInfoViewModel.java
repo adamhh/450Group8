@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 /**
  * Store jwt and email.
- *
  * @author Hung Vu
  */
 public class UserInfoViewModel extends ViewModel {
@@ -47,7 +46,7 @@ public class UserInfoViewModel extends ViewModel {
               "Argument must be: " + UserInfoViewModel.class);
     }
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+
 
 }
 

@@ -2,30 +2,30 @@ package edu.uw.comchat.ui.chat.chatroom;
 
 import android.app.Application;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import edu.uw.comchat.R;
-import edu.uw.comchat.io.RequestQueueSingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-
-
-
+import edu.uw.comchat.R;
+import edu.uw.comchat.io.RequestQueueSingleton;
 
 // View model class from lab 5, subject to change - Hung Vu.
-// Subject to change later on. Comment is intentionally left out.
 public class ChatSendViewModel extends AndroidViewModel {
 
   private final MutableLiveData<JSONObject> mResponse;
@@ -89,5 +89,4 @@ public class ChatSendViewModel extends AndroidViewModel {
                       + data);
     }
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

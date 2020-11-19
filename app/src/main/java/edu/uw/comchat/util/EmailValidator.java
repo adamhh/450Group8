@@ -61,5 +61,5 @@ public interface EmailValidator extends Function<String,
     EMAIL_SUCCESS,
     EMAIL_INVALID
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+  // Checkstyle: Done - Hung Vu
 }

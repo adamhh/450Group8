@@ -1,6 +1,7 @@
 package edu.uw.comchat.ui.auth.register;
 
 import android.app.Application;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
@@ -8,13 +9,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import edu.uw.comchat.util.HandleRequestError;
+import java.nio.charset.Charset;
+import java.util.Objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import edu.uw.comchat.util.HandleRequestError;
 
 
 /**
@@ -89,5 +92,5 @@ public class RegisterViewModel extends AndroidViewModel {
             .add(request);
   }
 
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+  // Checkstyle: Done - Hung Vu
 }

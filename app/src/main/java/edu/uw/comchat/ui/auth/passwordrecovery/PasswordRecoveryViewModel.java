@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
@@ -19,8 +20,6 @@ import org.json.JSONObject;
 
 /**
  * Store response from server for password recovery (first page).
- *
- * @author Hung Vu
  */
 // Ignore checkstyle member name error.
 public class PasswordRecoveryViewModel extends AndroidViewModel {
@@ -50,8 +49,8 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
 
 
   /**
-   * GET request to webservice to check if given account's password
-   * can be recovered or not. This uses email address as a identification.
+   * GET request to webservice to check if given account's pass (email-based)
+   * can be recovered or not.
    *
    * @param email user's email address
    */
@@ -73,5 +72,5 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
     RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
             .addToRequestQueue(request);
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+  // Checkstyle: Done - Hung Vu
 }

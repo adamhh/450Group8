@@ -68,7 +68,7 @@ public class LoginFragment extends Fragment {
   /**
    * Empty constructor (required).
    */
-  public LoginFragment() {
+  public LoginFragment(){
 
   }
 
@@ -101,15 +101,14 @@ public class LoginFragment extends Fragment {
             this::observePushyPutResponse);
 
     mBinding.buttonLoginSignIn.setOnClickListener(button -> handleSignInButton());
-    mBinding.buttonLoginPasswordRecovery.setOnClickListener(
-            button -> handlePasswordRecoveryButton());
+    mBinding.buttonLoginPasswordRecovery.setOnClickListener(button -> handlePasswordRecoveryButton());
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
   }
 
   /**
-   * Helper to abstract the request to send the pushy token to the web service.
+   * Helper to abstract the request to send the pushy token to the web service
    */
   private void sendPushyToken() {
     mPushyTokenViewModel.sendTokenToWebservice(mUserViewModel.getJwt());
@@ -161,11 +160,11 @@ public class LoginFragment extends Fragment {
                     .apply(emailString)
                     .get())
             || PasswordValidationResult.PWD_INVALID_LENGTH.equals(
-            checkPwdLength().apply(passwordString).get())
-    // TODO Re-enable uppercase check later on.
-    //            ||
-    //            PasswordValidationResult.PWD_MISSING_UPPER.equals(
-    //                    checkPwdContainsUppercase().apply(passwordString).get())
+                    checkPwdLength().apply(passwordString).get())
+            // TODO Re-enable uppercase check later on.
+//            ||
+//            PasswordValidationResult.PWD_MISSING_UPPER.equals(
+//                    checkPwdContainsUppercase().apply(passwordString).get())
     ) {
       mBinding.editTextLoginEmail.setError(INVALID_ERROR);
       mBinding.editTextLoginPassword.setError(INVALID_ERROR);
@@ -213,6 +212,11 @@ public class LoginFragment extends Fragment {
                   )).get(UserInfoViewModel.class);
 
           sendPushyToken();
+//          navigateToMainActivity(
+//                  mBinding.editTextLoginEmail.getText().toString(),
+//                  response.getString("token")
+//          );
+        //          Log.i("jwt",response.getString("token"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }
@@ -232,5 +236,5 @@ public class LoginFragment extends Fragment {
                     .actionLoginFragmentToMainActivity(email, jwt));
     getActivity().finish();
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+  // Checkstyle: Done - Hung Vu
 }
