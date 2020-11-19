@@ -1,29 +1,31 @@
 package edu.uw.comchat.ui.auth.passwordrecovery;
 
-import static edu.uw.comchat.util.PasswordValidator.checkPwdContainsUppercase;
-import static edu.uw.comchat.util.PasswordValidator.checkPwdLength;
-
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import edu.uw.comchat.R;
-import edu.uw.comchat.databinding.FragmentPasswordRecoveryUpdateBinding;
-import edu.uw.comchat.util.PasswordValidator;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.comchat.R;
+import edu.uw.comchat.databinding.FragmentPasswordRecoveryUpdateBinding;
+import edu.uw.comchat.util.PasswordValidator;
+
+import static edu.uw.comchat.util.PasswordValidator.checkPwdContainsUppercase;
+import static edu.uw.comchat.util.PasswordValidator.checkPwdLength;
+
 /**
- * This is a page where user enter pin code and change password in
- * a password recovery process (second page).
- *
  * @author Hung Vu
  */
 public class PasswordRecoveryUpdateFragment extends Fragment {
@@ -44,8 +46,7 @@ public class PasswordRecoveryUpdateFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mRecoveryUpdateViewModel = new ViewModelProvider(this)
-            .get(PasswordRecoveryUpdateViewModel.class);
+    mRecoveryUpdateViewModel = new ViewModelProvider(this).get(PasswordRecoveryUpdateViewModel.class);
     mEmail = PasswordRecoveryUpdateFragmentArgs.fromBundle(getArguments()).getEmail();
   }
 
@@ -66,6 +67,7 @@ public class PasswordRecoveryUpdateFragment extends Fragment {
   }
 
 
+
   private void handleAcceptButton() {
     boolean isValid = true;
     String pinString = mBinding.editTextPasswordRecoveryPin.getText().toString();
@@ -84,8 +86,7 @@ public class PasswordRecoveryUpdateFragment extends Fragment {
       isValid = false;
     }
 
-    String passwordRetypeString = mBinding.editTextPasswordRecoveryPasswordRetype
-            .getText().toString();
+    String passwordRetypeString = mBinding.editTextPasswordRecoveryPasswordRetype.getText().toString();
     if (!passwordRetypeString.equals(passwordString)) {
       mBinding.editTextPasswordRecoveryPasswordRetype.setError("Password mismatches");
       isValid = false;
@@ -94,7 +95,7 @@ public class PasswordRecoveryUpdateFragment extends Fragment {
       mRecoveryUpdateViewModel.connect(mEmail, pinString, passwordString);
     }
   }
-
+  
   private void observeResponse(JSONObject response) {
     //    Log.i("JSON body", response.toString());
     if (response.length() > 0) {
@@ -120,12 +121,10 @@ public class PasswordRecoveryUpdateFragment extends Fragment {
       Log.d("JSON Response", "No Response");
     }
   }
-
   private void navigateToLoginPage() {
     Navigation.findNavController(getView()).navigate(
-            PasswordRecoveryUpdateFragmentDirections
-                    .actionPasswordRecoveryUpdateFragmentToLoginFragment()
+            PasswordRecoveryUpdateFragmentDirections.actionPasswordRecoveryUpdateFragmentToLoginFragment()
     );
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+
 }

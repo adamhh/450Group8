@@ -1,8 +1,5 @@
 package edu.uw.comchat.services;
 
-import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
-import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
-
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,16 +7,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
+
+import org.json.JSONException;
+
 import edu.uw.comchat.AuthenticationActivity;
 import edu.uw.comchat.R;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import me.pushy.sdk.Pushy;
-import org.json.JSONException;
 
+import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
+import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
 
-// View model class from lab 5, subject to change - Hung Vu.
-// Subject to change later on. Comment is intentionally left out.
 public class PushReceiver extends BroadcastReceiver {
 
   public static final String RECEIVED_NEW_MESSAGE = "new message from pushy";
@@ -49,12 +49,10 @@ public class PushReceiver extends BroadcastReceiver {
       throw new IllegalStateException("Error from Web Service. Contact Dev Support");
     }
 
-    ActivityManager.RunningAppProcessInfo appProcessInfo =
-            new ActivityManager.RunningAppProcessInfo();
+    ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
     ActivityManager.getMyMemoryState(appProcessInfo);
 
-    if (appProcessInfo.importance == IMPORTANCE_FOREGROUND
-            || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
+    if (appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE) {
       //app is in the foreground so send the message to the active Activities
       Log.d("PUSHY", "Message received in foreground: " + message);
 
@@ -98,5 +96,4 @@ public class PushReceiver extends BroadcastReceiver {
     }
 
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

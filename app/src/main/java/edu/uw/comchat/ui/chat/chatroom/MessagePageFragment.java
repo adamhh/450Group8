@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
@@ -103,19 +105,18 @@ public class MessagePageFragment extends Fragment {
   @Override
   public void onResume() {
     // TODO When a user pause activity (app to background), user will receive msg over notification.
-    //  However, since there is no view, that msg is not drawn on anything so when we
-    //  return to our app The latest msg is not there. I haven't found out
-    //  a way to fix this yet - Hung Vu
+    //  However, since there is no view, that msg is not drawn on anything so when we return to our app
+    //  The latest msg is not there. I haven't found out a way to fix this yet - Hung Vu
     super.onResume();
-    //    FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
-    //    final RecyclerView rv = binding.recyclerMessages;
-    //    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
-    //    rv.setAdapter(new ChatRecyclerViewAdapter(
-    //            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
-    //            mUserModel.getEmail()
-    //    ));
-    //    rv.getAdapter().notifyDataSetChanged();
-    //    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
+//    FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
+//    final RecyclerView rv = binding.recyclerMessages;
+//    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
+//    rv.setAdapter(new ChatRecyclerViewAdapter(
+//            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+//            mUserModel.getEmail()
+//    ));
+//    rv.getAdapter().notifyDataSetChanged();
+//    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+
 }

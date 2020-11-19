@@ -8,11 +8,11 @@ import java.io.Serializable;
  * @author Jerry Springer
  * @version 2 November 2020
  */
-// This class is redundant at the moment - Hung Vu
+// Ignore checkstyle member name error.
 public class Message implements Serializable {
 
   // TODO Decide on the relation between a message and a group
   private Message() {
   }
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
+  // Checkstyle: Done - Hung Vu
 }
