@@ -72,6 +72,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="11dp"
+            android:clickable="true"
             android:contentDescription="@string/card_avatar_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

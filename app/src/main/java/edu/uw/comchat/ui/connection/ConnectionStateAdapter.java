@@ -1,5 +1,7 @@
 package edu.uw.comchat.ui.connection;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -9,6 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
  *
  * @author Jerry Springer
  * Changed tab count and hardcoded as 4 into a field
+ * Added a bundle to set arguments for each tab.
  * @author Adam Hall
  * @version 3 November 2020
  */
@@ -27,9 +30,10 @@ public class ConnectionStateAdapter extends FragmentStateAdapter {
   @NonNull
   @Override
   public Fragment createFragment(int position) {
-
-    // TODO Set the connection list up properly
     Fragment fragment = new ConnectionListFragment();
+    Bundle args = new Bundle();
+    args.putInt(ConnectionListFragment.ARG_POSITION, position + 1);
+    fragment.setArguments(args);
     return fragment;
   }
 

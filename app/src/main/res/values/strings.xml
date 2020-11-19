@@ -115,6 +115,11 @@
     <string name="card_message_description">message connection in card</string>
     <string name="card_settings_description">manage settings</string>
     <string name="card_avatar_description">avatar for user</string>
+    <string name="connection_tab_existing">Existing</string>
+    <string name="connection_tab_incoming">Incoming</string>
+    <string name="connection_tab_outgoing">Outgoing</string>
+    <string name="connection_tab_suggested">Suggested</string>
+
 
     <!-- Profile Fragment -->
     <string name="nickname_profile">NickName</string>
@@ -146,5 +151,6 @@
 
     <!-- URL -->
     <string name="base_url">https://comchat-backend.herokuapp.com/</string>
+    <string name="connections_url">https://comchat-backend.herokuapp.com/connections/</string>
 
 </resources>
