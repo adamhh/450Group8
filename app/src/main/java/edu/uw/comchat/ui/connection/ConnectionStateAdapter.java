@@ -11,6 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
  *
  * @author Jerry Springer
  * Changed tab count and hardcoded as 4 into a field
+ * Added a bundle to set arguments for each tab.
  * @author Adam Hall
  * @version 3 November 2020
  */

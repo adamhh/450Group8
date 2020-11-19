@@ -91,7 +91,7 @@ public class ConnectionRecyclerViewAdapter extends
       super(view);
       mView = view;
       binding = FragmentConnectionCardBinding.bind(view);
-      binding.testAvatar.setOnClickListener(this::onClick);
+      binding.cardRootConnectionCard.setOnClickListener(this::onClick);
     }
 
     /**
@@ -101,10 +101,8 @@ public class ConnectionRecyclerViewAdapter extends
      */
     private void onClick(View view) {
       int position = mRecyclerView.getChildAdapterPosition(view);
-
       // TODO Make this use a message Id
       String profileId = "" + position;
-
       Navigation.findNavController(view).navigate(
               ConnectionFragmentDirections
                       .actionNavigationConnectionToProfileFragment(profileId));
@@ -117,7 +115,6 @@ public class ConnectionRecyclerViewAdapter extends
      */
     void setConnection(final Connection connection) {
       mConnection = connection;
-
       // TODO Make this get the person who is not you, if not found throw error
       binding.cardNameId.setText(connection.getEmail());
 
