@@ -51,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/weather_ten_day_5"
+            android:id="@+id/weather_five_day_5"
             layout="@layout/fragment_weather_five_day_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

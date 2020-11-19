@@ -99,7 +99,7 @@
     <string name="text_weather_daily_temp">Temp</string>
     <string name="text_weather_daily_humidity">Humidity</string>
 
-    <string name="item_weather_five_day">10 Day</string>
+    <string name="item_weather_five_day">5 Day</string>
     <string name="text_weather_five_day_date">Date</string>
     <string name="text_weather_five_day_temp">Temp</string>
     <string name="text_weather_five_day_description">Description</string>
