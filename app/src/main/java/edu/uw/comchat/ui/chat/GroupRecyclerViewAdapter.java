@@ -1,6 +1,5 @@
 package edu.uw.comchat.ui.chat;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +73,6 @@ public class GroupRecyclerViewAdapter extends
     // Gets the index of the clicked group
     int position = mRecyclerView.getChildAdapterPosition(view);
 
-    // TODO Make this use a group ID - Done, Hung vu
     Integer groupId = mGroups.get(position).getGroupId();
 
     // Navigates to the group
@@ -109,13 +107,11 @@ public class GroupRecyclerViewAdapter extends
      */
     void setGroup(final ChatGroupInfo group) {
       mGroup = group;
-      binding.textChatGroupName.setText("" + group.getGroupId());
+      binding.textChatGroupName.setText("Group Id: " + group.getGroupId());
 
-      final String preview = Html.fromHtml(
-              "" + group.getMessageId(),
-              Html.FROM_HTML_MODE_COMPACT)
-              .toString();
-      binding.textChatGroupMessage.setText(preview);
+      // TODO Populate views with data
+      binding.textChatGroupMessage.setText("Last message");
+      binding.textChatGroupDate.setText("Date");
     }
   }
   // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.

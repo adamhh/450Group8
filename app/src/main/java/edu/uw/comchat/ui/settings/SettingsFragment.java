@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
+import edu.uw.comchat.Theme;
 import edu.uw.comchat.databinding.FragmentSettingsBinding;
 
 /**
@@ -47,13 +48,11 @@ public class SettingsFragment extends Fragment {
             .get(SettingsViewModel.class);
     //Will save state of toggle once we used sharedpreferences
     mBinding = FragmentSettingsBinding.bind(getView());
-    mBinding.darkThemeToggleId.setOnClickListener(this::toggleDark);
+    mBinding.darkThemeToggleId.setChecked(Theme.getIsDark());
+    mBinding.darkThemeToggleId.setOnClickListener(onClick -> {
+      ((MainActivity)getActivity()).toggleDarkMode();
+    });
 
   }
-
-  private void toggleDark(View view) {
-    ((MainActivity) getActivity()).toggleDarkMode();
-  }
-
   // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

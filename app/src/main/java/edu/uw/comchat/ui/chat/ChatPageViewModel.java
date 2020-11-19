@@ -32,6 +32,7 @@ import org.json.JSONObject;
  * View model to hold required information to form groups in chat page.
  *
  * @author Hung Vu
+ * @version 19 November 2020
  */
 public class ChatPageViewModel extends AndroidViewModel {
   private MutableLiveData<List<ChatGroupInfo>> mGroupInfo;

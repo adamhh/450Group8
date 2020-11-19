@@ -37,11 +37,11 @@ public class ChatGroupInfo implements Serializable {
    * @throws JSONException an exception
    */
   public static ChatGroupInfo createFromJsonString(final String groupAsJson) throws JSONException {
-    // TODO Create group from a JSON String - Done, Hung Vu
     final JSONObject group = new JSONObject(groupAsJson);
+
+    // TODO messageid is still an arbitrary number, hasn't been implemented yet - Hung Vu.
     return new ChatGroupInfo(
-            group.getInt("chatId"),
-            group.getJSONArray("row").getJSONObject(0).getInt("messageid")
+            group.getInt("chatid"), 0
     );
   }
 

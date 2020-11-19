@@ -1,7 +1,6 @@
 package edu.uw.comchat.ui.connection;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,12 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import edu.uw.comchat.R;
-import edu.uw.comchat.model.UserInfoViewModel;
+
 
 /**
  * A fragment that holds the UI for a user managing their connections.
@@ -25,7 +23,7 @@ import edu.uw.comchat.model.UserInfoViewModel;
  * Added a tab, and changed the names
  *
  * @author Adam Hall
- * @version 3 November 2020
+ * @version 18 November 2020
  */
 // Ignore checkstyle member name error.
 public class ConnectionFragment extends Fragment {
@@ -38,23 +36,10 @@ public class ConnectionFragment extends Fragment {
    * An instance of a page viewer.
    */
   private ViewPager2 mViewPager;
-  /**
-   * An instance of the connection view model that this class will update with the email.
-   */
-  private ConnectionListViewModel mModel;
-  /**
-   * An instance of the user info view model that will provide email information.
-   */
-  private UserInfoViewModel mUserModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mUserModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
-    mModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
-    Log.d("???", mUserModel.getEmail());
-    mModel.setUserEmailConnect(mUserModel.getEmail());
-
   }
 
   @Override

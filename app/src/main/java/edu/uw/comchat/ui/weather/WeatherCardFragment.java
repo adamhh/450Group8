@@ -35,7 +35,6 @@ public class WeatherCardFragment extends Fragment {
   private Bundle mArgs;
 
   public WeatherCardFragment() {
-
   }
 
   @Override
@@ -142,8 +141,8 @@ public class WeatherCardFragment extends Fragment {
   // Traverse json array.
   private void updateWeatherDaily(JSONObject response) throws JSONException {
     JSONArray hourly = response.getJSONArray("hourly");
-    for (int i = 0; i < hourly.length(); i++) {
-      JSONObject hourReport = hourly.getJSONObject(i);
+    for (int i = 0; i < hourly.length() / 6; i++) {
+      JSONObject hourReport = hourly.getJSONObject(i * 4);
       updateWeatherBasedOnHour(i + 1, hourReport);
     }
   }
@@ -172,6 +171,10 @@ public class WeatherCardFragment extends Fragment {
       case 5:
         FragmentWeatherDailyCardBinding hour5 = weatherDailyCardBinding.weatherCurrentHour5;
         updateHourCard(hour5, response);
+        break;
+      case 6:
+        FragmentWeatherDailyCardBinding hour6 = weatherDailyCardBinding.weatherCurrentHour6;
+        updateHourCard(hour6, response);
         break;
     }
   }
@@ -235,6 +238,7 @@ public class WeatherCardFragment extends Fragment {
             + date.getString("months") + "\\"
             + date.getString("dates")
             + "\\" + date.getString("years"));
+
 
     JSONObject temp = response.getJSONObject("temp");
     whichDay.textWeatherFiveDayTemp.setText("Temp: " + temp.getString("day"));

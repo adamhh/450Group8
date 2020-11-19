@@ -85,7 +85,7 @@ public class ChatPageFragment extends Fragment {
 
     // Adds a divider in the list
     binding.listRootChat.addItemDecoration(
-            new DividerItemDecoration(this.getActivity(), LinearLayout.VERTICAL));
+            new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
   }
   // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }

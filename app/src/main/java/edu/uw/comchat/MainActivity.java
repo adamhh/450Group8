@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -31,6 +29,7 @@ import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
 import java.util.function.BiConsumer;
+
 
 
 
@@ -59,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     mBinding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(mBinding.getRoot());
+
+    //    BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
 
     // Store email and jwt upon creation - Hung Vu.
     MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
@@ -175,13 +176,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.toolbar, menu);
-    return true;
-  }
-
-
-  @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     int id = item.getItemId();
 
@@ -223,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
       default:
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
+    Theme.toggleDark();
   }
 
   /**
@@ -230,25 +225,48 @@ public class MainActivity extends AppCompatActivity {
    */
   private void handleChangeThemeAction() {
     String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
-    MainActivity thisActivity = this;
+
+    int checked;
+    if (Theme.getThemeName() == Theme.GREY_THEME) {
+      checked = 1;
+    } else if (Theme.getThemeName() == Theme.RED_THEME) {
+      checked = 2;
+    } else {
+      checked = 0;
+    }
     mAlertDialog = new MaterialAlertDialogBuilder(this)
             .setTitle("Theme Options")
             // Recreate activity = lose all info (still can backup using bundle).
-            // Checked item is a default choice, can be stored in bundle too. - Hung Vu
-            .setSingleChoiceItems(themeOptions, 0,
+
+            .setSingleChoiceItems(themeOptions, checked,
                     (dialog, which) -> {
+
                       if (which == 0) {
-                        updateThemeColor().accept(DEFAULT_THEME, thisActivity);
-
+                        Theme.setTheme(Theme.DEFAULT_THEME);
                       } else if (which == 1) {
-                        updateThemeColor().accept(GREY_THEME, thisActivity);
-                        Log.i("Theme name", "true");
-
+                        Theme.setTheme(Theme.GREY_THEME);
                       } else if (which == 2) {
-                        updateThemeColor().accept(RED_THEME, thisActivity);
-
+                        Theme.setTheme(Theme.RED_THEME);
                       }
+                      recreate();
                     })
+            /*
+            //  Require to press accept button after having a choice, but not working.
+            .setPositiveButton(getResources().getString(R.string.item_menu_change_theme_accept),
+                    (dialog, which) -> {
+              if (which == 0){
+                updateThemeColor().accept(DEFAULT_THEME, thisActivity);
+                changeTheme(DEFAULT_THEME);
+              } else if (which == 1){
+                updateThemeColor().accept(GREY_THEME, thisActivity);
+                Log.i("Theme name", "true");
+                changeTheme(GREY_THEME);
+              } else if (which == 2){
+                updateThemeColor().accept(RED_THEME, thisActivity);
+                changeTheme(RED_THEME);
+              }
+            })
+             */
             .show();
   }
   // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
