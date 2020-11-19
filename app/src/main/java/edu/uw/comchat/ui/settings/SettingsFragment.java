@@ -1,17 +1,14 @@
 package edu.uw.comchat.ui.settings;
 
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentSettingsBinding;
@@ -26,10 +23,13 @@ import edu.uw.comchat.databinding.FragmentSettingsBinding;
 public class SettingsFragment extends Fragment {
   private FragmentSettingsBinding mBinding;
   private SettingsViewModel mModel;
+
   //required empty public constructor
   public SettingsFragment() {
 
-  };
+  }
+
+  ;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +52,8 @@ public class SettingsFragment extends Fragment {
   }
 
   private void toggleDark(View view) {
-    ((MainActivity)getActivity()).toggleDarkMode();
+    ((MainActivity) getActivity()).toggleDarkMode();
   }
 
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
 }
