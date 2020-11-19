@@ -36,13 +36,12 @@ public class ConnectionRecyclerViewAdapter extends
   @NonNull
   @Override
   public ConnectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View view = LayoutInflater
-            .from(parent.getContext())
-            .inflate(R.layout.fragment_connection_card, parent, false);
 
     // Sets the on click listener for the view / card
-    view.setOnClickListener(this::onClick);
-    return new ConnectionRecyclerViewAdapter.ConnectionViewHolder(view);
+    //view.setOnClickListener(this::onClick);
+    return new ConnectionViewHolder(LayoutInflater
+            .from(parent.getContext())
+            .inflate(R.layout.fragment_connection_card, parent, false));
   }
 
   @Override
@@ -54,6 +53,7 @@ public class ConnectionRecyclerViewAdapter extends
   public int getItemCount() {
     return mConnections.size();
   }
+
 
   @Override
   public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -87,17 +87,28 @@ public class ConnectionRecyclerViewAdapter extends
     public FragmentConnectionCardBinding binding;
     private Connection mConnection;
 
-    /**
-     * Creates a new view  holder containing the connection card fragment.
-     *
-     * @param view the corresponding view in the recycler view.
-     */
     public ConnectionViewHolder(View view) {
       super(view);
       mView = view;
       binding = FragmentConnectionCardBinding.bind(view);
+      binding.testAvatar.setOnClickListener(this::onClick);
     }
 
+    /**
+     * Navigates to the profile the user clicks on from connection.
+     *
+     * @param view the view that was clicked on.
+     */
+    private void onClick(View view) {
+      int position = mRecyclerView.getChildAdapterPosition(view);
+
+      // TODO Make this use a message Id
+      String profileId = "" + position;
+
+      Navigation.findNavController(view).navigate(
+              ConnectionFragmentDirections
+                      .actionNavigationConnectionToProfileFragment(profileId));
+    }
 
     /**
      * Stores the data of the corresponding connection and updates the view.
@@ -108,8 +119,9 @@ public class ConnectionRecyclerViewAdapter extends
       mConnection = connection;
 
       // TODO Make this get the person who is not you, if not found throw error
-      binding.cardNameId.setText(connection.getPerson2());
+      binding.cardNameId.setText(connection.getEmail());
+
     }
+    // Checkstyle: Done - Hung Vu
   }
-  // Checkstyle: Done - Hung Vu
 }

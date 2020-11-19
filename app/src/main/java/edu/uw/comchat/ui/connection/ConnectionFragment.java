@@ -34,9 +34,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import edu.uw.comchat.R;
+import edu.uw.comchat.databinding.FragmentConnectionBinding;
+import edu.uw.comchat.databinding.FragmentSettingsBinding;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.chat.ChatGroupInfo;
+import edu.uw.comchat.ui.settings.SettingsViewModel;
 import edu.uw.comchat.util.HandleRequestError;
 
 /**
@@ -49,22 +52,20 @@ import edu.uw.comchat.util.HandleRequestError;
  */
 // Ignore checkstyle member name error.
 public class ConnectionFragment extends Fragment {
-  UserInfoViewModel mUserViewModel;
-  private MutableLiveData<JSONObject> mResponse;
+  //UserInfoViewModel mUserViewModel;
+
   private ConnectionStateAdapter connectionStateAdapter;
   private ViewPager2 mViewPager;
-  private String mEmail;
-  private ArrayList<String> mConnections = new ArrayList<>();
+
+
+//  private String mEmail;
+
 
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-    mUserViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
-    mResponse = new MutableLiveData<>();
-    mResponse.setValue(new JSONObject());
-
     return inflater.inflate(R.layout.fragment_connection, container, false);
   }
 
@@ -80,8 +81,8 @@ public class ConnectionFragment extends Fragment {
     new TabLayoutMediator(tabLayout, mViewPager,
             (tab, position) -> tab.setText(tabNames[position])).attach();
 
-  }
 
+  }
 
 
 
