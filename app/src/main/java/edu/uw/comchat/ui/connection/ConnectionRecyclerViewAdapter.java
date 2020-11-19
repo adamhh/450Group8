@@ -92,6 +92,11 @@ public class ConnectionRecyclerViewAdapter extends
     public FragmentConnectionCardBinding binding;
     private Connection mConnection;
 
+    /**
+     * Constructor.
+     *
+     * @param view the provided row view
+     */
     public ConnectionViewHolder(View view) {
       super(view);
       mView = view;
@@ -124,6 +129,6 @@ public class ConnectionRecyclerViewAdapter extends
       binding.cardNameId.setText(connection.getEmail());
 
     }
-    // Checkstyle: Done - Hung Vu
+    // Checkstyle done, sprint 2 - Hung Vu. Ignore member name errors if they exist.
   }
 }

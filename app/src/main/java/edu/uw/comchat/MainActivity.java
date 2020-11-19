@@ -112,9 +112,11 @@ public class MainActivity extends AppCompatActivity {
       }
     });
   }
-  public String getEmail(){
+
+  public String getEmail() {
     return mModel.getEmail();
   }
+
   @Override
   public void onResume() {
     super.onResume();

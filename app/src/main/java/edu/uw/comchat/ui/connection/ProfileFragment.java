@@ -31,6 +31,7 @@ public class ProfileFragment extends Fragment {
     image.setImageResource(R.drawable.ic_temp_avatar);
     return view;
   }
+
   //TODO need to get data from individual card to populate profile
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

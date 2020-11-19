@@ -244,5 +244,6 @@ public class WeatherCardFragment extends Fragment {
             + weather.getString("description"));
   }
 
-  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name/switch without default errors if they exist.
+  // Checkstyle done, sprint 2 - Hung Vu. Ignore member name and
+  //  switch without default errors if they exist.
 }
