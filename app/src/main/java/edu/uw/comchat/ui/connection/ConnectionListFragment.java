@@ -4,19 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import edu.uw.comchat.R;
-import edu.uw.comchat.databinding.FragmentConnectionCardBinding;
 import edu.uw.comchat.databinding.FragmentConnectionListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 
@@ -35,18 +29,18 @@ public class ConnectionListFragment extends Fragment {
   /**
    * An instance of the view model.
    */
-  private ConnectionListViewModel mModel;
+  private ConnectionListViewModel mConnectionViewModel;
+
   /**
-   * A bundle that will give access to the arguments.
+   * An instance of the user info view model that will provide email information.
    */
-  private Bundle mArgs;
+  private UserInfoViewModel mUserModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
-    mModel.connectGet();
-
+    mConnectionViewModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
+    mUserModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
   }
 
   @Override
@@ -68,8 +62,11 @@ public class ConnectionListFragment extends Fragment {
       case 3:
         view = inflater.inflate(R.layout.fragment_connection_outgoing, container, false);
         break;
+
       case 4:
         view = inflater.inflate(R.layout.fragment_connection_suggested, container, false);
+        break;
+
       default:
         // TODO Throw error
         view = null;
@@ -80,9 +77,10 @@ public class ConnectionListFragment extends Fragment {
   }
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//    super.onViewCreated(view, savedInstanceState);
+    super.onViewCreated(view, savedInstanceState);
+
     FragmentConnectionListBinding binding = FragmentConnectionListBinding.bind(getView());
-    mArgs = getArguments();
+    Bundle mArgs = getArguments();
 
     /*hard coded recycler view only to populate for existing connections.
     I need to figure out if I can reuse the recycler view for all four tabs
@@ -90,13 +88,26 @@ public class ConnectionListFragment extends Fragment {
     the webservice is set up for incoming/outgoing requests and whatever we choose for suggested
     */
 
-    mModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
-      if (!connectionList.isEmpty() && mArgs.getInt(ARG_POSITION) == 1) {
-        binding.listRootConnection.setAdapter(
-                new ConnectionRecyclerViewAdapter(connectionList)
-        );
+    mConnectionViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
+    mConnectionViewModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
+      binding.listRootConnection.setAdapter(
+              new ConnectionRecyclerViewAdapter(connectionList));
+
+      /*
+      if (!connectionList.isEmpty()) {
+        switch (mArgs.getInt(ARG_POSITION)) {
+          case 1:
+            binding.listRootConnection.setAdapter(
+                    new ConnectionRecyclerViewAdapter(connectionList));
+            break;
+
+          default:
+            break;
+        }
+
         //binding.layoutWait.setVisibility(View.GONE);
       }
+       */
     });
   }
 
