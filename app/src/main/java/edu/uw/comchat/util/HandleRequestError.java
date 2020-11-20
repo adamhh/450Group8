@@ -1,19 +1,16 @@
 package edu.uw.comchat.util;
 
 import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
-
 import com.android.volley.VolleyError;
-
+import java.nio.charset.Charset;
+import java.util.Objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.Charset;
-import java.util.Objects;
-
 /**
  * An interface which will handle error response from webserivce.
+ *
  * @author Hung Vu
  */
 public interface HandleRequestError {

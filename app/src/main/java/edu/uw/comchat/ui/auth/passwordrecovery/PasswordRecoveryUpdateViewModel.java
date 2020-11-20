@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
@@ -20,6 +19,8 @@ import org.json.JSONObject;
 
 /**
  * Store response from server for password recovery (second page).
+ *
+ * @author Hung Vu
  */
 // Ignore checkstyle member name error.
 public class PasswordRecoveryUpdateViewModel extends AndroidViewModel {

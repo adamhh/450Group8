@@ -1,12 +1,10 @@
 package edu.uw.comchat.ui.chat.chatroom;
 
 import androidx.annotation.Nullable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.Objects;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Represent a message in a group.
@@ -75,5 +73,5 @@ public final class ChatMessage implements Serializable {
     return Objects.hash(mMessageId, mMessage, mSender);
   }
 
-  // Checkstyle: Done - Hung Vu
+
 }

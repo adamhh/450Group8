@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 /**
  * Store response from server for password recovery (first page).
+ *
+ * @author Hung Vu
  */
 // Ignore checkstyle member name error.
 public class PasswordRecoveryViewModel extends AndroidViewModel {
@@ -72,5 +74,5 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
     RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
             .addToRequestQueue(request);
   }
-  // Checkstyle: Done - Hung Vu
+
 }

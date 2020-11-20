@@ -6,19 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.shape.CornerFamily;
-
-import java.util.List;
-
 import edu.uw.comchat.R;
-import edu.uw.comchat.Theme;
 import edu.uw.comchat.databinding.FragmentChatMessageBinding;
+import java.util.List;
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 

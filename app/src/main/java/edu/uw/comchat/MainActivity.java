@@ -1,16 +1,17 @@
 package edu.uw.comchat;
 
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import static edu.uw.comchat.util.UpdateTheme.updateThemeColor;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.MenuItem;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -18,29 +19,16 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.function.BiConsumer;
-
 import edu.uw.comchat.databinding.ActivityMainBinding;
 import edu.uw.comchat.model.NewMessageCountViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
-
-import static edu.uw.comchat.util.UpdateTheme.*;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Intent;
-import android.content.res.Configuration;
 import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
-import edu.uw.comchat.util.UpdateTheme;
+import java.util.function.BiConsumer;
 
 /**
  * This class is a main activity for the program (homepage/weather/connection/chat/).

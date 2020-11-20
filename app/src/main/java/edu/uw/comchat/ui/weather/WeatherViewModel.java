@@ -1,31 +1,20 @@
 package edu.uw.comchat.ui.weather;
 
-import android.app.Application;
-import android.util.Log;
+import static edu.uw.comchat.util.HandleRequestError.handleError;
 
+import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.nio.charset.Charset;
+import edu.uw.comchat.io.RequestQueueSingleton;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-
-import edu.uw.comchat.io.RequestQueueSingleton;
-import edu.uw.comchat.util.HandleRequestError;
-
-import static edu.uw.comchat.util.HandleRequestError.*;
+import org.json.JSONObject;
 
 /**
  * This class provide data and backend connection to webservice for weather fragment.

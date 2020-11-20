@@ -1,11 +1,9 @@
 package edu.uw.comchat.ui.chat;
 
 import androidx.annotation.Nullable;
-
+import java.io.Serializable;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
 
 /**
  * Represent a messaging group.

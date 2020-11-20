@@ -1,7 +1,6 @@
 package edu.uw.comchat.ui.connection;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -41,5 +40,5 @@ public class ConnectionStateAdapter extends FragmentStateAdapter {
   public int getItemCount() {
     return mTabCount;
   }
-  // Checkstyle: Done - Hung Vu
+
 }

@@ -54,5 +54,5 @@ public class Connection implements Serializable {
     return mEmail;
   }
 
-  // Checkstyle: Done - Hung Vu
+
 }
