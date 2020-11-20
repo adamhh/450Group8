@@ -5,24 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherBinding;
-import edu.uw.comchat.databinding.FragmentWeatherFiveDayBinding;
-import edu.uw.comchat.databinding.FragmentWeatherFiveDayCardBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple

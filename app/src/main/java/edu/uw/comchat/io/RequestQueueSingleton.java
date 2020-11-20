@@ -64,5 +64,5 @@ public class RequestQueueSingleton {
   public ImageLoader getmImageLoader() {
     return mImageLoader;
   }
-  // Checkstyle: Done - Hung Vu
+
 }

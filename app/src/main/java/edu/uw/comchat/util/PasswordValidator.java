@@ -81,5 +81,5 @@ public interface PasswordValidator extends Function<String,
     PWD_INVALID_LENGTH,
     PWD_MISSING_UPPER
   }
-  // Checkstyle: Done - Hung Vu
+
 }

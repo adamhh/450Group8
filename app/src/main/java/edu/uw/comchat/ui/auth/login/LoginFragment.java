@@ -236,5 +236,5 @@ public class LoginFragment extends Fragment {
                     .actionLoginFragmentToMainActivity(email, jwt));
     getActivity().finish();
   }
-  // Checkstyle: Done - Hung Vu
+
 }

@@ -124,6 +124,6 @@ public class ConnectionRecyclerViewAdapter extends
       binding.cardNameId.setText(connection.getEmail());
 
     }
-    // Checkstyle: Done - Hung Vu
+
   }
 }

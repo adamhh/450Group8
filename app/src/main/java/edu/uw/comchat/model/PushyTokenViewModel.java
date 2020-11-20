@@ -3,30 +3,27 @@ package edu.uw.comchat.model;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import edu.uw.comchat.R;
+import edu.uw.comchat.io.RequestQueueSingleton;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import edu.uw.comchat.R;
-import edu.uw.comchat.io.RequestQueueSingleton;
 import me.pushy.sdk.Pushy;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+// View model class from lab 5, subject to change - Hung Vu.
+// Subject to change later on. Comment is intentionally left out.
 public class PushyTokenViewModel extends AndroidViewModel {
 
   private final MutableLiveData<String> mPushyToken;

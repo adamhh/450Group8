@@ -7,19 +7,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
-
-import java.util.List;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import java.util.List;
 
 
 /**

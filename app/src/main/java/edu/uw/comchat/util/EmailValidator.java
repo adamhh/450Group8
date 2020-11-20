@@ -61,5 +61,5 @@ public interface EmailValidator extends Function<String,
     EMAIL_SUCCESS,
     EMAIL_INVALID
   }
-  // Checkstyle: Done - Hung Vu
+
 }

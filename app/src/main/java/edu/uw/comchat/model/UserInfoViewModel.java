@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 /**
  * Store jwt and email.
+ *
  * @author Hung Vu
  */
 public class UserInfoViewModel extends ViewModel {

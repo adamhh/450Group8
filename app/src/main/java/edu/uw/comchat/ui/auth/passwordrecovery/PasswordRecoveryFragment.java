@@ -1,31 +1,27 @@
 package edu.uw.comchat.ui.auth.passwordrecovery;
 
-import android.os.Bundle;
+import static edu.uw.comchat.util.EmailValidator.checkEmail;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentPasswordRecoveryBinding;
 import edu.uw.comchat.util.EmailValidator;
-
-import static edu.uw.comchat.util.EmailValidator.checkEmail;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This is a page where users type in the email of account that they want to recover.
+ * 
  * @author Hung Vu
  */
 public class PasswordRecoveryFragment extends Fragment {

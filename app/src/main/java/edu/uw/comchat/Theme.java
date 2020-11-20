@@ -1,5 +1,8 @@
 package edu.uw.comchat;
 
+/**
+ * This class support changing theme action.
+ */
 public class Theme {
     public static final String DEFAULT_THEME = "default";
     public static final String GREY_THEME = "grey";
@@ -25,6 +28,11 @@ public class Theme {
         return mThemeName;
     }
 
+    /**
+     * Dynamically change theme of the application.
+     *
+     * @param description a string indicates which theme to choose.
+     */
     public static void setTheme(String description) {
         int result = 0;
         String str = description.toLowerCase();

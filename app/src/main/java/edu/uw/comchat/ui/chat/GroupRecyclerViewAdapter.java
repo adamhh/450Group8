@@ -3,15 +3,11 @@ package edu.uw.comchat.ui.chat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
-
-
 import java.util.List;
 
 
@@ -119,5 +115,5 @@ public class GroupRecyclerViewAdapter extends
       binding.textChatGroupDate.setText("Date");
     }
   }
-  // Checkstyle: Done - Hung Vu
+
 }

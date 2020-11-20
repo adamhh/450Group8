@@ -34,5 +34,5 @@ public class WeatherStateAdapter extends FragmentStateAdapter {
   public int getItemCount() {
     return 3;
   }
-  // Checkstyle: Done - Hung Vu
+
 }
