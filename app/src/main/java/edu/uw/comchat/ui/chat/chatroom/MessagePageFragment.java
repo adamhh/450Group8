@@ -2,16 +2,25 @@ package edu.uw.comchat.ui.chat.chatroom;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 
 
 /**
@@ -27,6 +36,7 @@ public class MessagePageFragment extends Fragment {
   private ChatViewModel mChatModel;
   private UserInfoViewModel mUserModel;
   private ChatSendViewModel mSendModel;
+
   private int chatId;
 
   @Override
@@ -44,6 +54,7 @@ public class MessagePageFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_message_list, container, false);
   }
@@ -97,6 +108,40 @@ public class MessagePageFragment extends Fragment {
               rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
               binding.swipeContainer.setRefreshing(false);
             });
+  }
+
+  @Override
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+    getActivity().getMenuInflater().inflate(R.menu.toolbar_chatroom, menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    int id = item.getItemId();
+
+    if (id == R.id.menu_chat_list_add) {
+      handleAddMemberToChatRoomAction();
+    } else if (id == R.id.menu_chat_list_remove) {
+      handleRemoveMemberToChatRoomAction();
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void handleRemoveMemberToChatRoomAction() {
+    CharSequence[] multiItems = {"Item 1", "Item 2", "Item 3"};
+    boolean[] checkedItems = {true, false, false, false};
+
+    new MaterialAlertDialogBuilder(getActivity())
+    //Multi-choice items (initialized with checked items)
+        .setMultiChoiceItems(multiItems, checkedItems,  (dialog, which, checked) -> {
+      // Respond to item chosen
+    })
+        .show();
+  }
+
+  private void handleAddMemberToChatRoomAction() {
   }
 
   @Override
