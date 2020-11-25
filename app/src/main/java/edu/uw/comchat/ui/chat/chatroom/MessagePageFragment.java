@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
@@ -36,8 +39,10 @@ public class MessagePageFragment extends Fragment {
   private ChatViewModel mChatModel;
   private UserInfoViewModel mUserModel;
   private ChatSendViewModel mSendModel;
-
   private int chatId;
+
+  // Get in-room info
+  private InRoomInfoViewModel mInRoomInfoViewModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,14 +53,13 @@ public class MessagePageFragment extends Fragment {
     mSendModel = provider.get(ChatSendViewModel.class);
     mUserModel = provider.get(UserInfoViewModel.class);
     mChatModel = provider.get(ChatViewModel.class);
-    mChatModel.getFirstMessages(chatId, mUserModel.getJwt());
+    mInRoomInfoViewModel =  provider.get(InRoomInfoViewModel.class);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-    // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_message_list, container, false);
   }
 
@@ -80,7 +84,6 @@ public class MessagePageFragment extends Fragment {
     binding.swipeContainer.setRefreshing(true);
 
     final RecyclerView rv = binding.recyclerMessages;
-    // Working on...
     // Sets the Adapter to hold a reference to the list for this group ID that the ViewModel holds
     rv.setAdapter(new ChatRecyclerViewAdapter(
             mChatModel.getMessageListByChatId(chatId),
@@ -108,6 +111,9 @@ public class MessagePageFragment extends Fragment {
               rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
               binding.swipeContainer.setRefreshing(false);
             });
+
+    mChatModel.getFirstMessages(chatId, mUserModel.getJwt());
+    mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
   }
 
   @Override
@@ -130,9 +136,14 @@ public class MessagePageFragment extends Fragment {
   }
 
   private void handleRemoveMemberToChatRoomAction() {
-    CharSequence[] multiItems = {"Item 1", "Item 2", "Item 3"};
-    boolean[] checkedItems = {true, false, false, false};
+//    CharSequence[] multiItems = {"Item 1", "Item 2", "Item 3"};
 
+    List<String> userList = mInRoomInfoViewModel.getMemberList();
+    CharSequence[] multiItems = userList.toArray(new CharSequence[userList.size()]);
+    boolean[] checkedItems = new boolean[userList.size()];
+    for(int i = 0; i < userList.size(); i++){
+      checkedItems[i] = false;
+    }
     new MaterialAlertDialogBuilder(getActivity())
     //Multi-choice items (initialized with checked items)
         .setMultiChoiceItems(multiItems, checkedItems,  (dialog, which, checked) -> {
