@@ -135,6 +135,8 @@
     <string name="title_chat_list">Chat</string>
     <string name="item_menu_chat_list_add">Add member</string>
     <string name="item_menu_chat_list_delete">Remove member</string>
+    <string name="item_menu_chat_list_accept">Accept</string>
+    <string name="item_menu_chat_list_decline">Decline</string>
 
     <!-- ChatMessage Card Fragment -->
     <string name="text_chat_name">Name</string>

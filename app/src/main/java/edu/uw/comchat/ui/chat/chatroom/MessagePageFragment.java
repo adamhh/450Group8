@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,12 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
+import edu.uw.comchat.util.ModifyChatRoom;
 
 
 /**
@@ -53,7 +56,7 @@ public class MessagePageFragment extends Fragment {
     mSendModel = provider.get(ChatSendViewModel.class);
     mUserModel = provider.get(UserInfoViewModel.class);
     mChatModel = provider.get(ChatViewModel.class);
-    mInRoomInfoViewModel =  provider.get(InRoomInfoViewModel.class);
+    mInRoomInfoViewModel = provider.get(InRoomInfoViewModel.class);
   }
 
   @Override
@@ -90,7 +93,7 @@ public class MessagePageFragment extends Fragment {
             mUserModel.getEmail(),
             getActivity().getTheme()
     ));
-    
+
     //When the user scrolls to the top of the RV, the swiper list will "refresh"
     //The user is out of messages, go out to the service and get more
     binding.swipeContainer.setOnRefreshListener(() -> {
@@ -136,20 +139,32 @@ public class MessagePageFragment extends Fragment {
   }
 
   private void handleRemoveMemberToChatRoomAction() {
-//    CharSequence[] multiItems = {"Item 1", "Item 2", "Item 3"};
-
     List<String> userList = mInRoomInfoViewModel.getMemberList();
     CharSequence[] multiItems = userList.toArray(new CharSequence[userList.size()]);
     boolean[] checkedItems = new boolean[userList.size()];
-    for(int i = 0; i < userList.size(); i++){
+    for (int i = 0; i < userList.size(); i++) {
       checkedItems[i] = false;
     }
     new MaterialAlertDialogBuilder(getActivity())
-    //Multi-choice items (initialized with checked items)
-        .setMultiChoiceItems(multiItems, checkedItems,  (dialog, which, checked) -> {
-      // Respond to item chosen
-    })
-        .show();
+            //Multi-choice items (initialized with checked items)
+            .setMultiChoiceItems(multiItems, checkedItems, (dialog, which, checked) -> {
+              checkedItems[which] = checked;
+            })
+            .setPositiveButton(getResources().getString(R.string.item_menu_chat_list_accept), (dialog, which) -> {
+              for(int i = 0; i < checkedItems.length; i ++){
+                if (checkedItems[i] == true){
+                  ArrayList<String> memberToDelete = new ArrayList<>();
+                  memberToDelete.add(String.valueOf(chatId));
+                  memberToDelete.add(userList.get(i));
+                  memberToDelete.add(mUserModel.getJwt());
+                  ModifyChatRoom.removeMember().accept(memberToDelete,getActivity().getApplication());
+                }
+              }
+            })
+            .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline), (dialog, which) -> {
+
+            })
+            .show();
   }
 
   private void handleAddMemberToChatRoomAction() {

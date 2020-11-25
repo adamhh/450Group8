@@ -28,6 +28,7 @@ import java.util.Objects;
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.ui.chat.ChatGroupInfo;
+import edu.uw.comchat.util.HandleRequestError;
 
 /**
  * @author Hung Vu
@@ -59,7 +60,7 @@ public class InRoomInfoViewModel extends AndroidViewModel {
             url,
             null, //no body for this get request
             this::handelSuccess,
-            this::handleError) {
+            error -> HandleRequestError.handleErrorForChat(error)) {
 
       @Override
       public Map<String, String> getHeaders() {
@@ -96,21 +97,21 @@ public class InRoomInfoViewModel extends AndroidViewModel {
     }
   }
 
-  /**
-   * Print to the console error messages.
-   *
-   * @param error an error received from server
-   */
-  private void handleError(final VolleyError error) {
-    if (Objects.isNull(error.networkResponse)) {
-      Log.e("NETWORK ERROR", error.getMessage());
-    } else {
-      String data = new String(error.networkResponse.data, Charset.defaultCharset());
-      Log.e("CLIENT ERROR",
-              error.networkResponse.statusCode
-                      + " "
-                      + data);
-    }
-  }
+//  /**
+//   * Print to the console error messages.
+//   *
+//   * @param error an error received from server
+//   */
+//  private void handleError(final VolleyError error) {
+//    if (Objects.isNull(error.networkResponse)) {
+//      Log.e("NETWORK ERROR", error.getMessage());
+//    } else {
+//      String data = new String(error.networkResponse.data, Charset.defaultCharset());
+//      Log.e("CLIENT ERROR",
+//              error.networkResponse.statusCode
+//                      + " "
+//                      + data);
+//    }
+//  }
 
 }
