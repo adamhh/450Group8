@@ -124,4 +124,13 @@ public class ConnectionListViewModel extends AndroidViewModel {
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }
+
+    /**
+     * Return a list of connection.
+     * Since I don't know how you accessed the list without getter, I make one here - Hung Vu.
+     * @return a list of Connection objects.
+     */
+    public List<Connection> getConnectionList(){
+        return mFriendList.getValue();
+    }
 }

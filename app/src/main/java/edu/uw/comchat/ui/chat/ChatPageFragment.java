@@ -17,6 +17,8 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -54,7 +56,15 @@ public class ChatPageFragment extends Fragment {
     mChatPageView = view;
     // Get group id upon creation - Hung Vu
     mChatPageViewModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
+    TimerTask getGroupTask = new TimerTask() {
+      @Override
+      public void run() {
+        mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
+      }
+    };
+    Timer timer = new Timer("Update group page per 0.5 sec");
+    timer.schedule(getGroupTask, 500L);
+//    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
   }
 
   @Override

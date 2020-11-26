@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.chat.chatroom;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,10 +22,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.util.ModifyChatRoom;
 
@@ -46,6 +50,7 @@ public class MessagePageFragment extends Fragment {
 
   // Get in-room info
   private InRoomInfoViewModel mInRoomInfoViewModel;
+  private ConnectionListViewModel mConnectionListViewModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class MessagePageFragment extends Fragment {
     mUserModel = provider.get(UserInfoViewModel.class);
     mChatModel = provider.get(ChatViewModel.class);
     mInRoomInfoViewModel = provider.get(InRoomInfoViewModel.class);
+    mConnectionListViewModel = provider.get(ConnectionListViewModel.class);
   }
 
   @Override
@@ -116,7 +122,17 @@ public class MessagePageFragment extends Fragment {
             });
 
     mChatModel.getFirstMessages(chatId, mUserModel.getJwt());
+
+    mInRoomInfoViewModel.addResponseObserver(getViewLifecycleOwner(), response -> {
+      // For now, the response doesn't cause any changes to the UI - Hung Vu.
+    });
     mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
+
+    mConnectionListViewModel.addConnectionListObserver(getViewLifecycleOwner(), response -> {
+      // For now, the response doesn't cause any changes to the UI - Hung Vu.
+    });
+    mConnectionListViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
+
   }
 
   @Override
@@ -142,9 +158,56 @@ public class MessagePageFragment extends Fragment {
     List<String> userList = mInRoomInfoViewModel.getMemberList();
     CharSequence[] multiItems = userList.toArray(new CharSequence[userList.size()]);
     boolean[] checkedItems = new boolean[userList.size()];
-    for (int i = 0; i < userList.size(); i++) {
-      checkedItems[i] = false;
-    }
+//    for (int i = 0; i < userList.size(); i++) {
+//      checkedItems[i] = false;
+//    }
+//    new MaterialAlertDialogBuilder(getActivity())
+//            //Multi-choice items (initialized with checked items)
+//            .setMultiChoiceItems(multiItems, checkedItems, (dialog, which, checked) -> {
+//              checkedItems[which] = checked;
+//            })
+//            .setPositiveButton(getResources().getString(R.string.item_menu_chat_list_accept), (dialog, which) -> {
+//              for(int i = 0; i < checkedItems.length; i ++){
+//                if (checkedItems[i] == true){
+//                  ArrayList<String> memberToDelete = new ArrayList<>();
+//                  memberToDelete.add(String.valueOf(chatId));
+//                  memberToDelete.add(userList.get(i));
+//                  memberToDelete.add(mUserModel.getJwt());
+//                  ModifyChatRoom.removeMember().accept(memberToDelete,getActivity().getApplication());
+//                }
+//              }
+//            })
+//            .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline), (dialog, which) -> {
+//
+//            })
+//            .show();
+    createDialog(multiItems, checkedItems, userList, ModifyChatRoom.removeMember());
+    mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
+  }
+
+  private void handleAddMemberToChatRoomAction() {
+    List<Connection> friendList = mConnectionListViewModel.getConnectionList();
+    List<String> emailList = friendList.stream()
+            .map(connection -> connection.getEmail())
+            .collect(Collectors.toList());
+    CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
+    boolean[] checkedItems = new boolean[multiItems.length];
+//    createDialog(multiItems, checkedItems, friendList, );
+    mConnectionListViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
+
+  }
+
+  /**
+   * This is a helper method which create dialog and perform actions accordingly in chat room.
+   * For example, create a dialog for remove member from group chat.
+   *
+   * @param multiItems
+   * @param checkedItems
+   * @param userList
+   * @param whichAction
+   */
+  private void createDialog(CharSequence[] multiItems, boolean[] checkedItems,
+                            List<String> userList, BiConsumer<ArrayList<String>, Application> whichAction){
     new MaterialAlertDialogBuilder(getActivity())
             //Multi-choice items (initialized with checked items)
             .setMultiChoiceItems(multiItems, checkedItems, (dialog, which, checked) -> {
@@ -153,11 +216,11 @@ public class MessagePageFragment extends Fragment {
             .setPositiveButton(getResources().getString(R.string.item_menu_chat_list_accept), (dialog, which) -> {
               for(int i = 0; i < checkedItems.length; i ++){
                 if (checkedItems[i] == true){
-                  ArrayList<String> memberToDelete = new ArrayList<>();
-                  memberToDelete.add(String.valueOf(chatId));
-                  memberToDelete.add(userList.get(i));
-                  memberToDelete.add(mUserModel.getJwt());
-                  ModifyChatRoom.removeMember().accept(memberToDelete,getActivity().getApplication());
+                  ArrayList<String> memberToModify = new ArrayList<>();
+                  memberToModify.add(String.valueOf(chatId));
+                  memberToModify.add(userList.get(i));
+                  memberToModify.add(mUserModel.getJwt());
+                  whichAction.accept(memberToModify,getActivity().getApplication());
                 }
               }
             })
@@ -165,9 +228,6 @@ public class MessagePageFragment extends Fragment {
 
             })
             .show();
-  }
-
-  private void handleAddMemberToChatRoomAction() {
   }
 
   @Override
