@@ -56,15 +56,22 @@ public class ChatPageFragment extends Fragment {
     mChatPageView = view;
     // Get group id upon creation - Hung Vu
     mChatPageViewModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
+
+    // TODO I attempt to update chat group list per 0.5 sec to update UI in real time.
+    //  For example, when user 1 delete 2 from chat group 3, screen of 2 will update.
+    //  But this doesn't work - Hung Vu.
     TimerTask getGroupTask = new TimerTask() {
       @Override
       public void run() {
-        mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
+        mChatPageViewModel.getAllUserCommunicationGroup(
+                mUserViewModel.getEmail(),
+                mUserViewModel.getJwt());
       }
     };
     Timer timer = new Timer("Update group page per 0.5 sec");
     timer.schedule(getGroupTask, 500L);
-//    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
+    //    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(),
+    //    mUserViewModel.getJwt());
   }
 
   @Override
@@ -75,9 +82,10 @@ public class ChatPageFragment extends Fragment {
 
   /**
    * When receive response from server, create chat rooms along with their respective groupId.
+   *
    * @param chatIdList a list of ChatGroupInfo
    */
-  private void observeResponse(List<ChatGroupInfo> chatIdList){
+  private void observeResponse(List<ChatGroupInfo> chatIdList) {
     binding = FragmentChatBinding.bind(mChatPageView);
     binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
       Navigation.findNavController(getView()).navigate(

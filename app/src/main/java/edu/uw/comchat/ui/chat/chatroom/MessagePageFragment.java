@@ -8,29 +8,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentMessageListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.util.ModifyChatRoom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+
+
 
 
 /**
@@ -154,37 +149,22 @@ public class MessagePageFragment extends Fragment {
     return super.onOptionsItemSelected(item);
   }
 
+  /**
+   * This creates a dialog which contains name of users in chat room
+   * and handle removing action for user.
+   */
   private void handleRemoveMemberToChatRoomAction() {
-    List<String> userList = mInRoomInfoViewModel.getMemberList();
-    CharSequence[] multiItems = userList.toArray(new CharSequence[userList.size()]);
-    boolean[] checkedItems = new boolean[userList.size()];
-//    for (int i = 0; i < userList.size(); i++) {
-//      checkedItems[i] = false;
-//    }
-//    new MaterialAlertDialogBuilder(getActivity())
-//            //Multi-choice items (initialized with checked items)
-//            .setMultiChoiceItems(multiItems, checkedItems, (dialog, which, checked) -> {
-//              checkedItems[which] = checked;
-//            })
-//            .setPositiveButton(getResources().getString(R.string.item_menu_chat_list_accept), (dialog, which) -> {
-//              for(int i = 0; i < checkedItems.length; i ++){
-//                if (checkedItems[i] == true){
-//                  ArrayList<String> memberToDelete = new ArrayList<>();
-//                  memberToDelete.add(String.valueOf(chatId));
-//                  memberToDelete.add(userList.get(i));
-//                  memberToDelete.add(mUserModel.getJwt());
-//                  ModifyChatRoom.removeMember().accept(memberToDelete,getActivity().getApplication());
-//                }
-//              }
-//            })
-//            .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline), (dialog, which) -> {
-//
-//            })
-//            .show();
-    createDialog(multiItems, checkedItems, userList, ModifyChatRoom.removeMember());
+    List<String> emailList = mInRoomInfoViewModel.getMemberList();
+    CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
+    boolean[] checkedItems = new boolean[emailList.size()];
+    createDialog(multiItems, checkedItems, emailList, ModifyChatRoom.removeMember());
     mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
   }
 
+  /**
+   * This creates a dialog which contains name of users in chat room
+   * and handle adding action for user.
+   */
   private void handleAddMemberToChatRoomAction() {
     List<Connection> friendList = mConnectionListViewModel.getConnectionList();
     List<String> emailList = friendList.stream()
@@ -192,59 +172,63 @@ public class MessagePageFragment extends Fragment {
             .collect(Collectors.toList());
     CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
     boolean[] checkedItems = new boolean[multiItems.length];
-//    createDialog(multiItems, checkedItems, friendList, );
+    createDialog(multiItems, checkedItems, emailList, ModifyChatRoom.addMember());
     mConnectionListViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
 
   }
 
   /**
    * This is a helper method which create dialog and perform actions accordingly in chat room.
-   * For example, create a dialog for remove member from group chat.
+   * For example, create a dialog for remove member from group chat. This also perform request
+   * to a respective web service endpoint to perform an action.
    *
-   * @param multiItems
-   * @param checkedItems
-   * @param userList
-   * @param whichAction
+   * @param multiItems   a CharSequence array required to create a dialog
+   * @param checkedItems a list of checked item in a box
+   * @param userList     a list of user email required for add and delete operations
+   * @param whichAction  a function indicate whether a user want to add or remove user from chat.
    */
   private void createDialog(CharSequence[] multiItems, boolean[] checkedItems,
-                            List<String> userList, BiConsumer<ArrayList<String>, Application> whichAction){
+                            List<String> userList, BiConsumer<ArrayList<String>,
+                            Application> whichAction) {
     new MaterialAlertDialogBuilder(getActivity())
             //Multi-choice items (initialized with checked items)
             .setMultiChoiceItems(multiItems, checkedItems, (dialog, which, checked) -> {
               checkedItems[which] = checked;
             })
-            .setPositiveButton(getResources().getString(R.string.item_menu_chat_list_accept), (dialog, which) -> {
-              for(int i = 0; i < checkedItems.length; i ++){
-                if (checkedItems[i] == true){
-                  ArrayList<String> memberToModify = new ArrayList<>();
-                  memberToModify.add(String.valueOf(chatId));
-                  memberToModify.add(userList.get(i));
-                  memberToModify.add(mUserModel.getJwt());
-                  whichAction.accept(memberToModify,getActivity().getApplication());
-                }
-              }
-            })
-            .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline), (dialog, which) -> {
-
-            })
+            .setPositiveButton(getResources().getString(
+                    R.string.item_menu_chat_list_accept),
+                    (dialog, which) -> {
+                      for (int i = 0; i < checkedItems.length; i++) {
+                        if (checkedItems[i] == true) {
+                          ArrayList<String> memberToModify = new ArrayList<>();
+                          memberToModify.add(String.valueOf(chatId));
+                          memberToModify.add(userList.get(i));
+                          memberToModify.add(mUserModel.getJwt());
+                          whichAction.accept(memberToModify, getActivity().getApplication());
+                        }
+                      }
+              })
+            .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline),
+                    (dialog, which) -> { })
             .show();
   }
 
   @Override
   public void onResume() {
     // TODO When a user pause activity (app to background), user will receive msg over notification.
-    //  However, since there is no view, that msg is not drawn on anything so when we return to our app
+    //  However, since there is no view, that msg is not drawn on anything so when we return
+    //  to our app.
     //  The latest msg is not there. I haven't found out a way to fix this yet - Hung Vu
     super.onResume();
-//    FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
-//    final RecyclerView rv = binding.recyclerMessages;
-//    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
-//    rv.setAdapter(new ChatRecyclerViewAdapter(
-//            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
-//            mUserModel.getEmail()
-//    ));
-//    rv.getAdapter().notifyDataSetChanged();
-//    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
+    //    FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
+    //    final RecyclerView rv = binding.recyclerMessages;
+    //    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
+    //    rv.setAdapter(new ChatRecyclerViewAdapter(
+    //            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+    //            mUserModel.getEmail()
+    //    ));
+    //    rv.getAdapter().notifyDataSetChanged();
+    //    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
   }
 
 }

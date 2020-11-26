@@ -2,21 +2,19 @@ package edu.uw.comchat.util;
 
 import android.app.Application;
 import android.util.Log;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-
+import edu.uw.comchat.io.RequestQueueSingleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import org.json.JSONException;
 
-import edu.uw.comchat.io.RequestQueueSingleton;
+
+
+
 
 /**
  * This interface provides functions which helps perform actions on a specific chatroom.
@@ -47,13 +45,13 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Applicatio
                   if (response.getString("success").equals("true")) {
                     Log.i("DELETE user in chatroom", "Successfully delete user "
                             + memberToDelete.get(1)
-                            + "in chat room "
+                            + "from chat room "
                             + memberToDelete.get(0)
                             + response);
                   } else {
                     throw new IllegalStateException("Cannot delete user "
                             + memberToDelete.get(1)
-                            + "in chat room "
+                            + "from chat room "
                             + memberToDelete.get(0)
                             + response);
                   }
@@ -81,25 +79,34 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Applicatio
     };
   }
 
+  /**
+   * Provide a function which helps add a user to a specific chat room.
+   * This function accept an array list, which contains chatId at index 0,
+   *  email of user to be deleted at index 1, and jwt at index 2.
+   * This also requires an application context as a second parameter
+   *  to help perform a request.
+   *
+   * @return a ModifyChatRoom function which helps modify chat room
+   */
   static ModifyChatRoom addMember() {
     String url = "https://comchat-backend.herokuapp.com/chats";
-    return (memberToDelete, application) -> {
+    return (memberToAdd, application) -> {
       Request request = new JsonObjectRequest(
               Request.Method.PUT,
-              url + "/" + memberToDelete.get(0) + "/" + memberToDelete.get(1),
+              url + "/" + memberToAdd.get(0) + "?email=" + memberToAdd.get(1),
               null, //no body for this get request
               response -> {
                 if (response.has("success")) {
                   Log.i("ADD user in chatroom", "Successfully add user "
-                          + memberToDelete.get(1)
-                          + "in chat room "
-                          + memberToDelete.get(0)
+                          + memberToAdd.get(1)
+                          + "to chat room "
+                          + memberToAdd.get(0)
                           + response);
                 } else {
-                  throw new IllegalStateException("Cannot delete user "
-                          + memberToDelete.get(1)
-                          + "in chat room "
-                          + memberToDelete.get(0)
+                  throw new IllegalStateException("Cannot add user "
+                          + memberToAdd.get(1)
+                          + "to chat room "
+                          + memberToAdd.get(0)
                           + response);
                 }
               },
@@ -109,7 +116,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Applicatio
         public Map<String, String> getHeaders() {
           Map<String, String> headers = new HashMap<>();
           // add headers <key,value>
-          headers.put("Authorization", memberToDelete.get(2));
+          headers.put("Authorization", memberToAdd.get(2));
           return headers;
         }
       };
