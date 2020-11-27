@@ -32,6 +32,18 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * Mutable live data to store connection list.
      */
     private MutableLiveData<List<Connection>> mFriendList;
+    /**
+     * Mutable live data to store incoming connections request list.
+     */
+    private MutableLiveData<List<Connection>> mIncomingReqList;
+    /**
+     * Mutable live data to store outgoing connections request list.
+     */
+    private MutableLiveData<List<Connection>> mOutgoingReqList;
+    /**
+     * Mutable live data to store suggested connections list.
+     */
+    private MutableLiveData<List<Connection>> mSuggFriendList;
 
     /**
      * Public constructor for the view model.
@@ -41,6 +53,15 @@ public class ConnectionListViewModel extends AndroidViewModel {
         super(application);
         mFriendList = new MutableLiveData<>();
         mFriendList.setValue(new ArrayList<>());
+
+        mIncomingReqList = new MutableLiveData<>();
+        mIncomingReqList.setValue(new ArrayList<>());
+
+        mOutgoingReqList = new MutableLiveData<>();
+        mOutgoingReqList.setValue(new ArrayList<>());
+
+        mSuggFriendList = new MutableLiveData<>();
+        mSuggFriendList.setValue(new ArrayList<>());
 
     }
 
@@ -52,6 +73,33 @@ public class ConnectionListViewModel extends AndroidViewModel {
     public void addConnectionListObserver(@NonNull LifecycleOwner owner,
                                     @NonNull Observer<? super List<Connection>> observer) {
         mFriendList.observe(owner, observer);
+    }
+    /**
+     * Adds an observer for our incoming connection requests list.
+     * @param owner The owner
+     * @param observer The observer
+     */
+    public void addIncomingListObserver(@NonNull LifecycleOwner owner,
+                                          @NonNull Observer<? super List<Connection>> observer) {
+        mIncomingReqList.observe(owner, observer);
+    }
+    /**
+     * Adds an observer for our outgoing connection requests list.
+     * @param owner The owner
+     * @param observer The observer
+     */
+    public void addOutgoingListObserver(@NonNull LifecycleOwner owner,
+                                          @NonNull Observer<? super List<Connection>> observer) {
+        mOutgoingReqList.observe(owner, observer);
+    }
+    /**
+     * Adds an observer for our suggested connection list.
+     * @param owner The owner
+     * @param observer The observer
+     */
+    public void addSuggestedListObserver(@NonNull LifecycleOwner owner,
+                                          @NonNull Observer<? super List<Connection>> observer) {
+        mSuggFriendList.observe(owner, observer);
     }
 
     /**
@@ -72,6 +120,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * @param result The resulting JSON object from webservice GET request
      */
     private void handleResult(final JSONObject result) {
+        Log.d("ZZZ", result.toString());
         try {
             JSONArray contactsArray = result.getJSONArray("contacts");
             List<String> temp = new ArrayList<>();
@@ -115,7 +164,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 return headers;
             }
         };
-
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

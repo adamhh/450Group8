@@ -8,6 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentConnectionListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
@@ -79,34 +83,38 @@ public class ConnectionListFragment extends Fragment {
 
     FragmentConnectionListBinding binding = FragmentConnectionListBinding.bind(getView());
     Bundle mArgs = getArguments();
-
-    /*hard coded recycler view only to populate for existing connections.
-    I need to figure out if I can reuse the recycler view for all four tabs
-    or if i'll have to have four different recycler views.  I should know more once the
-    the webservice is set up for incoming/outgoing requests and whatever we choose for suggested
-    */
+    List<Connection> testList = new ArrayList<>();
 
     mConnectionViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
-    mConnectionViewModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
-      binding.listRootConnection.setAdapter(
-              new ConnectionRecyclerViewAdapter(connectionList));
 
-      /*
-      if (!connectionList.isEmpty()) {
-        switch (mArgs.getInt(ARG_POSITION)) {
-          case 1:
-            binding.listRootConnection.setAdapter(
-                    new ConnectionRecyclerViewAdapter(connectionList));
-            break;
+    switch (mArgs.getInt(ARG_POSITION)) {
+      case 1:
+        mConnectionViewModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
+          binding.listRootConnection.setAdapter(
+                  new ConnectionRecyclerViewAdapter(connectionList));
+        });
+        break;
+      case 2:
+        mConnectionViewModel.addIncomingListObserver(getViewLifecycleOwner(), connectionList -> {
+          binding.listRootConnection.setAdapter(
+                  new ConnectionRecyclerViewAdapter(connectionList));
+        });
+        break;
+      case 3:
+        mConnectionViewModel.addOutgoingListObserver(getViewLifecycleOwner(), connectionList -> {
+          binding.listRootConnection.setAdapter(
+                  new ConnectionRecyclerViewAdapter(connectionList));
+        });
+        break;
+      default:
+        mConnectionViewModel.addSuggestedListObserver(getViewLifecycleOwner(), connectionList -> {
+          binding.listRootConnection.setAdapter(
+                  new ConnectionRecyclerViewAdapter(connectionList));
+        });
+        break;
 
-          default:
-            break;
-        }
 
-        //binding.layoutWait.setVisibility(View.GONE);
-      }
-       */
-    });
+    }
   }
 
 }
