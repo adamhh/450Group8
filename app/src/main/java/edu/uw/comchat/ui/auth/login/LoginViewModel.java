@@ -61,7 +61,7 @@ public class LoginViewModel extends AndroidViewModel {
             url,
             null, //no body for this get request
             mResponse::setValue,
-            error -> HandleRequestError.handleError(error, mResponse)) {
+            error -> HandleRequestError.handleErrorForAuth(error, mResponse)) {
       @Override
       public Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();

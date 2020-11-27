@@ -1,6 +1,6 @@
 package edu.uw.comchat.ui.weather;
 
-import static edu.uw.comchat.util.HandleRequestError.handleError;
+import static edu.uw.comchat.util.HandleRequestError.handleErrorForAuth;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -55,7 +55,7 @@ public class WeatherViewModel extends AndroidViewModel {
             url,
             null,
             mResponse::setValue,
-            error -> handleError(error, mResponse)){
+            error -> handleErrorForAuth(error, mResponse)){
       @Override
       public Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();

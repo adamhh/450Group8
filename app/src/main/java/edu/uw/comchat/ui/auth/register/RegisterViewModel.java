@@ -76,7 +76,7 @@ public class RegisterViewModel extends AndroidViewModel {
             url,
             body,
             mResponse::setValue,
-            error -> HandleRequestError.handleError(error, mResponse));
+            error -> HandleRequestError.handleErrorForAuth(error, mResponse));
 
     request.setRetryPolicy(new DefaultRetryPolicy(
             10_000,

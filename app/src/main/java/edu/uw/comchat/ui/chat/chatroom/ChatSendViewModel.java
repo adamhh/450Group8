@@ -13,6 +13,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.util.HandleRequestError;
+
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class ChatSendViewModel extends AndroidViewModel {
             url,
             body, //push token found in the JSONObject body
             mResponse::setValue, // we get a response but do nothing with it
-            this::handleError) {
+            error -> HandleRequestError.handleErrorForChat(error)) {
 
       @Override
       public Map<String, String> getHeaders() {
@@ -74,15 +76,15 @@ public class ChatSendViewModel extends AndroidViewModel {
   }
 
 
-  private void handleError(final VolleyError error) {
-    if (Objects.isNull(error.networkResponse)) {
-      Log.e("NETWORK ERROR", error.getMessage());
-    } else {
-      String data = new String(error.networkResponse.data, Charset.defaultCharset());
-      Log.e("CLIENT ERROR",
-              error.networkResponse.statusCode
-                      + " "
-                      + data);
-    }
-  }
+//  private void handleError(final VolleyError error) {
+//    if (Objects.isNull(error.networkResponse)) {
+//      Log.e("NETWORK ERROR", error.getMessage());
+//    } else {
+//      String data = new String(error.networkResponse.data, Charset.defaultCharset());
+//      Log.e("CLIENT ERROR",
+//              error.networkResponse.statusCode
+//                      + " "
+//                      + data);
+//    }
+//  }
 }

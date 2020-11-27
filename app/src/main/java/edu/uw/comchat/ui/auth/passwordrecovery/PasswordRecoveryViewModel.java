@@ -65,7 +65,7 @@ public class PasswordRecoveryViewModel extends AndroidViewModel {
             url,
             null, //no body for this get request
             mResponse::setValue,
-            error -> HandleRequestError.handleError(error, mResponse));
+            error -> HandleRequestError.handleErrorForAuth(error, mResponse));
     request.setRetryPolicy(new DefaultRetryPolicy(
             10_000,
             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
