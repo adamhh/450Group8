@@ -79,7 +79,7 @@ public class ConnectionRecyclerViewAdapter extends
     int position = mRecyclerView.getChildAdapterPosition(view);
 
     // TODO Make this use a message Id
-    String profileId = "" + position;
+    String profileId = "email" + position;
 
     Navigation.findNavController(view).navigate(
             ConnectionFragmentDirections
