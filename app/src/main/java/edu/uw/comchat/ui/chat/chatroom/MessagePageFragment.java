@@ -2,6 +2,7 @@ package edu.uw.comchat.ui.chat.chatroom;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.util.ModifyChatRoom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -158,6 +160,9 @@ public class MessagePageFragment extends Fragment {
     CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
     boolean[] checkedItems = new boolean[emailList.size()];
     createDialog(multiItems, checkedItems, emailList, ModifyChatRoom.removeMember());
+    // Note, if the response is delayed, the next call to this method will still use old info.
+    //  However, the response can arrive when the dialog is opened with old info
+    //  Since the response update info already, it will cause NPE Hung Vu
     mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
   }
 
@@ -172,6 +177,8 @@ public class MessagePageFragment extends Fragment {
             .collect(Collectors.toList());
     CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
     boolean[] checkedItems = new boolean[multiItems.length];
+//    Log.i("", String.valueOf(multiItems[0]));
+//    Log.i("", friendList.toString());
     createDialog(multiItems, checkedItems, emailList, ModifyChatRoom.addMember());
     mConnectionListViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
 
@@ -201,9 +208,19 @@ public class MessagePageFragment extends Fragment {
                       for (int i = 0; i < checkedItems.length; i++) {
                         if (checkedItems[i] == true) {
                           ArrayList<String> memberToModify = new ArrayList<>();
-                          memberToModify.add(String.valueOf(chatId));
-                          memberToModify.add(userList.get(i));
-                          memberToModify.add(mUserModel.getJwt());
+                          // Catch index out of bound exception due to slow response.
+                          try {
+                            memberToModify.add(String.valueOf(chatId));
+                            memberToModify.add(userList.get(i));
+                            memberToModify.add(mUserModel.getJwt());
+                          } catch (IndexOutOfBoundsException e) {
+                            new MaterialAlertDialogBuilder(getActivity())
+                                    .setTitle("Status")
+                                    .setMessage("Remove unsuccessfully. Please try again. " +
+                                            "Tap anywhere to close this message. ");
+                            Log.i("MessagePageFragment", "Index out of bound when remove user.");
+                            return;
+                          }
                           whichAction.accept(memberToModify, getActivity().getApplication());
                         }
                       }
