@@ -48,35 +48,9 @@ public class ConnectionListFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-
-    View view;
-    switch (getArguments().getInt(ARG_POSITION)) {
-      // Not using layout ids as case as it is not recommended
-      // Layout ids are not final on runtime could cause error?
-      case 1:
-        view = inflater.inflate(R.layout.fragment_connection_existing, container, false);
-        break;
-
-      case 2:
-        view = inflater.inflate(R.layout.fragment_connection_incoming, container, false);
-        break;
-
-      case 3:
-        view = inflater.inflate(R.layout.fragment_connection_outgoing, container, false);
-        break;
-
-      case 4:
-        view = inflater.inflate(R.layout.fragment_connection_suggested, container, false);
-        break;
-
-      default:
-        // TODO Throw error
-        view = null;
-        break;
-    }
-
-    return view;
+    return inflater.inflate(R.layout.fragment_connection_list, container, false);
   }
+
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
