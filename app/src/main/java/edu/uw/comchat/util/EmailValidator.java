@@ -16,7 +16,7 @@ public interface EmailValidator extends Function<String,
   /**
    * A username section of an email address.
    */
-  static final String USER_NAME = "^[a-zA-Z0-9-_.]+";
+  static final String USER_NAME = "^[a-zA-Z0-9-!@#$%^&*+_.]+";
 
   /**
    * "At" symbol (@).
