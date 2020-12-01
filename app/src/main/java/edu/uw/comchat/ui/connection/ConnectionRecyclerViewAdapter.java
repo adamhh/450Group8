@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.connection;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class ConnectionRecyclerViewAdapter extends
 
     // Sets the on click listener for the view / card
     //view.setOnClickListener(this::onClick);
+
     return new ConnectionViewHolder(LayoutInflater
             .from(parent.getContext())
             .inflate(R.layout.fragment_connection_card, parent, false));

@@ -120,7 +120,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * @param result The resulting JSON object from webservice GET request
      */
     private void handleResult(final JSONObject result) {
-        Log.d("ZZZ", result.toString());
+
         try {
             JSONArray contactsArray = result.getJSONArray("contacts");
             List<String> temp = new ArrayList<>();
@@ -133,6 +133,38 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 connList.add(new Connection(temp.get(i)));
             }
             mFriendList.setValue(connList);
+        } catch (JSONException e) {
+            Log.e("JSON PARSE ERROR", "Found in handle Success ChatPageViewModel");
+            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
+        }
+        try {
+            JSONArray contactsArray = result.getJSONArray("sentRequests");
+            List<String> temp2 = new ArrayList<>();
+            for (int i = 0; i < contactsArray.length(); i++) {
+                temp2.add(contactsArray.getJSONObject(i).getString("email"));
+
+            }
+            List<Connection> sentList = new ArrayList<>();
+            for (int i = 0; i < temp2.size(); i++) {
+                sentList.add(new Connection(temp2.get(i)));
+            }
+            mOutgoingReqList.setValue(sentList);
+        } catch (JSONException e) {
+            Log.e("JSON PARSE ERROR", "Found in handle Success ChatPageViewModel");
+            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
+        }
+        try {
+            JSONArray contactsArray = result.getJSONArray("receivedRequests");
+            List<String> temp3 = new ArrayList<>();
+            for (int i = 0; i < contactsArray.length(); i++) {
+                temp3.add(contactsArray.getJSONObject(i).getString("email"));
+
+            }
+            List<Connection> receivedList = new ArrayList<>();
+            for (int i = 0; i < temp3.size(); i++) {
+                receivedList.add(new Connection(temp3.get(i)));
+            }
+            mIncomingReqList.setValue(receivedList);
         } catch (JSONException e) {
             Log.e("JSON PARSE ERROR", "Found in handle Success ChatPageViewModel");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
