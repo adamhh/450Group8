@@ -1,6 +1,5 @@
 package edu.uw.comchat.ui.chat.chatroom;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,11 +21,9 @@ import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.util.ModifyChatRoom;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
-
 
 
 
@@ -160,7 +157,6 @@ public class MessagePageFragment extends Fragment {
     // Default choice at index 0
     emailList.add(0, "None");
     CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
-//    boolean[] checkedItems = new boolean[emailList.size()];
     createDialog(multiItems, ModifyChatRoom.removeMember());
     // Note, if the response is delayed, the next call to this method will still use old info.
     //  However, the response can arrive when the dialog is opened with old info
@@ -180,9 +176,9 @@ public class MessagePageFragment extends Fragment {
     // Default choice at index 0
     emailList.add(0, "None");
     CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
-//    boolean[] checkedItems = new boolean[multiItems.length];
-//    Log.i("", String.valueOf(multiItems[0]));
-//    Log.i("", friendList.toString());
+    //    boolean[] checkedItems = new boolean[multiItems.length];
+    //    Log.i("", String.valueOf(multiItems[0]));
+    //    Log.i("", friendList.toString());
     createDialog(multiItems, ModifyChatRoom.addMember());
     mConnectionListViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
 
@@ -193,14 +189,14 @@ public class MessagePageFragment extends Fragment {
    * For example, create a dialog for remove member from group chat. This also perform request
    * to a respective web service endpoint to perform an action.
    *
-   * @param multiItems   a CharSequence array required to create a dialog
-   * @param whichAction  a function indicate whether a user want to add or remove user from chat.
+   * @param multiItems  a CharSequence array required to create a dialog
+   * @param whichAction a function indicate whether a user want to add or remove user from chat.
    */
   private void createDialog(CharSequence[] multiItems,
-                            BiConsumer<ArrayList<String>, Application> whichAction) {
+                            BiConsumer<ArrayList<String>, Fragment> whichAction) {
     // Work around since "which" in setPositiveButton isn't the same as "which"
     //  in setSingleChoiceItem.
-    int[]choice = new int[1];
+    int[] choice = new int[1];
     new MaterialAlertDialogBuilder(getActivity())
             //Multi-choice items (initialized with checked items)
             .setSingleChoiceItems(multiItems, 0, (dialog, which) -> {
@@ -209,32 +205,35 @@ public class MessagePageFragment extends Fragment {
             .setPositiveButton(getResources().getString(
                     R.string.item_menu_chat_list_accept), (dialog, which) -> {
 
-              if (choice[0] != 0) {
-                ArrayList<String> memberToModify = new ArrayList<>();
-                // Catch index out of bound exception due to slow response.
-                              Log.i("", String.valueOf(choice[0]));
-                try {
-                  memberToModify.add(String.valueOf(chatId));
-                  // Choice has "None" at i = 0, so its length = userList + 1
-                  memberToModify.add(String.valueOf(multiItems[choice[0]]));
-                  memberToModify.add(mUserModel.getJwt());
-                } catch (IndexOutOfBoundsException e) {
-                  // TODO dialog not show? Maybe because getActivity doesn't work inside lambda method? - Hung Vu
-                  // userList -> multiItems[]
-                  // A change has been made to this method to "completely" mitigate the exception,
-                  //  but we will keep the catch phrase here just in case.
-                  new MaterialAlertDialogBuilder(getActivity())
-                          .setTitle("Status")
-                          .setMessage("Remove unsuccessfully. Please try again. " +
-                                  "Tap anywhere to close this message. ");
-                  Log.i("MessagePageFragment", "Index out of bound when remove user.");
-                  return;
-                }
-                whichAction.accept(memberToModify, getActivity().getApplication());
-              }
-            })
+                      if (choice[0] != 0) {
+                        ArrayList<String> memberToModify = new ArrayList<>();
+                        // Catch index out of bound exception due to slow response.
+                        // Log.i("", String.valueOf(choice[0]));
+                        try {
+                          memberToModify.add(String.valueOf(chatId));
+                          // Choice has "None" at i = 0, so its length = userList + 1
+                          memberToModify.add(String.valueOf(multiItems[choice[0]]));
+                          memberToModify.add(mUserModel.getJwt());
+                        } catch (IndexOutOfBoundsException e) {
+                          // TODO dialog not show? Maybe because getActivity doesn't work inside lambda method? - Hung Vu
+                          // userList -> multiItems[]
+                          // A change has been made to this method to "completely" mitigate the exception,
+                          //  but we will keep the catch phrase here just in case. However, the behavior
+                          //  (showing "removed" user) is still there, and will cause HTTP 400 response.
+                          new MaterialAlertDialogBuilder(getActivity())
+                                  .setTitle("Status")
+                                  .setMessage("Remove unsuccessfully. Please try again. "
+                                          + "Tap anywhere to close this message. ");
+                          Log.i("MessagePageFragment", "Index out of bound when remove user.");
+                          return;
+                        }
+                        whichAction.accept(memberToModify, this);
+                      }
+                    }
+            )
             .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline),
-                    (dialog, which) -> { })
+                    (dialog, which) -> {
+                    })
             .show();
   }
 

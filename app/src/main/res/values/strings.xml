@@ -152,6 +152,8 @@
     <string name="title_create">Message</string>
     <string name="action_create_search">Search</string>
     <string name="action_create_add">Add Contact</string>
+    <string name="text_create_chat_name">Group Name</string>
+    <string name="button_create_accept">Accept</string>
 
     <!-- URL -->
     <string name="base_url">https://comchat-backend.herokuapp.com/</string>
