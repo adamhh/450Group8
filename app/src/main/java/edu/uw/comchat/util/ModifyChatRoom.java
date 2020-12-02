@@ -1,41 +1,40 @@
 package edu.uw.comchat.util;
 
-import android.app.Application;
 import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.ui.chat.CreateFragmentDirections;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import org.json.JSONException;
-
-
-
-
+import org.json.JSONObject;
 
 /**
- * This interface provides functions which helps perform actions on a specific chatroom.
- * This includes adding and removing a user from chat room.
+ * This interface provides functions which helps perform actions related to a chat room.
+ * This includes adding and removing a user from chat room, or creating a new room.
  *
  * @author Hung Vu
  */
-public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Application> {
+public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> {
 
   /**
    * Provide a function which helps remove a user from specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   *  email of user to be deleted at index 1, and jwt at index 2.
-   * This also requires an application context as a second parameter
-   *  to help perform a request.
+   * email of user to be deleted at index 1, and jwt at index 2.
+   * This also requires a fragment as a second parameter
+   * to help perform a request.
    *
    * @return a ModifyChatRoom function which helps modify chat room
    */
   static ModifyChatRoom removeMember() {
     String url = "https://comchat-backend.herokuapp.com/chats";
-    return (memberToDelete, application) -> {
+    return (memberToDelete, fragment) -> {
       Request request = new JsonObjectRequest(
               Request.Method.DELETE,
               url + "/" + memberToDelete.get(0) + "/" + memberToDelete.get(1),
@@ -74,7 +73,10 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Applicatio
               DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
               DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
       //Instantiate the RequestQueue and add the request to the queue
-      RequestQueueSingleton.getInstance(application.getApplicationContext())
+      RequestQueueSingleton.getInstance(fragment
+              .getActivity()
+              .getApplication()
+              .getApplicationContext())
               .addToRequestQueue(request);
     };
   }
@@ -82,15 +84,15 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Applicatio
   /**
    * Provide a function which helps add a user to a specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   *  email of user to be deleted at index 1, and jwt at index 2.
-   * This also requires an application context as a second parameter
-   *  to help perform a request.
+   * email of user to be added at index 1, and jwt at index 2.
+   * This also requires a fragment as a second parameter
+   * to help perform a request.
    *
    * @return a ModifyChatRoom function which helps modify chat room
    */
   static ModifyChatRoom addMember() {
     String url = "https://comchat-backend.herokuapp.com/chats";
-    return (memberToAdd, application) -> {
+    return (memberToAdd, fragment) -> {
       Request request = new JsonObjectRequest(
               Request.Method.PUT,
               url + "/" + memberToAdd.get(0) + "?email=" + memberToAdd.get(1),
@@ -125,7 +127,83 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Applicatio
               DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
               DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
       //Instantiate the RequestQueue and add the request to the queue
-      RequestQueueSingleton.getInstance(application.getApplicationContext())
+      RequestQueueSingleton.getInstance(fragment
+              .getActivity()
+              .getApplication()
+              .getApplicationContext())
+              .addToRequestQueue(request);
+    };
+  }
+
+  /**
+   * Provide a function which helps create a new chat room.
+   * This function accept an array list, which contains a room name
+   * at index 0, creator's email at index 1 and jwt at index 2.
+   * This also requires a fragment as a second parameter
+   * to help perform a request.
+   *
+   * @return a ModifyChatRoom function which helps create a chat room
+   */
+  static ModifyChatRoom createRoom() {
+    String url = "https://comchat-backend.herokuapp.com/chats";
+    return (roomToCreate, fragment) -> {
+      JSONObject body = new JSONObject();
+      try {
+        body.put("name", roomToCreate.get(0));
+      } catch (JSONException e) {
+        // TODO Have a better handler - Hung Vu.
+        e.printStackTrace();
+      }
+      Request request = new JsonObjectRequest(
+              Request.Method.POST,
+              url,
+              body,
+              response -> {
+                try {
+                  if (response.getString("success").equals("true")) {
+                    Log.i("CREATE a new room", "Create a new room successfully.");
+                    // TODO Since the endpoint does not automatically add the creator after
+                    //  a room is created, a separate call to endpoint for adding.
+                    //  I'm not sure if there is a case when the call for adding is slow, so a
+                    //  user hasn't been added to the room yet, so they can't perform messaging.
+                    //  Might need a handler - Hung Vu?
+                    ArrayList<String> populateRoom = new ArrayList<>();
+                    populateRoom.add(response.getString("chatID"));
+                    populateRoom.add(roomToCreate.get(1));
+                    populateRoom.add(roomToCreate.get(2));
+                    addMember().accept(populateRoom, fragment);
+
+                    Navigation.findNavController(fragment.getView()).navigate(
+                            CreateFragmentDirections.actionCreateFragmentToMessageListFragment(
+                                    response.getInt("chatID")
+                            )
+                    );
+                  } else {
+                    throw new IllegalStateException("Cannot create a new room." + response);
+                  }
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              },
+              error -> HandleRequestError.handleErrorForChat(error)) {
+
+        @Override
+        public Map<String, String> getHeaders() {
+          Map<String, String> headers = new HashMap<>();
+          // add headers <key,value>
+          headers.put("Authorization", roomToCreate.get(2));
+          return headers;
+        }
+      };
+      request.setRetryPolicy(new DefaultRetryPolicy(
+              10_000,
+              DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+              DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+      //Instantiate the RequestQueue and add the request to the queue
+      RequestQueueSingleton.getInstance(fragment
+              .getActivity()
+              .getApplication()
+              .getApplicationContext())
               .addToRequestQueue(request);
     };
   }
