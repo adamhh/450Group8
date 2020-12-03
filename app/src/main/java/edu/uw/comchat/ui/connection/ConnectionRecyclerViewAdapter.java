@@ -1,6 +1,7 @@
 package edu.uw.comchat.ui.connection;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentConnectionCardBinding;
+import edu.uw.comchat.model.UserInfoViewModel;
+
 import java.util.List;
 
 /**
@@ -29,6 +32,10 @@ public class ConnectionRecyclerViewAdapter extends
    */
   private RecyclerView mRecyclerView;
 
+  /**
+   * An instance of the user info view model that will provide email information.
+   */
+  private UserInfoViewModel mUserModel;
 
   /**
    * Creates a new connection recycler view adapter with the given list of connections.
@@ -37,6 +44,7 @@ public class ConnectionRecyclerViewAdapter extends
    */
   public ConnectionRecyclerViewAdapter(List<Connection> items) {
     this.mConnections = items;
+
   }
 
   @NonNull
@@ -71,22 +79,6 @@ public class ConnectionRecyclerViewAdapter extends
   }
 
   /**
-   * Navigates to the profile the user clicks on from connection.
-   *
-   * @param view the view that was clicked on.
-   */
-  private void onClick(View view) {
-    int position = mRecyclerView.getChildAdapterPosition(view);
-
-    // TODO Make this use a message Id
-    String profileId = "email" + position;
-
-    Navigation.findNavController(view).navigate(
-            ConnectionFragmentDirections
-                    .actionNavigationConnectionToProfileFragment(profileId));
-  }
-
-  /**
    * Objects from this class represent a single connection row view from the users connections.
    */
   public class ConnectionViewHolder extends RecyclerView.ViewHolder {
@@ -109,7 +101,7 @@ public class ConnectionRecyclerViewAdapter extends
     private void onClick(View view) {
       int position = mRecyclerView.getChildAdapterPosition(view);
       // TODO Make this use a message Id
-      String profileId = "" + position;
+      String profileId = mConnections.get(position).getEmail();
       Navigation.findNavController(view).navigate(
               ConnectionFragmentDirections
                       .actionNavigationConnectionToProfileFragment(profileId));
