@@ -128,7 +128,7 @@ Source: https://material.io/develop/android/components/radiobuttons
         <item name="colorPrimaryVariant">@color/redAccentColorLight</item>
         <item name="colorPrimaryDark">@color/redPrimaryColorLight</item>
         <!-- Title text -->
-        <item name="colorOnPrimary">@color/redTextLight</item>
+        <item name="colorOnPrimary">@color/redTextDark</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/redSecondaryColorLight</item>
         <item name="colorSecondaryVariant">@color/redTextLight</item>>
@@ -139,7 +139,7 @@ Source: https://material.io/develop/android/components/radiobuttons
         <item name="android:colorButtonNormal">@color/redButtonLight</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/redNotificationBarLight</item>
         <item name="android:textColor">@color/redTextLight</item>
-        <item name="materialButtonStyle">@style/MaterialButtonThemeRed</item>
+        <!-- <item name="materialButtonStyle">@style/MaterialButtonThemeRed</item> -->
         <item name="radioButtonStyle">@style/MaterialRadioButtonThemeRed</item>
         <item name="toolbarStyle">@style/MaterialActionBarTheme</item>
     </style>

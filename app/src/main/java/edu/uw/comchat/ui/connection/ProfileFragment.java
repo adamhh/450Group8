@@ -1,6 +1,7 @@
 package edu.uw.comchat.ui.connection;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,10 @@ public class ProfileFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     binding = FragmentProfileBinding.bind(view);
+    ProfileFragmentArgs profileArgs = ProfileFragmentArgs.fromBundle(getArguments());
+    Log.d("ZZZZZ", profileArgs.getProfileId().toString());
+    binding.profileEmailId.setText(profileArgs.getProfileId());
+
   }
 
 
