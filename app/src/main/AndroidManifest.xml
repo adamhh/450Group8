@@ -2,15 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.uw.comchat">
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!-- Internet permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- Pushy permissions -->
-
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Pushy permissions -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,58 +25,66 @@
         android:roundIcon="@mipmap/ic_launcher_com"
         android:supportsRtl="true"
         android:theme="@style/Theme.ComChat">
-        <activity android:name=".MainActivity"/>
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".MainActivity" />
         <activity android:name=".AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Pushy Declarations -->
-
+        </activity> <!-- Pushy Declarations -->
         <!-- Pushy Notification Receiver -->
         <!-- Incoming push notifications will invoke the following BroadcastReceiver -->
-        <receiver android:name="edu.uw.comchat.services.PushReceiver" android:exported="false">
+        <receiver
+            android:name=".services.PushReceiver"
+            android:exported="false">
             <intent-filter>
+
                 <!-- Do not modify this -->
                 <action android:name="pushy.me" />
             </intent-filter>
-        </receiver>
-
-        <!-- Pushy Update Receiver -->
+        </receiver> <!-- Pushy Update Receiver -->
         <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
-        <receiver android:name="me.pushy.sdk.receivers.PushyUpdateReceiver" android:exported="false"
+        <receiver
+            android:name="me.pushy.sdk.receivers.PushyUpdateReceiver"
+            android:exported="false"
             tools:ignore="MissingClass">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
-        </receiver>
-
-        <!-- Pushy Boot Receiver -->
+        </receiver> <!-- Pushy Boot Receiver -->
         <!-- Do not modify - internal BroadcastReceiver that restarts the listener service -->
-        <receiver android:name="me.pushy.sdk.receivers.PushyBootReceiver" android:exported="false"
+        <receiver
+            android:name="me.pushy.sdk.receivers.PushyBootReceiver"
+            android:exported="false"
             tools:ignore="MissingClass">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
-
-        <!-- Pushy Socket Service -->
+        </receiver> <!-- Pushy Socket Service -->
         <!-- Do not modify - internal service -->
-        <service android:name="me.pushy.sdk.services.PushySocketService"
-            tools:ignore="MissingClass" />
-
-        <!-- Pushy Job Service (added in Pushy SDK 1.0.35) -->
+        <service
+            android:name="me.pushy.sdk.services.PushySocketService"
+            tools:ignore="MissingClass" /> <!-- Pushy Job Service (added in Pushy SDK 1.0.35) -->
         <!-- Do not modify - internal service -->
-        <service android:name="me.pushy.sdk.services.PushyJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
+        <service
+            android:name="me.pushy.sdk.services.PushyJobService"
             android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             tools:ignore="MissingClass" />
-
-        <!-- End Pushy Declarations -->
-
     </application>
 
 </manifest>
