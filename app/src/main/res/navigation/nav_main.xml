@@ -40,7 +40,11 @@
         android:id="@+id/navigation_weather"
         android:name="edu.uw.comchat.ui.weather.WeatherFragment"
         android:label="@string/title_weather"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather" >
+        <action
+            android:id="@+id/action_navigation_weather_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createFragment"
         android:name="edu.uw.comchat.ui.chat.CreateFragment"
@@ -67,5 +71,14 @@
         <argument
             android:name="profileId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="edu.uw.comchat.ui.weather.LocationFragment"
+        android:label="@string/title_location"
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_navigation_weather"
+            app:destination="@id/navigation_weather" />
     </fragment>
 </navigation>

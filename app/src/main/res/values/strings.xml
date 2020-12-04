@@ -105,6 +105,12 @@
     <string name="text_weather_five_day_description">Description</string>
     <string name="text_weather_five_day_humidity">Humidity</string>
 
+    <string name="title_location">Set Location</string>
+    <string name="button_location_set">Set Location</string>
+    <string name="button_location_current">Use Current</string>
+    <string name="action_location_search">Search</string>
+    <string name="action_location_set">Location</string>
+
 
     <!-- Connections Fragment -->
     <string name="title_connection">Connection</string>
@@ -150,7 +156,7 @@
 
     <!-- Create Fragment -->
     <string name="title_create">Message</string>
-    <string name="action_create_search">Search</string>
+    <string name="action_search">Search</string>
     <string name="action_create_add">Add Contact</string>
     <string name="text_create_chat_name">Group Name</string>
     <string name="button_create_accept">Accept</string>
@@ -158,5 +164,6 @@
     <!-- URL -->
     <string name="base_url">https://comchat-backend.herokuapp.com/</string>
     <string name="connections_url">https://comchat-backend.herokuapp.com/connections/</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

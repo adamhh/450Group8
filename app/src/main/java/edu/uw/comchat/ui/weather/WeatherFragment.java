@@ -3,12 +3,16 @@ package edu.uw.comchat.ui.weather;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -35,11 +39,6 @@ public class WeatherFragment extends Fragment {
   private WeatherViewModel mWeatherModel;
   private FragmentWeatherBinding mWeatherBinding;
 
-
-  public WeatherFragment() {
-
-  }
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,13 +48,12 @@ public class WeatherFragment extends Fragment {
     UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
     String jwt = userInfoViewModel.getJwt();
     mWeatherModel.getToken().setValue(jwt);
-
-
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     mWeatherBinding = FragmentWeatherBinding.inflate(inflater);
     return mWeatherBinding.getRoot();
   }
@@ -73,17 +71,40 @@ public class WeatherFragment extends Fragment {
             getString(R.string.item_weather_five_day)};
 
     new TabLayoutMediator(tabLayout, mViewPager,
-            new TabLayoutMediator.TabConfigurationStrategy() {
-              @Override
-              public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(tabNames[position]);
-              }
-            }).attach();
+            (tab, position) -> tab.setText(tabNames[position])).attach();
+
+    // Get arguments if available
+    Bundle args = getArguments();
+    if (args != null
+            && args.containsKey(LocationFragment.LOCATION_LONGITUDE)
+            && args.containsKey(LocationFragment.LOCATION_LATITUDE)) {
+      args.getDouble(LocationFragment.LOCATION_LONGITUDE);
+      args.getDouble(LocationFragment.LOCATION_LATITUDE);
+
+    }
 
     // Connect to webservice - Hung Vu.
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
     mWeatherModel.connect("98402");
-//    mWeatherCurrentBinding = FragmentWeatherCurrentBinding.bind(getView());
+  }
+
+  @Override
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+    getActivity().getMenuInflater().inflate(R.menu.toolbar_weather, menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    int id = item.getItemId();
+
+    if (id == R.id.action_location) {
+      Navigation.findNavController(getView()).navigate(
+              WeatherFragmentDirections.actionNavigationWeatherToLocationFragment()
+      );
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 
   private void observeResponse(JSONObject response) {
