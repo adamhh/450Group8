@@ -58,5 +58,6 @@
     <color name="redBackgroundDark">#3D3D3D</color>
     <color name="redToolbarDark">#212121</color>
     <color name="redTextDark">#FFFFFF</color>
+    <color name="redAccentColorDark">#EB000C</color>
 
 </resources>

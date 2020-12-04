@@ -132,11 +132,11 @@ Source: https://material.io/develop/android/components/radiobuttons
     <style name="Theme.ComChatRed" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <!-- Toolbar -->
-        <item name="colorPrimary">@color/redAccentColorLight</item>
+        <item name="colorPrimary">@color/redAccentColorDark</item>
         <item name="colorPrimaryVariant">@color/redAccentColorLight</item>
         <item name="colorPrimaryDark">@color/redPrimaryColorLight</item>
         <!-- Title text -->
-        <item name="colorOnPrimary">@color/redTextLight</item>
+        <item name="colorOnPrimary">@color/redTextDark</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/redAccentColorLight</item>
         <item name="colorSecondaryVariant">@color/redTextLight</item>>
@@ -147,7 +147,7 @@ Source: https://material.io/develop/android/components/radiobuttons
         <item name="android:colorButtonNormal">@color/redButtonLight</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/redNotificationBarLight</item>
         <item name="android:textColor">@color/redTextDark</item>
-        <item name="materialButtonStyle">@style/MaterialButtonThemeRed</item>
+        <!--<item name="materialButtonStyle">@style/MaterialButtonThemeRed</item> -->
         <item name="radioButtonStyle">@style/MaterialRadioButtonThemeRed</item>
         <item name="toolbarStyle">@style/MaterialActionBarTheme</item>
     </style>
@@ -168,8 +168,8 @@ Source: https://material.io/develop/android/components/radiobuttons
 
     <style name="CustomizedButtonStyleRed">
         <item name="colorPrimary">@color/redAccentColorLight</item>
-        <item name="colorOnPrimary">@color/redTextDark</item>
-        <item name="colorAccent">@color/redTextDark</item>
+        <item name="colorOnPrimary">@color/redAccentColorLight</item>
+        <item name="colorAccent">@color/redAccentColorLight</item>
     </style>
 
     <!--
