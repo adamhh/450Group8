@@ -64,8 +64,7 @@
             app:argType="integer" />
         <argument
             android:name="enableMenu"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

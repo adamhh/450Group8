@@ -139,6 +139,8 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
    * Provide a function which helps create a new chat room.
    * This function accept an array list, which contains a room name
    * at index 0, creator's email at index 1 and jwt at index 2.
+   * Index 3 store a string whether a room is DM or group chat.
+   * "true" for group, "false" for DM
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -175,7 +177,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
 
                     Navigation.findNavController(fragment.getView()).navigate(
                             CreateFragmentDirections.actionCreateFragmentToMessageListFragment(
-                                    response.getInt("chatID")
+                                    response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
                   } else {

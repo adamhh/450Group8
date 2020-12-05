@@ -30,7 +30,6 @@ import edu.uw.comchat.util.ModifyChatRoom;
 public class CreateFragment extends Fragment {
 
   private UserInfoViewModel mUserModel;
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,11 +48,29 @@ public class CreateFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     FragmentCreateBinding binding = FragmentCreateBinding.bind(getView());
+    // Inidcate whether a DM room is created or not.
+    String[] groupMessage = {"true"};
+    binding.checkBoxCreateDm.setOnClickListener(checkBox -> {
+      if(binding.checkBoxCreateDm.isChecked()){
+        binding.editTextChatWith.setVisibility(View.VISIBLE);
+        binding.editTextTargetUser.setVisibility(View.VISIBLE);
+        groupMessage[0] = "false";
+      } else {
+        binding.editTextChatWith.setVisibility(View.INVISIBLE);
+        binding.editTextTargetUser.setVisibility(View.INVISIBLE);
+        binding.editTextTargetUser.setText("");
+        groupMessage[0] = "true";
+      }
+    });
     binding.buttonCreateAccept.setOnClickListener(button -> {
+      if (binding.editTextCreate.getText().toString().isEmpty()){
+        binding.editTextCreate.setError("Chat group name can't be empty.");
+      }
       ArrayList<String> infoToCreateRoom = new ArrayList<>();
       infoToCreateRoom.add(binding.editTextCreate.getText().toString());
       infoToCreateRoom.add(mUserModel.getEmail());
       infoToCreateRoom.add(mUserModel.getJwt());
+      infoToCreateRoom.add(groupMessage[0]);
       ModifyChatRoom.createRoom().accept(infoToCreateRoom, this);
     });
   }
