@@ -25,7 +25,7 @@
             app:destination="@id/createFragment" />
         <action
             android:id="@+id/action_navigation_chat_to_messageListFragment"
-            app:destination="@id/messageListFragment" />
+            app:destination="@id/messagePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_connection"
@@ -52,16 +52,20 @@
         tools:layout="@layout/fragment_create" >
         <action
             android:id="@+id/action_createFragment_to_messageListFragment"
-            app:destination="@id/messageListFragment" />
+            app:destination="@id/messagePageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/messageListFragment"
+        android:id="@+id/messagePageFragment"
         android:name="edu.uw.comchat.ui.chat.chatroom.MessagePageFragment"
         android:label="@string/title_message_list"
         tools:layout="@layout/fragment_message_list" >
         <argument
             android:name="chatId"
             app:argType="integer" />
+        <argument
+            android:name="enableMenu"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

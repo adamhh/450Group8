@@ -40,7 +40,8 @@ public class MessagePageFragment extends Fragment {
   private ChatViewModel mChatModel;
   private UserInfoViewModel mUserModel;
   private ChatSendViewModel mSendModel;
-  private int chatId;
+  private int mChatId;
+  private Boolean mEnableMenu;
 
   // Get in-room info
   private InRoomInfoViewModel mInRoomInfoViewModel;
@@ -50,7 +51,8 @@ public class MessagePageFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ViewModelProvider provider = new ViewModelProvider(getActivity());
-    chatId = MessagePageFragmentArgs.fromBundle(getArguments()).getChatId();
+    mChatId = MessagePageFragmentArgs.fromBundle(getArguments()).getChatId();
+    mEnableMenu = MessagePageFragmentArgs.fromBundle(getArguments()).getEnableMenu();
     // Chat room.
     mSendModel = provider.get(ChatSendViewModel.class);
     mUserModel = provider.get(UserInfoViewModel.class);
@@ -62,7 +64,8 @@ public class MessagePageFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    setHasOptionsMenu(true);
+    // If true -> group chat -> enable menu, otherwise -> DM -> no menu.
+    setHasOptionsMenu(mEnableMenu);
     return inflater.inflate(R.layout.fragment_message_list, container, false);
   }
 
@@ -74,7 +77,7 @@ public class MessagePageFragment extends Fragment {
 
     // Send button was clicked. Send the message via the SendViewModel
     binding.buttonSend.setOnClickListener(button -> {
-      mSendModel.sendMessage(chatId,
+      mSendModel.sendMessage(mChatId,
               mUserModel.getJwt(),
               binding.editMessageBox.getText().toString());
     });
@@ -89,7 +92,7 @@ public class MessagePageFragment extends Fragment {
     final RecyclerView rv = binding.recyclerMessages;
     // Sets the Adapter to hold a reference to the list for this group ID that the ViewModel holds
     rv.setAdapter(new ChatRecyclerViewAdapter(
-            mChatModel.getMessageListByChatId(chatId),
+            mChatModel.getMessageListByChatId(mChatId),
             mUserModel.getEmail(),
             getActivity().getTheme()
     ));
@@ -97,10 +100,10 @@ public class MessagePageFragment extends Fragment {
     //When the user scrolls to the top of the RV, the swiper list will "refresh"
     //The user is out of messages, go out to the service and get more
     binding.swipeContainer.setOnRefreshListener(() -> {
-      mChatModel.getNextMessages(chatId, mUserModel.getJwt());
+      mChatModel.getNextMessages(mChatId, mUserModel.getJwt());
     });
 
-    mChatModel.addMessageObserver(chatId, getViewLifecycleOwner(),
+    mChatModel.addMessageObserver(mChatId, getViewLifecycleOwner(),
             list -> {
               // TODO note from lab, need to consider
               /*
@@ -115,12 +118,12 @@ public class MessagePageFragment extends Fragment {
               binding.swipeContainer.setRefreshing(false);
             });
 
-    mChatModel.getFirstMessages(chatId, mUserModel.getJwt());
+    mChatModel.getFirstMessages(mChatId, mUserModel.getJwt());
 
     mInRoomInfoViewModel.addResponseObserver(getViewLifecycleOwner(), response -> {
       // For now, the response doesn't cause any changes to the UI - Hung Vu.
     });
-    mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
+    mInRoomInfoViewModel.getEmailOfUserInRoom(mChatId, mUserModel.getJwt());
 
     mConnectionListViewModel.addConnectionListObserver(getViewLifecycleOwner(), response -> {
       // For now, the response doesn't cause any changes to the UI - Hung Vu.
@@ -161,7 +164,7 @@ public class MessagePageFragment extends Fragment {
     // Note, if the response is delayed, the next call to this method will still use old info.
     //  However, the response can arrive when the dialog is opened with old info
     //  Since the response update info already, it can potentially cause OutOfBound - Hung Vu
-    mInRoomInfoViewModel.getEmailOfUserInRoom(chatId, mUserModel.getJwt());
+    mInRoomInfoViewModel.getEmailOfUserInRoom(mChatId, mUserModel.getJwt());
   }
 
   /**
@@ -210,7 +213,7 @@ public class MessagePageFragment extends Fragment {
                         // Catch index out of bound exception due to slow response.
                         // Log.i("", String.valueOf(choice[0]));
                         try {
-                          memberToModify.add(String.valueOf(chatId));
+                          memberToModify.add(String.valueOf(mChatId));
                           // Choice has "None" at i = 0, so its length = userList + 1
                           memberToModify.add(String.valueOf(multiItems[choice[0]]));
                           memberToModify.add(mUserModel.getJwt());
