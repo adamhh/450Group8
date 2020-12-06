@@ -105,6 +105,9 @@ public class LoginFragment extends Fragment {
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
+//     TODO clear this later on, only to test navigate to home fragment when webservice return 400/broken.
+//    navigateToMainActivity("test1@test.com",
+//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQHRlc3QuY29tIiwibWVtYmVyaWQiOjEsImlhdCI6MTYwNjM1ODIyMSwiZXhwIjoxNjA3NTY3ODIxfQ.QrM-Z_j738-Byid8llJobpgEY4JLg4nbil8iHZPB-Bw");
   }
 
   /**
