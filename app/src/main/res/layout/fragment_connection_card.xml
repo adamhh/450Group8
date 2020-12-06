@@ -15,18 +15,16 @@
 
 
         <TextView
-            android:id="@+id/card_name_id"
+            android:id="@+id/card_email_id"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/connection_card_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textSize="20sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/test_avatar"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/test_avatar" />
 
         <ImageButton
             android:id="@+id/connection_card_message"
@@ -69,6 +67,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_launcher_test" />
+
+        <TextView
+            android:id="@+id/card_fname_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="4dp"
+            android:text="TextView"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/card_email_id"
+            app:layout_constraintStart_toEndOf="@+id/test_avatar" />
+
+        <TextView
+            android:id="@+id/card_lname_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="4dp"
+            android:text="TextView"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/card_email_id"
+            app:layout_constraintStart_toEndOf="@+id/card_fname_id" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

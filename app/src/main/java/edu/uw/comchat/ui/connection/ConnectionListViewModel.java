@@ -44,6 +44,14 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * Mutable live data to store suggested connections list.
      */
     private MutableLiveData<List<Connection>> mSuggFriendList;
+    /**
+     * The JWT.
+     */
+    private String mJwt;
+    /**
+     * The email.
+     */
+    private String mEmail;
 
     /**
      * Public constructor for the view model.
@@ -126,11 +134,12 @@ public class ConnectionListViewModel extends AndroidViewModel {
             List<String> temp = new ArrayList<>();
             for (int i = 0; i < contactsArray.length(); i++) {
                 temp.add(contactsArray.getJSONObject(i).getString("email"));
-
+                temp.add(contactsArray.getJSONObject(i).getString("firstname"));
+                temp.add(contactsArray.getJSONObject(i).getString("lastname"));
             }
             List<Connection> connList = new ArrayList<>();
-            for (int i = 0; i < temp.size(); i++) {
-                connList.add(new Connection(temp.get(i)));
+            for (int i = 0; i < temp.size(); i+=3) {
+                connList.add(new Connection(temp.get(i), temp.get(i+1), temp.get(i+2)));
             }
             mFriendList.setValue(connList);
         } catch (JSONException e) {
@@ -142,11 +151,13 @@ public class ConnectionListViewModel extends AndroidViewModel {
             List<String> temp2 = new ArrayList<>();
             for (int i = 0; i < contactsArray.length(); i++) {
                 temp2.add(contactsArray.getJSONObject(i).getString("email"));
+                temp2.add(contactsArray.getJSONObject(i).getString("firstname"));
+                temp2.add(contactsArray.getJSONObject(i).getString("lastname"));
 
             }
             List<Connection> sentList = new ArrayList<>();
-            for (int i = 0; i < temp2.size(); i++) {
-                sentList.add(new Connection(temp2.get(i)));
+            for (int i = 0; i < temp2.size(); i+=3) {
+                sentList.add(new Connection(temp2.get(i), temp2.get(i+1), temp2.get(i+2)));
             }
             mOutgoingReqList.setValue(sentList);
         } catch (JSONException e) {
@@ -158,11 +169,13 @@ public class ConnectionListViewModel extends AndroidViewModel {
             List<String> temp3 = new ArrayList<>();
             for (int i = 0; i < contactsArray.length(); i++) {
                 temp3.add(contactsArray.getJSONObject(i).getString("email"));
+                temp3.add(contactsArray.getJSONObject(i).getString("firstname"));
+                temp3.add(contactsArray.getJSONObject(i).getString("lastname"));
 
             }
             List<Connection> receivedList = new ArrayList<>();
-            for (int i = 0; i < temp3.size(); i++) {
-                receivedList.add(new Connection(temp3.get(i)));
+            for (int i = 0; i < temp3.size(); i+=3) {
+                receivedList.add(new Connection(temp3.get(i), temp3.get(i+1), temp3.get(i+2)));
             }
             mIncomingReqList.setValue(receivedList);
         } catch (JSONException e) {
@@ -179,7 +192,10 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * @param jwt The users JWT given after authentication.
      */
     public void getAllConnections(final String email, final String jwt) {
-        String url = getApplication().getResources().getString(R.string.connections_url) + email;
+        mJwt = jwt;
+        mEmail = email;
+        Log.i("JWT", mJwt);
+        String url = getApplication().getResources().getString(R.string.connections_url) + mEmail;
         JSONObject j = new JSONObject();
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -192,7 +208,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 // add headers <key,value>
-                headers.put("Authorization", jwt);
+                headers.put("Authorization", mJwt);
                 return headers;
             }
         };
@@ -212,5 +228,85 @@ public class ConnectionListViewModel extends AndroidViewModel {
      */
     public List<Connection> getConnectionList(){
         return mFriendList.getValue();
+    }
+
+    /**
+     * Method that accepts incoming connection request.
+     */
+    public void connectionRequest(String theOtherEmail) {
+        String url = getApplication().getResources().getString(R.string.connections_url);
+        JSONObject j = new JSONObject();
+        try {
+            j.put("email_A", mEmail);
+            j.put("email_B", theOtherEmail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Request request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                j, //no body for this get request
+                this::handleIncomingResult,
+                this::handleError) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", mJwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
+    private void handleIncomingResult(JSONObject jsonObject) {
+
+    }
+
+    /**
+     * Method that removes a connection.
+     */
+    public void removeConnection(String theOtherEmail) {
+        String url = getApplication().getResources().getString(R.string.connections_url);
+        JSONObject j = new JSONObject();
+        try {
+            j.put("email_A", mEmail);
+            j.put("email_B", theOtherEmail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("MyJSON", j.toString());
+        Request request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                j,
+                this::handleRemoveResult,
+                this::handleError) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                // add headers <key,value>
+                headers.put("Authorization", mJwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
+    private void handleRemoveResult(JSONObject jsonObject) {
     }
 }

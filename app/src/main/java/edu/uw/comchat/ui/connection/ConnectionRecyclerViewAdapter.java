@@ -18,6 +18,7 @@ import java.util.List;
  * A recycler view adapter to be used for the list of a connections a user has.
  *
  * @author Jerry Springer
+ * @author Adam Hall
  * @version 3 November 2020
  */
 // Ignore checkstyle member name error.
@@ -36,14 +37,18 @@ public class ConnectionRecyclerViewAdapter extends
    * An instance of the user info view model that will provide email information.
    */
   private UserInfoViewModel mUserModel;
-
+  /**
+   * Represents the position of the recycler tab view (1-4)
+   */
+  private final int mPosition;
   /**
    * Creates a new connection recycler view adapter with the given list of connections.
    *
    * @param items the list of chats to be displayed.
    */
-  public ConnectionRecyclerViewAdapter(List<Connection> items) {
+  public ConnectionRecyclerViewAdapter(List<Connection> items, int position) {
     this.mConnections = items;
+    mPosition = position;
 
   }
 
@@ -102,9 +107,10 @@ public class ConnectionRecyclerViewAdapter extends
       int position = mRecyclerView.getChildAdapterPosition(view);
       // TODO Make this use a message Id
       String profileId = mConnections.get(position).getEmail();
+
       Navigation.findNavController(view).navigate(
               ConnectionFragmentDirections
-                      .actionNavigationConnectionToProfileFragment(profileId));
+                      .actionNavigationConnectionToProfileFragment(profileId, mPosition));
     }
 
     /**
@@ -115,7 +121,9 @@ public class ConnectionRecyclerViewAdapter extends
     void setConnection(final Connection connection) {
       mConnection = connection;
       // TODO Make this get the person who is not you, if not found throw error
-      binding.cardNameId.setText(connection.getEmail());
+      binding.cardEmailId.setText(connection.getEmail());
+      binding.cardFnameId.setText(connection.getFirstName());
+      binding.cardLnameId.setText(connection.getLastName());
 
     }
 
