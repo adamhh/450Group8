@@ -26,7 +26,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
   /**
    * Provide a function which helps remove a user from specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   * email of user to be deleted at index 1, and jwt at index 2.
+   * email of user to be deleted at index 1, and jwt at index 2. Ignore index 3 and 4.
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -84,7 +84,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
   /**
    * Provide a function which helps add a user to a specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   * email of user to be added at index 1, and jwt at index 2.
+   * email of user to be added at index 1, and jwt at index 2. Ignore index 3 and 4.
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -140,7 +140,9 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
    * This function accept an array list, which contains a room name
    * at index 0, creator's email at index 1 and jwt at index 2.
    * Index 3 store a string whether a room is DM or group chat.
-   * "true" for group, "false" for DM
+   * "true" for group, "false" for DM. In case of creating DM room,
+   * there will be an index 4 storing targeted user's email.
+   *
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -180,6 +182,16 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                                     response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
+
+                    // Add targeted DM user to room.
+                    // If use the same populateRoom list (with .set(1), a list will be changed before a response is received.
+                    // Which will leave to wrong log message -> dangerous.
+                    ArrayList<String> addTarget = new ArrayList<>();
+                    addTarget.add(response.getString("chatID"));
+                    addTarget.add(roomToCreate.get(4));
+                    addTarget.add(roomToCreate.get(2));
+                    addMember().accept(addTarget, fragment);
+
                   } else {
                     throw new IllegalStateException("Cannot create a new room." + response);
                   }
