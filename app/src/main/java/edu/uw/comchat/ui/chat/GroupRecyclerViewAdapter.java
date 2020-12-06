@@ -78,8 +78,11 @@ public class GroupRecyclerViewAdapter extends
 
     // Navigates to the group
     Navigation.findNavController(view).navigate(
+            // TODO webservice should include a flag indicate whether a room is
+            //  a group or DM one, true for group, false for DM.
+            //  true value here is use for testing purpose only. - Hung Vu
             ChatPageFragmentDirections
-                    .actionNavigationChatToMessageListFragment(groupId));
+                    .actionNavigationChatToMessageListFragment(groupId, true));
   }
 
   /**
