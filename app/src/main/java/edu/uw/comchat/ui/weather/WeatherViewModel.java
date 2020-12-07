@@ -23,7 +23,6 @@ import org.json.JSONObject;
  */
 public class WeatherViewModel extends AndroidViewModel {
   private MutableLiveData<JSONObject> mResponse;
-
   private MutableLiveData<String> mToken;
 
   public WeatherViewModel(@NonNull Application application) {
@@ -47,9 +46,14 @@ public class WeatherViewModel extends AndroidViewModel {
     mResponse.observe(owner, observer);
   }
 
-  public void connect(String zip) {
-    final String url = "https://comchat-backend.herokuapp.com/weather?zip=" + zip;
-    JSONObject body = new JSONObject();
+  public void connect(String[] location) {
+    if (location.length == 1)
+      connect("https://comchat-backend.herokuapp.com/weather?zip=" + location[0]);
+    else if (location.length == 2)
+      connect("https://comchat-backend.herokuapp.com/weather?lat=" + location[0] + "&long=" + location[1]);
+  }
+
+  private void connect(final String url) {
     Request request = new JsonObjectRequest(
             Request.Method.GET,
             url,
@@ -73,6 +77,4 @@ public class WeatherViewModel extends AndroidViewModel {
     RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
             .addToRequestQueue(request);
   }
-
-
 }

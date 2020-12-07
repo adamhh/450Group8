@@ -8,19 +8,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.util.StorageUtil;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.TimeZone;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple
@@ -31,9 +38,6 @@ import org.json.JSONObject;
  */
 // Ignore checkstyle member name error.
 public class WeatherFragment extends Fragment {
-
-  private WeatherStateAdapter weatherStateAdapter;
-  private ViewPager2 mViewPager;
 
   // Connect to webservice - Hung Vu.
   private WeatherViewModel mWeatherModel;
@@ -60,32 +64,12 @@ public class WeatherFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    weatherStateAdapter = new WeatherStateAdapter(this);
-    mViewPager = view.findViewById(R.id.pager_weather);
-    mViewPager.setAdapter(weatherStateAdapter);
 
-    TabLayout tabLayout = view.findViewById(R.id.tab_layout_weather);
-
-    String[] tabNames = {getString(R.string.item_weather_current),
-            getString(R.string.item_weather_daily),
-            getString(R.string.item_weather_five_day)};
-
-    new TabLayoutMediator(tabLayout, mViewPager,
-            (tab, position) -> tab.setText(tabNames[position])).attach();
-
-    // Get arguments if available
-    Bundle args = getArguments();
-    if (args != null
-            && args.containsKey(LocationFragment.LOCATION_LONGITUDE)
-            && args.containsKey(LocationFragment.LOCATION_LATITUDE)) {
-      args.getDouble(LocationFragment.LOCATION_LONGITUDE);
-      args.getDouble(LocationFragment.LOCATION_LATITUDE);
-
-    }
-
-    // Connect to webservice - Hung Vu.
+    // Add observer
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-    mWeatherModel.connect("98402");
+
+    StorageUtil util = new StorageUtil(getContext());
+    mWeatherModel.connect(util.getLocation());
   }
 
   @Override
@@ -129,13 +113,79 @@ public class WeatherFragment extends Fragment {
 
   // TODO there is no location info in JSON response. This method does nothing, just a template for later modification.
   private void populateWeatherPage(JSONObject response) throws JSONException {
-    mWeatherBinding.textWeatherLocation.setText(
-            "Location: " + response.getString("City")
-                    + ", " + response.getString("State")
-                    + ", " + response.getString("Country")
-    );
+    String location = response.getString("City")
+            + ", " + response.getString("State")
+            + ", " + response.getString("Country");
+    mWeatherBinding.textWeatherLocation.setText(location);
 
+    JSONObject current = response.getJSONObject("current");
+    String currentTemp = current.getString("temp") + "\u00B0";
+    mWeatherBinding.textWeatherCurrentTemp.setText(currentTemp);
+    mWeatherBinding.textWeatherCurrentDescription.setText(
+            current.getJSONArray("weather")
+                    .getJSONObject(0)
+                    .getString("description"));
+
+    long sunriseTime = current.getLong("sunrise");
+    long sunsetTime = current.getLong("sunset");
+
+    // Get sunrise and sunset time.
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+    final String formattedSunriseTime = Instant.ofEpochSecond(sunriseTime)
+            .atZone(TimeZone.getDefault().toZoneId())
+            .format(formatter);
+    final String formattedSunsetTime = Instant.ofEpochSecond(sunsetTime)
+            .atZone(TimeZone.getDefault().toZoneId())
+            .format(formatter);
+
+    Log.d("TIME", formattedSunriseTime);
+    Log.d("TIME", formattedSunsetTime);
+
+    ArrayList<WeatherReport> hourlyReports = new ArrayList<>();
+    JSONArray hourlyArray = response.getJSONArray("hourly");
+    try {
+      for (int i = 0; i < hourlyArray.length(); i++) {
+        JSONObject json = hourlyArray.getJSONObject(i);
+        JSONObject time = json.getJSONObject("dt");
+        hourlyReports.add(new WeatherReport(
+                time.getString("hours") + " " + time.getString("ampms"),
+                json.getString("temp") + "\u00B0",
+                formattedSunriseTime,
+                formattedSunsetTime,
+                json.getJSONArray("weather")
+                        .getJSONObject(0)
+                        .getInt("id")));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    ArrayList<WeatherReport> dailyReports = new ArrayList<>();
+    JSONArray dailyArray = response.getJSONArray("daily");
+    try {
+      for (int i = 0; i < dailyArray.length(); i++) {
+        JSONObject json = dailyArray.getJSONObject(i);
+        JSONObject time = json.getJSONObject("dt");
+        dailyReports.add(new WeatherReport(
+                time.getString("months") + "/" + time.getString("dates"),
+                json.getJSONObject("temp").getString("day") + "\u00B0",
+                json.getJSONArray("weather")
+                        .getJSONObject(0)
+                        .getInt("id")));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    mWeatherBinding.listWeatherHour.setAdapter(new WeatherHourRecyclerViewAdapter(hourlyReports));
+    mWeatherBinding.listWeatherDaily.setAdapter(new WeatherDayRecyclerViewAdapter(dailyReports));
+
+    LinearLayoutManager hourLayoutManager
+            = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+    mWeatherBinding.listWeatherHour.setLayoutManager(hourLayoutManager);
+
+    LinearLayoutManager dayLayoutManager
+            = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+    mWeatherBinding.listWeatherDaily.setLayoutManager(dayLayoutManager);
   }
-
-
 }

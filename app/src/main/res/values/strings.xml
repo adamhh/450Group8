@@ -84,26 +84,14 @@
     <!-- Weather Fragment -->
     <string name="title_weather">Weather</string>
     <string name="text_weather_location">Location</string>
-    <string name="text_weather_default">Text</string>
-
-    <string name="item_weather_current">Current</string>
-    <string name="text_weather_current_temp">Temp</string>
-    <string name="text_weather_current_feels_like">Feels Like</string>
-    <string name="text_weather_current_uvi">UV Index</string>
-    <string name="text_weather_current_wind_speed">Wind Speed</string>
-    <string name="text_weather_current_description">Description</string>
-
-
-    <string name="item_weather_daily">24-Hour</string>
-    <string name="text_weather_daily_time">Time</string>
-    <string name="text_weather_daily_temp">Temp</string>
-    <string name="text_weather_daily_humidity">Humidity</string>
-
-    <string name="item_weather_five_day">5 Day</string>
-    <string name="text_weather_five_day_date">Date</string>
-    <string name="text_weather_five_day_temp">Temp</string>
-    <string name="text_weather_five_day_description">Description</string>
-    <string name="text_weather_five_day_humidity">Humidity</string>
+    <string name="text_weather_description">Description</string>
+    <string name="text_weather_temp">0&#xb0;</string>
+    <string name="image_weather_hour_content">Image representing hourly weather</string>
+    <string name="text_weather_hour_time">Time</string>
+    <string name="text_weather_hour_temp">0&#xb0;</string>
+    <string name="text_weather_day">Day</string>
+    <string name="image_weather_day_content">Image representing daily weather</string>
+    <string name="text_weather_day_temp">0&#xb0;</string>
 
     <string name="title_location">Set Location</string>
     <string name="button_location_set">Set Location</string>

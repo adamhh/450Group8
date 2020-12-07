@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -30,12 +29,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.concurrent.Executor;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentLocationBinding;
+import edu.uw.comchat.util.StorageUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,18 +45,15 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
     /** The fastest rate for active location updates. Updates will never be more frequent than this value. */
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
-    public static final String LOCATION_LATITUDE = "latitude";
-    public static final String LOCATION_LONGITUDE = "longitude";
-
     // A constant int for the permissions request code. Must be a 16 bit number
     private static final int MY_PERMISSIONS_LOCATIONS = 8414;
-    private LocationRequest mLocationRequest;
+
     // Use a FusedLocationProviderClient to request the location
     private FusedLocationProviderClient mFusedLocationClient;
-    // Will use this call back to decide what to do when a location change is detected
-    private LocationCallback mLocationCallback;
+
     // The ViewModel that will store the current location
     private LocationViewModel mLocationModel;
+
     private GoogleMap mMap;
     private Marker mMarker;
     private FragmentLocationBinding mBinding;
@@ -86,7 +80,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
             requestLocation();
         }
 
-        mLocationCallback = new LocationCallback() {
+        // Will use this call back to decide what to do when a location change is detected
+        new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null)
@@ -114,7 +109,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
 
         mBinding.buttonLocationCurrent.setOnClickListener(button -> {
             Location location =  mLocationModel.getCurrentLocation();
-            navigateToWeather(view, location.getLatitude(), location.getLongitude());
+            if (location != null)
+                navigateToWeather(view, location.getLatitude(), location.getLongitude());
         });
 
         mBinding.buttonLocationSet.setOnClickListener(button -> {
@@ -128,36 +124,9 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_LOCATIONS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // locations-related task you need to do.
-                    requestLocation();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Log.d("PERMISSION DENIED", "Nothing to see or do here.");
-
-                    //Shut down the app. In production release, you would let the user
-                    //know why the app is shutting down...maybe ask for permission again?
-                    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                    transaction.remove(this).commit();
-                }
-                return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
         mLocationModel.addLocationObserver(getViewLifecycleOwner(), location -> {
             if (location != null) {
                 googleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -170,11 +139,9 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 final LatLng c = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(c, 15f));
 
-                if (mMarker == null)
-                    mMarker = mMap.addMarker(new MarkerOptions().position(c));
+                mMarker = mMap.addMarker(new MarkerOptions().position(c));
             }
         });
-
         mMap.setOnMapClickListener(this);
     }
 
@@ -187,10 +154,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
     private void navigateToWeather(@NonNull View view, double latitude, double longitude) {
-        Bundle args = new Bundle();
-        args.putDouble(LOCATION_LATITUDE, latitude);
-        args.putDouble(LOCATION_LONGITUDE, longitude);
-        setArguments(args);
+        StorageUtil util = new StorageUtil(getContext());
+        util.storeLocationLatLong(latitude, longitude);
 
         Navigation.findNavController(view).navigate(
                 LocationFragmentDirections.actionLocationFragmentToNavigationWeather()
@@ -204,6 +169,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener( getActivity(), location -> {
+                        Log.d("LOCATION", "" + (location == null));
                         if (location != null) {
                             mLocationModel.setLocation(location);
                         }
@@ -212,7 +178,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
     private void createLocationRequest() {
-        mLocationRequest = LocationRequest.create();
+        LocationRequest mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);

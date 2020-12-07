@@ -15,6 +15,8 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
+import edu.uw.comchat.util.StorageUtil;
+
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +65,8 @@ public class HomeFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     mBinding.textHomeUserEmail.setText(mUserModel.getEmail());
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-    mWeatherModel.connect("98402");
+    StorageUtil util = new StorageUtil(getContext());
+    mWeatherModel.connect(util.getLocation());
   }
 
   /**
