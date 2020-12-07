@@ -107,10 +107,13 @@ public class ConnectionRecyclerViewAdapter extends
       int position = mRecyclerView.getChildAdapterPosition(view);
       // TODO Make this use a message Id
       String profileId = mConnections.get(position).getEmail();
+      String firstId = mConnections.get(position).getFirstName();
+      String lastId = mConnections.get(position).getLastName();
 
       Navigation.findNavController(view).navigate(
               ConnectionFragmentDirections
-                      .actionNavigationConnectionToProfileFragment(profileId, mPosition));
+                      .actionNavigationConnectionToProfileFragment(profileId, mPosition,
+                                                                   firstId, lastId));
     }
 
     /**

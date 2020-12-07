@@ -77,6 +77,12 @@
         <argument
             android:name="position"
             app:argType="integer" />
+        <argument
+            android:name="profilefirstname"
+            app:argType="string" />
+        <argument
+            android:name="profilelastname"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/locationFragment"

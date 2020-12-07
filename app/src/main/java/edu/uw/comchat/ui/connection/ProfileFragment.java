@@ -56,8 +56,9 @@ public class ProfileFragment extends Fragment {
     ProfileFragmentArgs profileArgs = ProfileFragmentArgs.fromBundle(getArguments());
     mEmail = profileArgs.getProfileId();
     binding.profileEmailId.setText(mEmail);
+    binding.profileFirstId.setText(profileArgs.getProfilefirstname());
+    binding.profileLastId.setText(profileArgs.getProfilelastname());
     mPosition = profileArgs.getPosition();
-    Log.d("POSSSITION", mPosition+"");
     String connectButtonText;
     switch (mPosition) {
       case 1:

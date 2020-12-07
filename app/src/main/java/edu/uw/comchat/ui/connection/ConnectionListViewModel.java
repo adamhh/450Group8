@@ -274,7 +274,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
      * Method that removes a connection.
      */
     public void removeConnection(String theOtherEmail) {
-        String url = getApplication().getResources().getString(R.string.connections_url);
+        String url = getApplication().getResources().getString(R.string.connections_url) + "delete";
         JSONObject j = new JSONObject();
         try {
             j.put("email_A", mEmail);
@@ -282,13 +282,12 @@ public class ConnectionListViewModel extends AndroidViewModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("MyJSON", j.toString());
         Request request = new JsonObjectRequest(
-                Request.Method.DELETE,
+                Request.Method.POST,
                 url,
-                j,
-                this::handleRemoveResult,
-                this::handleError) {
+                j, //no body for this get request
+                null,
+                null) {
 
             @Override
             public Map<String, String> getHeaders() {
@@ -305,8 +304,10 @@ public class ConnectionListViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
+
     }
 
     private void handleRemoveResult(JSONObject jsonObject) {
+        String response = jsonObject.toString();
     }
 }
