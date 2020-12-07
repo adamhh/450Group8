@@ -65,8 +65,24 @@ public class WeatherDayRecyclerViewAdapter extends
         void setReport(final WeatherReport report) {
             mReport = report;
             mBinding.textWeatherDay.setText(report.getTime());
-            mBinding.imageWeatherDay.setImageResource(R.drawable.broken_clouds);
             mBinding.textWeatherDayTemp.setText(report.getTemp());
+
+            int id = report.getId();
+            if (id >= 200 && id <= 232) { // ID for thunderstorm
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_thunder_storm);
+            } else if (id >= 300 && id <= 321) { // ID for drizzle
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_drizzle);
+            } else if (id >= 500 && id <= 531) { // ID for rain
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_rain);
+            } else if (id >= 600 && id <= 622) { // ID for snow
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_snow);
+            } else if (id >= 700 && id <= 781) { // ID for atmosphere
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_fog);
+            } else if (id == 800) {
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_clear_sky_day);
+            } else if (id >= 801 && id <= 804) { // ID for cloud
+                mBinding.imageWeatherDay.setImageResource(R.drawable.ic_home_cloudy);
+            }
         }
     }
 }

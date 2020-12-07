@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import edu.uw.comchat.R;
@@ -65,8 +66,34 @@ public class WeatherHourRecyclerViewAdapter extends
         void setReport(final WeatherReport report) {
             mReport = report;
             mBinding.textWeatherHourTime.setText(report.getTime());
-            mBinding.imageWeatherHour.setImageResource(R.drawable.broken_clouds);
             mBinding.textWeatherHourTemp.setText(report.getTemp());
+
+            String[] split = report.getTime().split(" ");
+            int hour = Integer.parseInt(split[0]);
+            if (split[1].equals("pm"))
+                hour += 12;
+
+            int id = report.getId();
+            if (id >= 200 && id <= 232) { // ID for thunderstorm
+                mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_thunder_storm);
+            } else if (id >= 300 && id <= 321) { // ID for drizzle
+                mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_drizzle);
+            } else if (id >= 500 && id <= 531) { // ID for rain
+                mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_rain);
+            } else if (id >= 600 && id <= 622) { // ID for snow
+                mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_snow);
+            } else if (id >= 700 && id <= 781) { // ID for atmosphere
+                mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_fog);
+            } else if (id == 800) {
+                LocalTime time = LocalTime.of(hour, 0);
+                if (time.isAfter(LocalTime.parse(report.getSunrise())) && time.isBefore(LocalTime.parse(report.getSunset()))) {
+                    mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_clear_sky_day);
+                } else {
+                    mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_clear_sky_night);
+                }
+            } else if (id >= 801 && id <= 804) { // ID for cloud
+                mBinding.imageWeatherHour.setImageResource(R.drawable.ic_home_cloudy);
+            }
         }
     }
 }
