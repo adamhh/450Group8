@@ -18,13 +18,12 @@
 
     <ImageView
         android:id="@+id/image_weather_hour"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/image_weather_hour_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_weather_hour_time"
-        app:srcCompat="@drawable/broken_clouds"
-        android:contentDescription="@string/image_weather_hour_content" />
+        app:layout_constraintTop_toBottomOf="@+id/text_weather_hour_time" />
 
     <TextView
         android:id="@+id/text_weather_hour_temp"
