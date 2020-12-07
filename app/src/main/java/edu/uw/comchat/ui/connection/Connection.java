@@ -14,44 +14,55 @@ import java.io.Serializable;
 // Ignore checkstyle member name error.
 public class Connection implements Serializable {
 
-  //private final String mName;
+  /**
+   * The email for the Connection.
+   */
   private final String mEmail;
-  //private final String mNickName;
+  /**
+   * The first name for the Connection.
+   */
+  private final String mFirstName;
+  /**
+   * The last name for the Connection.
+   */
+  private final String mLastName;
 
 
-//  /**
-//   * Helper class for building connections.
-//   *
-//   * @author Jerry Springer
-//   */
-//  public static class Builder {
-//
-//    //private final String mName;
-//    private final String mEmail;
-//    //private final String mNickName;
-//
-//    /**
-//     * Constructs a new builder.
-//     *
-//     * @param email The email
-//     */
-//    public Builder(String email) {
-//      mEmail = email;
-//    }
-//
-//    public Connection build() {
-//      return new Connection(this);
-//    }
-//  }
-//
-//  private Connection(Builder builder) {
-//    this.mEmail = builder.mEmail;
-//  }
-  public Connection(String email) {
+  /**
+   * Constructor method for a connection that takes the email, first name,
+   * and last name.
+   * @param email The connections email
+   * @param fName The connections first name
+   * @param lName The connections last name
+   */
+  public Connection(String email, String fName, String lName) {
     mEmail = email;
+    mFirstName = fName;
+    mLastName = lName;
   }
   public String getEmail() {
     return mEmail;
+  }
+
+  /**
+   * Accessor method for the Connections first name
+   * @return The First Name
+   */
+  public String getFirstName() {
+    return mFirstName;
+  }
+
+  /**
+   * Accessor method for the Connections last name
+   * @return The Last Name
+   */
+  public String getLastName() {
+    return mLastName;
+  }
+
+  @Override
+  public String toString() {
+    return "Email: " + mEmail + ", First Name: " + mFirstName + ", Last Name: " + mLastName;
   }
 
 

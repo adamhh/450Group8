@@ -65,25 +65,25 @@ public class ConnectionListFragment extends Fragment {
       case 1:
         mConnectionViewModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList));
+                  new ConnectionRecyclerViewAdapter(connectionList, 1));
         });
         break;
       case 2:
         mConnectionViewModel.addIncomingListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList));
+                  new ConnectionRecyclerViewAdapter(connectionList, 2));
         });
         break;
       case 3:
         mConnectionViewModel.addOutgoingListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList));
+                  new ConnectionRecyclerViewAdapter(connectionList, 3));
         });
         break;
       default:
         mConnectionViewModel.addSuggestedListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList));
+                  new ConnectionRecyclerViewAdapter(connectionList, 3));
         });
         break;
 
