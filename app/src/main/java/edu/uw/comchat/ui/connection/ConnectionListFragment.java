@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentConnectionListBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
@@ -54,36 +56,33 @@ public class ConnectionListFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
     FragmentConnectionListBinding binding = FragmentConnectionListBinding.bind(getView());
     Bundle mArgs = getArguments();
-    List<Connection> testList = new ArrayList<>();
-
     mConnectionViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
 
     switch (mArgs.getInt(ARG_POSITION)) {
       case 1:
         mConnectionViewModel.addConnectionListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList, 1));
+                  new ConnectionRecyclerViewAdapter(connectionList, 1, (MainActivity) getActivity()));
         });
         break;
       case 2:
         mConnectionViewModel.addIncomingListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList, 2));
+                  new ConnectionRecyclerViewAdapter(connectionList, 2, (MainActivity) getActivity()));
         });
         break;
       case 3:
         mConnectionViewModel.addOutgoingListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList, 3));
+                  new ConnectionRecyclerViewAdapter(connectionList, 3, (MainActivity) getActivity()));
         });
         break;
       default:
         mConnectionViewModel.addSuggestedListObserver(getViewLifecycleOwner(), connectionList -> {
           binding.listRootConnection.setAdapter(
-                  new ConnectionRecyclerViewAdapter(connectionList, 3));
+                  new ConnectionRecyclerViewAdapter(connectionList, 4, (MainActivity) getActivity()));
         });
         break;
 
