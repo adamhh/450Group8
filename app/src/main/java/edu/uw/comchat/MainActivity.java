@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     // Store notification data.
     ViewModelProvider provider = new ViewModelProvider(this);
     mNotificationViewModel = provider.get(NotificationViewModel.class);
-    mNotificationViewModel.addResponseObserver(this, this::observeResponse);
+
 
     // Store email and jwt upon creation - Hung Vu.
     MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
@@ -124,10 +124,6 @@ public class MainActivity extends AppCompatActivity {
             new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
             .get(UserInfoViewModel.class); // First time initialize using inner factory method.
   }
-
-  private void observeResponse(Map<LocalDateTime, List<String>> localTimeListMap) {
-  }
-
 
   public String getEmail(){
     return mModel.getEmail();
@@ -183,14 +179,14 @@ public class MainActivity extends AppCompatActivity {
 
       // This portion is to store notification, used for homepage.
       if (intent.hasExtra("chatMessage")){
-        TreeMap<LocalDateTime, List<String>> notificationMap  = mNotificationViewModel.getNotificationMap();
+//        TreeMap<LocalDateTime, List<String>> notificationMap  = mNotificationViewModel.getNotificationMap();
         LocalDateTime receiveTime = LocalDateTime.now();
         ArrayList<String> receiveNotification = new ArrayList<>();
         String message = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getMessage();
         String sender = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getSender();
         receiveNotification.add(message);
         receiveNotification.add(sender);
-        notificationMap.put(receiveTime, receiveNotification);
+        mNotificationViewModel.updateNotificationData(receiveTime, receiveNotification);
       }
     }
   }

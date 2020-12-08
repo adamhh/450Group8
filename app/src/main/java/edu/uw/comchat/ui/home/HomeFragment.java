@@ -72,7 +72,14 @@ public class HomeFragment extends Fragment {
     mWeatherModel.connect(util.getLocation());
 
     mNotificationModel.addResponseObserver(getViewLifecycleOwner(), notificationMap -> {
-      mBinding.textHomeNoti.setText("" + notificationMap.lastEntry());
+      try {
+        mBinding.textHomeNotificationMessage.setText("Message: " + mNotificationModel.getLatestNotificationMessage());
+        mBinding.textHomeNotificationSender.setText("From: " + mNotificationModel.getLatestNotificationSender());
+        mBinding.textHomeNotificationDate.setText("Date: " + mNotificationModel.getLatestNotificationDate());
+        mBinding.textHomeNotificationTime.setText("Time: " + mNotificationModel.getLatestNotificationTime());
+      } catch (NullPointerException e){
+        Log.i("Home Fragment", "NPE for at notification due to no message has been received, this error can be ignored.");
+      }
     });
   }
 
