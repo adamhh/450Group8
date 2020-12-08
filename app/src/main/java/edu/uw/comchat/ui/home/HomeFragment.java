@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
+import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
 import edu.uw.comchat.util.StorageUtil;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
   private WeatherViewModel mWeatherModel;
   private FragmentHomeBinding mBinding;
 
+  private NotificationViewModel mNotificationModel;
   // TODO adjust home fragment, it's just in a bare bone state now.
 
   @Override
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment {
     mUserModel = provider.get(UserInfoViewModel.class);
     mWeatherModel = provider.get(WeatherViewModel.class);
     mWeatherModel.getToken().setValue(mUserModel.getJwt());
+    mNotificationModel = provider.get(NotificationViewModel.class);
   }
 
   @Override
@@ -67,6 +70,17 @@ public class HomeFragment extends Fragment {
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
     StorageUtil util = new StorageUtil(getContext());
     mWeatherModel.connect(util.getLocation());
+
+    mNotificationModel.addResponseObserver(getViewLifecycleOwner(), notificationMap -> {
+      try {
+        mBinding.textHomeNotificationMessage.setText("Message: " + mNotificationModel.getLatestNotificationMessage());
+        mBinding.textHomeNotificationSender.setText("From: " + mNotificationModel.getLatestNotificationSender());
+        mBinding.textHomeNotificationDate.setText("Date: " + mNotificationModel.getLatestNotificationDate());
+        mBinding.textHomeNotificationTime.setText("Time: " + mNotificationModel.getLatestNotificationTime());
+      } catch (NullPointerException e){
+        Log.i("Home Fragment", "NPE for at notification due to no message has been received, this error can be ignored.");
+      }
+    });
   }
 
   /**

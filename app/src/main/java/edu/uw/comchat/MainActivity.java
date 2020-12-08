@@ -24,10 +24,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import edu.uw.comchat.databinding.ActivityMainBinding;
 import edu.uw.comchat.model.NewMessageCountViewModel;
+import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
 /**
@@ -46,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding mBinding;
 
+  // Store notification information - Hung Vu.
+  private NotificationViewModel mNotificationViewModel;
+
   private static final BiConsumer<String, MainActivity> changeThemeHandler = updateThemeColor();
 
   @Override
@@ -56,17 +67,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     mBinding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(mBinding.getRoot());
-
     BottomNavigationView navView = findViewById(R.id.nav_main_bottom_view);
-
-    // Store email and jwt upon creation - Hung Vu.
-    MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-    String email = args.getEmail();
-    String jwt = args.getJwt();
-    mModel = new ViewModelProvider(
-            this,
-            new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
-            .get(UserInfoViewModel.class); // First time initialize using inner factory method.
 
     // Passing each menu ID as a set of Ids because each
     // menu should be considered as top level destinations.
@@ -108,7 +109,22 @@ public class MainActivity extends AppCompatActivity {
         badge.setVisible(false);
       }
     });
+
+    // Store notification data.
+    ViewModelProvider provider = new ViewModelProvider(this);
+    mNotificationViewModel = provider.get(NotificationViewModel.class);
+
+
+    // Store email and jwt upon creation - Hung Vu.
+    MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+    String email = args.getEmail();
+    String jwt = args.getJwt();
+    mModel = new ViewModelProvider(
+            this,
+            new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
+            .get(UserInfoViewModel.class); // First time initialize using inner factory method.
   }
+
   public String getEmail(){
     return mModel.getEmail();
   }
@@ -146,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                       MainActivity.this, R.id.fragment_container_main);
       NavDestination nd = nc.getCurrentDestination();
 
+      // This portion is for update chat msg in a chat room.
       if (intent.hasExtra("chatMessage")) {
 
         ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
@@ -158,6 +175,18 @@ public class MainActivity extends AppCompatActivity {
         //Inform the view model holding chatroom messages of the new
         //message.
         mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
+      }
+
+      // This portion is to store notification, used for homepage.
+      if (intent.hasExtra("chatMessage")){
+//        TreeMap<LocalDateTime, List<String>> notificationMap  = mNotificationViewModel.getNotificationMap();
+        LocalDateTime receiveTime = LocalDateTime.now();
+        ArrayList<String> receiveNotification = new ArrayList<>();
+        String message = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getMessage();
+        String sender = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getSender();
+        receiveNotification.add(message);
+        receiveNotification.add(sender);
+        mNotificationViewModel.updateNotificationData(receiveTime, receiveNotification);
       }
     }
   }
