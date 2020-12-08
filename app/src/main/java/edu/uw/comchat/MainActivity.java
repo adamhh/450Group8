@@ -30,10 +30,12 @@ import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
 /**
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             .get(UserInfoViewModel.class); // First time initialize using inner factory method.
   }
 
-  private void observeResponse(Map<LocalTime, List<String>> localTimeListMap) {
+  private void observeResponse(Map<LocalDateTime, List<String>> localTimeListMap) {
   }
 
 
@@ -181,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
 
       // This portion is to store notification, used for homepage.
       if (intent.hasExtra("chatMessage")){
-        Map<LocalTime, List<String>> notificationMap  = mNotificationViewModel.getNotificationMap();
-        LocalTime receiveTime = LocalTime.now();
+        TreeMap<LocalDateTime, List<String>> notificationMap  = mNotificationViewModel.getNotificationMap();
+        LocalDateTime receiveTime = LocalDateTime.now();
         ArrayList<String> receiveNotification = new ArrayList<>();
         String message = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getMessage();
         String sender = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getSender();
