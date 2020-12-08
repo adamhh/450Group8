@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * @author Hung Vu
  */
 public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> {
-
+  // TODO Have to change these functions to comply with latest API (12/8).
   /**
    * Provide a function which helps remove a user from specific chat room.
    * This function accept an array list, which contains chatId at index 0,

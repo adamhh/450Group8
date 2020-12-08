@@ -114,11 +114,7 @@ public class GroupRecyclerViewAdapter extends
       mGroup = group;
       binding.textChatGroupName.setText("Group Name: " + group.getGroupName());
       binding.textChatGroupMessage.setText(group.getMessage());
-      binding.textChatGroupDate.setText(group.getTime());
-
-//      // TODO Populate views with data
-//      binding.textChatGroupMessage.setText("Last message");
-//      binding.textChatGroupDate.setText("Date");
+      binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
     }
   }
 
