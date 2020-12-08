@@ -8,38 +8,45 @@ import org.json.JSONObject;
 /**
  * Represent a messaging group.
  *
- * @author Jerry Springer
+ * @author Jerry Springer, Hung Vu
  * @version 11 November 2020
  */
 public class ChatGroupInfo implements Serializable {
-
+  // Update GroupInfo to comply with 12/8/20 API
+  private final String mGroupName;
   private final int mGroupId;
-  /**
-   * Used to show the most recent message.
-   */
-  // Show in the card itself? - Hung Vu
-  private final int mMessageId;
+  private final String mMessage;
+  private final String mTime;
 
-  public ChatGroupInfo(int groupId, int messageId) {
-    mGroupId = groupId;
-    mMessageId = messageId;
+  public ChatGroupInfo(String groupName, int groupId, String message, String time) {
+    this.mGroupName = groupName;
+    this.mGroupId = groupId;
+    this.mMessage = message;
+    this.mTime = time;
   }
 
   public static ChatGroupInfo createFromJsonString(final String groupAsJson) throws JSONException {
     final JSONObject group = new JSONObject(groupAsJson);
 
-    // TODO messageid is still an arbitrary number, hasn't been implemented yet - Hung Vu.
     return new ChatGroupInfo(
-            group.getInt("chatid"), 0
-    );
+            group.getString("name"),
+            group.getInt("chatid"),
+            group.getString("message"),
+            group.getString("timestamp"));
   }
 
   public int getGroupId() {
     return mGroupId;
   }
 
-  public int getMessageId() {
-    return mMessageId;
+  public String getGroupName(){
+    return this.mGroupName;
+  }
+  public String getMessage(){
+    return this.mMessage;
+  }
+  public String getTime(){
+    return this.mTime;
   }
 
   /**

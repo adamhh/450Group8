@@ -60,16 +60,16 @@ public class ChatPageFragment extends Fragment {
     // TODO I attempt to update chat group list per 0.5 sec to update UI in real time.
     //  For example, when user 1 delete 2 from chat group 3, screen of 2 will update.
     //  But this doesn't work - Hung Vu.
-    TimerTask getGroupTask = new TimerTask() {
-      @Override
-      public void run() {
+//    TimerTask getGroupTask = new TimerTask() {
+//      @Override
+//      public void run() {
         mChatPageViewModel.getAllUserCommunicationGroup(
                 mUserViewModel.getEmail(),
                 mUserViewModel.getJwt());
-      }
-    };
-    Timer timer = new Timer("Update group page per 0.5 sec");
-    timer.schedule(getGroupTask, 500L);
+//      }
+//    };
+//    Timer timer = new Timer("Update group page per 0.5 sec");
+//    timer.schedule(getGroupTask, 500L);
     //    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(),
     //    mUserViewModel.getJwt());
   }
