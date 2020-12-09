@@ -136,19 +136,20 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
   }
 
   /**
-   * Provide a function which helps create a new chat room.
+   * Provide a function which helps create a new group chat room.
    * This function accept an array list, which contains a room name
    * at index 0, creator's email at index 1 and jwt at index 2.
    * Index 3 store a string whether a room is DM or group chat.
    * "true" for group, "false" for DM. In case of creating DM room,
-   * there will be an index 4 storing targeted user's email.
+   * there will be an index 4 storing targeted user's email. Index 4
+   * won't be used by this function.
    *
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
-   * @return a ModifyChatRoom function which helps create a chat room
+   * @return a ModifyChatRoom function which helps create a group chat room
    */
-  static ModifyChatRoom createRoom() {
+  static ModifyChatRoom createGroupRoom() {
     String url = "https://comchat-backend.herokuapp.com/chats";
     return (roomToCreate, fragment) -> {
       JSONObject body = new JSONObject();
@@ -182,18 +183,77 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                                     response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
-
-                    // Add targeted DM user to room.
-                    // If use the same populateRoom list (with .set(1), a list will be changed before a response is received.
-                    // Which will leave to wrong log message -> dangerous.
-                    ArrayList<String> addTarget = new ArrayList<>();
-                    addTarget.add(response.getString("chatID"));
-                    addTarget.add(roomToCreate.get(4));
-                    addTarget.add(roomToCreate.get(2));
-                    addMember().accept(addTarget, fragment);
-
                   } else {
                     throw new IllegalStateException("Cannot create a new room." + response);
+                  }
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              },
+              error -> HandleRequestError.handleErrorForChat(error)) {
+
+        @Override
+        public Map<String, String> getHeaders() {
+          Map<String, String> headers = new HashMap<>();
+          // add headers <key,value>
+          headers.put("Authorization", roomToCreate.get(2));
+          return headers;
+        }
+      };
+      request.setRetryPolicy(new DefaultRetryPolicy(
+              10_000,
+              DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+              DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+      //Instantiate the RequestQueue and add the request to the queue
+      RequestQueueSingleton.getInstance(fragment
+              .getActivity()
+              .getApplication()
+              .getApplicationContext())
+              .addToRequestQueue(request);
+    };
+  }
+
+  /**
+   * Provide a function which helps create a new DM chat room.
+   * This function accept an array list, which contains a room name
+   * at index 0, creator's email at index 1 and jwt at index 2.
+   * Index 3 store a string whether a room is DM or group chat.
+   * "true" for group, "false" for DM. In case of creating DM room,
+   * there will be an index 4 storing targeted user's email. Index 4 is used
+   * by this function.
+   *
+   * This also requires a fragment as a second parameter
+   * to help perform a request.
+   *
+   * @return a ModifyChatRoom function which helps create a group chat room
+   */
+  static ModifyChatRoom createDmRoom(){
+    String url = "https://comchat-backend.herokuapp.com/chats";
+    return (roomToCreate, fragment) -> {
+      JSONObject body = new JSONObject();
+      try {
+        body.put("name", roomToCreate.get(0));
+        body.put("email_A", roomToCreate.get(1));
+        body.put("email_B", roomToCreate.get(4));
+      } catch (JSONException e) {
+        // TODO Have a better handler - Hung Vu.
+        e.printStackTrace();
+      }
+      Request request = new JsonObjectRequest(
+              Request.Method.POST,
+              url + "/" + "direct",
+              body,
+              response -> {
+                try {
+                  if (response.getString("success").equals("true")) {
+                    Log.i("CREATE a new room", "Create a new DM room successfully.");
+                    Navigation.findNavController(fragment.getView()).navigate(
+                            CreateFragmentDirections.actionCreateFragmentToMessageListFragment(
+                                    response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
+                            )
+                    );
+                  } else {
+                    throw new IllegalStateException("Cannot create a new DM room." + response);
                   }
                 } catch (JSONException e) {
                   e.printStackTrace();

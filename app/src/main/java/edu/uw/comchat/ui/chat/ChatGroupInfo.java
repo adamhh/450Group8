@@ -64,4 +64,14 @@ public class ChatGroupInfo implements Serializable {
 
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "ChatGroupInfo{" +
+            "mGroupName='" + mGroupName + '\'' +
+            ", mGroupId=" + mGroupId +
+            ", mMessage='" + mMessage + '\'' +
+            ", mTime='" + mTime + '\'' +
+            '}';
+  }
 }

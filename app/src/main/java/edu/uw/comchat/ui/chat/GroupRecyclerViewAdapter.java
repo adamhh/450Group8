@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.chat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,12 @@ public class GroupRecyclerViewAdapter extends
                     .actionNavigationChatToMessageListFragment(groupId, true));
   }
 
+//  public void updateAdapter(List<ChatGroupInfo> items) {
+//    mGroups.clear();
+//    mGroups.addAll(items);
+//    notifyDataSetChanged();
+//  }
+
   /**
    * Objects from this class represent a single row view in the list of groups a user is in.
    */
@@ -114,8 +121,14 @@ public class GroupRecyclerViewAdapter extends
       mGroup = group;
       binding.textChatGroupName.setText("Group Name: " + group.getGroupName());
       binding.textChatGroupMessage.setText(group.getMessage());
-      binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
+//      Log.i("group", group.toString());
+      try {
+        binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
+      } catch (IndexOutOfBoundsException e){
+        Log.i("GroupRVAdapter", "Index out of bound in parsing time due to empty msg group chat");
+      }
     }
+
   }
 
 }
