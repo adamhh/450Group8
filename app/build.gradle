@@ -41,6 +41,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.1'
     implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'com.auth0.android:jwtdecode:2.0.0'
     // Enable Volley.
     implementation 'com.android.volley:volley:1.1.1'
     testImplementation 'junit:junit:4.+'
