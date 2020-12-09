@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
-import edu.uw.comchat.Theme;
 import edu.uw.comchat.databinding.FragmentSettingsBinding;
+import edu.uw.comchat.util.StorageUtil;
 
 /**
  * The fragment that shows user settings.
@@ -21,8 +21,7 @@ import edu.uw.comchat.databinding.FragmentSettingsBinding;
  */
 // Ignore checkstyle member name error.
 public class SettingsFragment extends Fragment {
-  private FragmentSettingsBinding mBinding;
-  private SettingsViewModel mModel;
+
   //required empty public constructor
   public SettingsFragment() {
 
@@ -40,11 +39,12 @@ public class SettingsFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mModel = new ViewModelProvider(getActivity())
+    SettingsViewModel mModel = new ViewModelProvider(getActivity())
             .get(SettingsViewModel.class);
-    //Will save state of toggle once we used sharedpreferences
-    mBinding = FragmentSettingsBinding.bind(getView());
-    mBinding.darkThemeToggleId.setChecked(Theme.getIsDark());
+
+    StorageUtil storageUtil = new StorageUtil(getContext());
+    edu.uw.comchat.databinding.FragmentSettingsBinding mBinding = FragmentSettingsBinding.bind(getView());
+    mBinding.darkThemeToggleId.setChecked(storageUtil.loadDarkTheme());
     mBinding.darkThemeToggleId.setOnClickListener(onClick -> {
       ((MainActivity)getActivity()).toggleDarkMode();
     });
