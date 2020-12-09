@@ -1,5 +1,7 @@
 package edu.uw.comchat.ui.connection;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,7 +50,8 @@ public class ProfileFragment extends Fragment {
     mConnectionViewModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
     return view;
   }
-  //TODO need to get data from individual card to populate profile
+
+
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
@@ -65,9 +68,10 @@ public class ProfileFragment extends Fragment {
         connectButtonText = "Remove Connection";
         break;
       case 2:
-        connectButtonText = "Accept Request";
+        connectButtonText = "Manage Request";
         break;
       case 3:
+
         connectButtonText = "Pending";
         break;
       default:
@@ -75,36 +79,95 @@ public class ProfileFragment extends Fragment {
     }
     binding.profileConnectButtonId.setText(connectButtonText);
     binding.profileConnectButtonId.setOnClickListener(this::connectClicked);
-    binding.profileMessageButtonId.setOnClickListener(this::messageClicked);
 
-  }
-
-  private void connectClicked(View view) {
-    switch (mPosition) {
-      case 1:
-        mConnectionViewModel.removeConnection(mEmail);
-        break;
-      case 3:
-        binding.profileMessageButtonId.setText("Pending");
-        break;
-      case 2:
-        //handles accepting incoming requests and sending requests to suggested
-        Log.d("CONNREQ", "SENT");
-        mConnectionViewModel.connectionRequest(mEmail);
-        break;
-      default:
-        break;
-    }
-    binding.profileConnectButtonId.setClickable(false);
   }
 
   /**
-   *
+   * Method that handles the connect button being clicked.  Depending on the position (the tab)
+   * that the user is in, the user will be given various options and asked to confirm selection.
    * @param view
    */
-  private void messageClicked(View view) {
+  private void connectClicked(View view) {
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+    alertDialogBuilder.setTitle("Connection Options");
+    switch (mPosition) {
+      case 1:
+        //For existing connection tab
+        alertDialogBuilder.setMessage("Are you sure you want to remove connection?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            mConnectionViewModel.removeConnection(mEmail);
+            binding.profileConnectButtonId.setText("Connection Removed");
+            binding.profileConnectButtonId.setClickable(false);
+          }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.show();
+
+        break;
+      case 2:
+        //For incoming connection tab
+        alertDialogBuilder.setMessage("Would you like to accept or remove request?");
+        alertDialogBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            mConnectionViewModel.connectionRequest(mEmail);
+          }
+        });
+        alertDialogBuilder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            mConnectionViewModel.removeConnection(mEmail);
+          }
+        });
+        AlertDialog alertDialog2 = alertDialogBuilder.show();
+        break;
+      case 3:
+        //For outgoing connection tab
+        alertDialogBuilder.setMessage("Connection request pending, would you like to cancel request?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            mConnectionViewModel.removeConnection(mEmail);
+            binding.profileConnectButtonId.setClickable(false);
+            binding.profileConnectButtonId.setText("Request Canceled");
+          }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+        AlertDialog alertDialog3 = alertDialogBuilder.show();
+        break;
+
+      default:
+        alertDialogBuilder.setMessage("Suggested connection, would you like to send request?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            mConnectionViewModel.connectionRequest(mEmail);
+            binding.profileConnectButtonId.setClickable(false);
+            binding.profileConnectButtonId.setText("Request Sent");
+          }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+        AlertDialog alertDialog4 = alertDialogBuilder.show();
+        break;
+    }
+
   }
-
-
 
 }

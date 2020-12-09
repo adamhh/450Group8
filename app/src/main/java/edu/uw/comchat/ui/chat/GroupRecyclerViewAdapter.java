@@ -109,13 +109,12 @@ public class GroupRecyclerViewAdapter extends
      *
      * @param group the group of the view holder.
      */
+    // Small adjustment to comply with 12/8/20 API - Hung Vu
     void setGroup(final ChatGroupInfo group) {
       mGroup = group;
-      binding.textChatGroupName.setText("Group Id: " + group.getGroupId());
-
-      // TODO Populate views with data
-      binding.textChatGroupMessage.setText("Last message");
-      binding.textChatGroupDate.setText("Date");
+      binding.textChatGroupName.setText("Group Name: " + group.getGroupName());
+      binding.textChatGroupMessage.setText(group.getMessage());
+      binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
     }
   }
 

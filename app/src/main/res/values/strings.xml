@@ -56,6 +56,7 @@
     <!-- Home Fragment -->
     <string name="title_home">Home</string>
     <string name="text_home_default">Home</string>
+    <string name="text_home_notification_title">Notification</string>
 
     <!-- Bottom navigation menu -->
     <string name="item_nav_home">Home</string>
