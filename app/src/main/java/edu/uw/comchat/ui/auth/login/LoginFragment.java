@@ -16,11 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
 import edu.uw.comchat.databinding.FragmentLoginBinding;
 import edu.uw.comchat.model.PushyTokenViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.util.EmailValidator;
 import edu.uw.comchat.util.PasswordValidator;
+import edu.uw.comchat.util.StorageUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,9 +108,6 @@ public class LoginFragment extends Fragment {
     mLoginModel.addResponseObserver(
             getViewLifecycleOwner(),
             this::observeResponse);
-//     TODO clear this later on, only to test navigate to home fragment when webservice return 400/broken.
-    navigateToMainActivity("test1@test.com",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQHRlc3QuY29tIiwibWVtYmVyaWQiOjEsImlhdCI6MTYwNzI5NjM1OCwiZXhwIjoxNjA4NTA1OTU4fQ.b8Y3CVo51OPWdndDDuoM6MUDSYriGzg03bMBV6_yhSI");
   }
 
   /**
@@ -130,10 +130,18 @@ public class LoginFragment extends Fragment {
         mBinding.editTextLoginEmail.setError(
                 "Error Authenticating on Push Token. Please contact support");
       } else {
-        navigateToMainActivity(
-                mBinding.editTextLoginEmail.getText().toString(),
-                mUserViewModel.getJwt()
-        );
+        String email = mBinding.editTextLoginEmail.getText().toString();
+        String jwt = mUserViewModel.getJwt();
+
+        if (mBinding.switchLogin.isChecked()) {
+          StorageUtil util = new StorageUtil(getContext());
+          util.storeCredentials(jwt);
+        }
+
+        Navigation.findNavController(getView())
+                .navigate(LoginFragmentDirections
+                        .actionLoginFragmentToMainActivity(email, jwt));
+        getActivity().finish();
       }
     }
   }
@@ -186,7 +194,6 @@ public class LoginFragment extends Fragment {
             mBinding.editTextLoginPassword.getText().toString());
     //This is an Asynchronous call. No statements after should rely on the
     //result of connect().
-
   }
 
   /**
@@ -215,11 +222,6 @@ public class LoginFragment extends Fragment {
                   )).get(UserInfoViewModel.class);
 
           sendPushyToken();
-//          navigateToMainActivity(
-//                  mBinding.editTextLoginEmail.getText().toString(),
-//                  response.getString("token")
-//          );
-        //          Log.i("jwt",response.getString("token"));
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }
@@ -227,17 +229,5 @@ public class LoginFragment extends Fragment {
     } else {
       Log.d("JSON Response", "No Response");
     }
-
   }
-
-  /**
-   * Navigate to home page.
-   */
-  public void navigateToMainActivity(String email, String jwt) {
-    Navigation.findNavController(getView())
-            .navigate(LoginFragmentDirections
-                    .actionLoginFragmentToMainActivity(email, jwt));
-    getActivity().finish();
-  }
-
 }
