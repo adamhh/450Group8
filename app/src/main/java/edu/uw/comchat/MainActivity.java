@@ -1,12 +1,10 @@
 package edu.uw.comchat;
 
-import static edu.uw.comchat.util.UpdateTheme.updateThemeColor;
-
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -28,6 +26,8 @@ import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
 import edu.uw.comchat.ui.chat.chatroom.ChatViewModel;
+import edu.uw.comchat.util.StorageUtil;
+
 import java.util.function.BiConsumer;
 
 /**
@@ -46,13 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding mBinding;
 
-  private static final BiConsumer<String, MainActivity> changeThemeHandler = updateThemeColor();
+  private StorageUtil mStorageUtil;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    // Make storage util
+    mStorageUtil = new StorageUtil(this);
+
     //We need to set theme each activity before it is created
-    setTheme(Theme.getTheme());
-    //or we can recreate activity
+    setTheme(mStorageUtil.loadTheme());
+    setDarkMode();
+
     super.onCreate(savedInstanceState);
     mBinding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(mBinding.getRoot());
@@ -181,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
       navController.navigate(R.id.navigation_settings);
     } else if (id == R.id.menu_theme) {
       handleChangeThemeAction();
+    } else if (id == R.id.menu_logout) {
+      signOut();
     }
 
     return super.onOptionsItemSelected(item);
@@ -200,26 +206,37 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void toggleDarkMode()  {
-    switch(getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK){
-      case Configuration.UI_MODE_NIGHT_YES:
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        break;
-      default:
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-    }
-    Theme.toggleDark();
+    mStorageUtil.toggleDarkTheme();
+    setDarkMode();
   }
 
+  public void setDarkMode() {
+    if (mStorageUtil.loadDarkTheme())
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    else
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+  }
+
+  private void signOut() {
+    mStorageUtil.removeCredentials();
+    finishAndRemoveTask();
+  }
+
+  @SuppressLint("NonConstantResourceId")
   private void handleChangeThemeAction() {
     String[] themeOptions = new String[]{"Default", "Blue Grey", "Red Black"};
 
     int checked;
-    if (Theme.getThemeName() == Theme.GREY_THEME)
-      checked = 1;
-    else if (Theme.getThemeName() == Theme.RED_THEME)
-      checked = 2;
-    else
-      checked = 0;
+    switch (mStorageUtil.loadTheme()) {
+      case R.style.Theme_ComChatBlueGrey:
+        checked = 1;
+        break;
+      case R.style.Theme_ComChatRed:
+        checked = 2;
+        break;
+      default:
+        checked = 0;
+    }
 
     mAlertDialog = new MaterialAlertDialogBuilder(this)
             .setTitle("Theme Options")
@@ -229,32 +246,12 @@ public class MainActivity extends AppCompatActivity {
                     (dialog, which) -> {
 
               if (which == 0)
-                Theme.setTheme(Theme.DEFAULT_THEME);
+                mStorageUtil.storeTheme(R.string.theme_default);
               else if (which == 1)
-                Theme.setTheme(Theme.GREY_THEME);
+                mStorageUtil.storeTheme(R.string.theme_grey);
               else if (which == 2)
-                Theme.setTheme(Theme.RED_THEME);
+                mStorageUtil.storeTheme(R.string.theme_red);
               recreate();
-            })
-
-            /*
-            //  Require to press accept button after having a choice, but not working.
-            .setPositiveButton(getResources().getString(R.string.item_menu_change_theme_accept),
-                    (dialog, which) -> {
-              if (which == 0){
-                updateThemeColor().accept(DEFAULT_THEME, thisActivity);
-                changeTheme(DEFAULT_THEME);
-              } else if (which == 1){
-                updateThemeColor().accept(GREY_THEME, thisActivity);
-                Log.i("Theme name", "true");
-                changeTheme(GREY_THEME);
-              } else if (which == 2){
-                updateThemeColor().accept(RED_THEME, thisActivity);
-                changeTheme(RED_THEME);
-              }
-            })
-             */
-
-            .show();
+            }).show();
   }
 }
