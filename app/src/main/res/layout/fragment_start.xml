@@ -12,30 +12,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
         android:src="@drawable/ic_androidapplogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_start_login"
+    <TextView
+        android:id="@+id/text_start_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="128dp"
-        android:text="@string/button_start_login"
+        android:layout_marginTop="24dp"
+        android:text="@string/title_app_name"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_start_logo" />
 
     <Button
-        android:id="@+id/button_start_register"
-        android:layout_width="wrap_content"
+        android:id="@+id/button_start_login"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/button_start_login"
+        app:layout_constraintEnd_toStartOf="@+id/button_start_register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_start_app_name" />
+
+    <Button
+        android:id="@+id/button_start_register"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/button_start_register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_start_logo" />
+        app:layout_constraintStart_toEndOf="@+id/button_start_login"
+        app:layout_constraintTop_toBottomOf="@+id/text_start_app_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
