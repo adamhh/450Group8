@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
   // Store notification information - Hung Vu.
   private NotificationViewModel mNotificationViewModel;
 
-  private static final BiConsumer<String, MainActivity> changeThemeHandler = updateThemeColor();
   private StorageUtil mStorageUtil;
 
   @Override
@@ -125,16 +124,6 @@ public class MainActivity extends AppCompatActivity {
     // Store notification data.
     ViewModelProvider provider = new ViewModelProvider(this);
     mNotificationViewModel = provider.get(NotificationViewModel.class);
-
-
-    // Store email and jwt upon creation - Hung Vu.
-    MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
-    String email = args.getEmail();
-    String jwt = args.getJwt();
-    mModel = new ViewModelProvider(
-            this,
-            new UserInfoViewModel.UserInfoViewModelFactory(email, jwt))
-            .get(UserInfoViewModel.class); // First time initialize using inner factory method.
   }
 
   public String getEmail(){
