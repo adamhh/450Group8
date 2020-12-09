@@ -10,4 +10,8 @@
         android:id="@+id/menu_theme"
         android:title="@string/item_menu_change_theme"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_logout"
+        android:title="@string/item_menu_logout"
+        app:showAsAction="never" />
 </menu>
