@@ -88,7 +88,11 @@ public class CreateFragment extends Fragment {
       infoToCreateRoom.add(mUserModel.getJwt());
       infoToCreateRoom.add(wantToCreateGroup[0]);
       infoToCreateRoom.add(mBinding.editTextTargetUser.getText().toString());
-      ModifyChatRoom.createRoom().accept(infoToCreateRoom, this);
+      if(Boolean.valueOf(wantToCreateGroup[0]).equals(Boolean.TRUE)) {
+        ModifyChatRoom.createGroupRoom().accept(infoToCreateRoom, this);
+      } else {
+        ModifyChatRoom.createDmRoom().accept(infoToCreateRoom, this);
+      }
     });
 
 
