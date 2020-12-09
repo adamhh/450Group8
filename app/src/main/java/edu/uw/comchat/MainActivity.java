@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import edu.uw.comchat.databinding.ActivityMainBinding;
 import edu.uw.comchat.model.NewMessageCountViewModel;
+import edu.uw.comchat.model.PushyTokenViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.services.PushReceiver;
 import edu.uw.comchat.ui.chat.chatroom.ChatMessage;
@@ -219,7 +220,15 @@ public class MainActivity extends AppCompatActivity {
 
   private void signOut() {
     mStorageUtil.removeCredentials();
-    finishAndRemoveTask();
+    PushyTokenViewModel model = new ViewModelProvider(this)
+            .get(PushyTokenViewModel.class);
+    //when we hear back from the web service quit
+    model.addResponseObserver(this, result -> finishAndRemoveTask());
+    model.deleteTokenFromWebservice(
+            new ViewModelProvider(this)
+                    .get(UserInfoViewModel.class)
+                    .getJwt()
+    );
   }
 
   @SuppressLint("NonConstantResourceId")
