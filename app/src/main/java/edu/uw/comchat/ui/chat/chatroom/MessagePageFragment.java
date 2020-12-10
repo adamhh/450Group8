@@ -232,6 +232,7 @@ public class MessagePageFragment extends Fragment {
                           // Choice has "None" at i = 0, so its length = userList + 1
                           memberToModify.add(String.valueOf(multiItems[choice[0]]));
                           memberToModify.add(mUserModel.getJwt());
+                          memberToModify.add(mUserModel.getEmail());
                         } catch (IndexOutOfBoundsException e) {
                           // TODO dialog not show? Maybe because getActivity doesn't work inside lambda method? - Hung Vu
                           // userList -> multiItems[]

@@ -1,18 +1,16 @@
 package edu.uw.comchat.util;
 
 import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.ui.chat.CreateFragmentDirections;
 import edu.uw.comchat.ui.chat.chatroom.MessagePageFragmentDirections;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,18 +18,24 @@ import java.util.function.BiConsumer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+
+
 /**
  * This interface provides functions which helps perform actions related to a chat room.
- * This includes adding and removing a user from chat room, or creating a new room.
+ * This includes adding and removing a user from chat room, or creating a new room,
+ * and deleting an existing room.
  *
  * @author Hung Vu
  */
 public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> {
   // TODO Have to change these functions to comply with latest API (12/8).
+
   /**
    * Provide a function which helps remove a user from specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   * email of user to be deleted at index 1, and jwt at index 2. Ignore index 3 and 4.
+   * email of user to be deleted at index 1, and jwt at index 2.
+   * Current user's email (the one performs action) at index 3.
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -52,11 +56,22 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                             + "from chat room "
                             + memberToDelete.get(0)
                             + response);
-                    new MaterialAlertDialogBuilder(fragment.getActivity())
-                            .setTitle("Message")
-                            .setMessage("Remove member " + memberToDelete.get(1) + " successfully. "
-                                    + "Tap anywhere to turn off this message.")
-                            .show();
+                    if (memberToDelete.get(3).equals(memberToDelete.get(1))){
+                      Navigation.findNavController(fragment.getView()).navigate(
+                              MessagePageFragmentDirections.actionMessagePageFragmentToNavigationChat()
+                      );
+                      new MaterialAlertDialogBuilder(fragment.getActivity())
+                              .setTitle("Message")
+                              .setMessage("Exit room successfully. "
+                                      + "Tap anywhere to turn off this message.")
+                              .show();
+                    } else {
+                      new MaterialAlertDialogBuilder(fragment.getActivity())
+                              .setTitle("Message")
+                              .setMessage("Remove member " + memberToDelete.get(1) + " successfully. "
+                                      + "Tap anywhere to turn off this message.")
+                              .show();
+                    }
                   } else {
                     new MaterialAlertDialogBuilder(fragment.getActivity())
                             .setTitle("Message")
@@ -110,7 +125,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
   /**
    * Provide a function which helps add a user to a specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   * email of user to be added at index 1, and jwt at index 2. Ignore index 3 and 4.
+   * email of user to be added at index 1, and jwt at index 2. Ignore index 3.
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -190,7 +205,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
    * "true" for group, "false" for DM. In case of creating DM room,
    * there will be an index 4 storing targeted user's email. Index 4
    * won't be used by this function.
-   *
+   * <p>
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -273,13 +288,13 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
    * "true" for group, "false" for DM. In case of creating DM room,
    * there will be an index 4 storing targeted user's email. Index 4 is used
    * by this function.
-   *
+   * <p>
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
    * @return a ModifyChatRoom function which helps create a group chat room
    */
-  static ModifyChatRoom createDmRoom(){
+  static ModifyChatRoom createDmRoom() {
     String url = "https://comchat-backend.herokuapp.com/chats";
     return (roomToCreate, fragment) -> {
       JSONObject body = new JSONObject();
@@ -344,14 +359,14 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
   /**
    * Provide a function which helps delete a group chat room.
    * This function accept an array list, which contains a room id at index 0,
-   *  and JWT at index 1.
-   *
+   * and JWT at index 1.
+   * <p>
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
    * @return a ModifyChatRoom function which helps create a group chat room
    */
-  static ModifyChatRoom deleteRoom(){
+  static ModifyChatRoom deleteRoom() {
     String url = "https://comchat-backend.herokuapp.com/chats";
     return (roomToDelete, fragment) -> {
       Request request = new JsonObjectRequest(
