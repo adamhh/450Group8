@@ -50,7 +50,7 @@ public class NotificationViewModel extends ViewModel {
    * @return a string indicates hours and minute receiving the notification
    */
   public String getLatestNotificationTime() {
-    return mNotificationModel.getValue().lastEntry().getKey().substring(0, 5);
+    return mNotificationModel.getValue().lastEntry().getKey().substring(6, 11);
   }
 
   /**
@@ -58,7 +58,7 @@ public class NotificationViewModel extends ViewModel {
    * @return a string indicates month and date receiving the notification
    */
   public String getLatestNotificationDate() {
-    return mNotificationModel.getValue().lastEntry().getKey().substring(6, 11);
+    return mNotificationModel.getValue().lastEntry().getKey().substring(0, 5);
   }
 
   /**
