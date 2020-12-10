@@ -1,7 +1,6 @@
 package edu.uw.comchat.ui.chat.chatroom;
 
 import android.app.Application;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
@@ -9,36 +8,59 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
-
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// View model class from lab 5, subject to change - Hung Vu.
-// Subject to change later on. Comment is intentionally left out.
+
+/**
+ * A view model for chats message in a chat room. This class
+ * is from lab 5 and modified to suit our application.
+ *
+ * @author Hung Vu
+ */
+// Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
 public class ChatSendViewModel extends AndroidViewModel {
 
+  /**
+   * Hold JSON object of chat message in a chat room.
+   */
   private final MutableLiveData<JSONObject> mResponse;
 
+  /**
+   * A constructor.
+   *
+   * @param application an application context
+   */
   public ChatSendViewModel(@NonNull Application application) {
     super(application);
     mResponse = new MutableLiveData<>();
     mResponse.setValue(new JSONObject());
   }
 
+  /**
+   * Add response observer to the view model.
+   *
+   * @param owner life cycle of the observer
+   * @param observer the action to perform when a change happens
+   */
   public void addResponseObserver(@NonNull LifecycleOwner owner,
                                   @NonNull Observer<? super JSONObject> observer) {
     mResponse.observe(owner, observer);
   }
 
+  /**
+   * Connect to web service and add sent message information.
+   *
+   * @param chatId the room ID
+   * @param jwt the JSON web token
+   * @param message the Message
+   */
   public void sendMessage(final int chatId, final String jwt, final String message) {
     String url = getApplication().getResources().getString(R.string.base_url) + "messages";
 
@@ -75,16 +97,4 @@ public class ChatSendViewModel extends AndroidViewModel {
             .addToRequestQueue(request);
   }
 
-
-//  private void handleError(final VolleyError error) {
-//    if (Objects.isNull(error.networkResponse)) {
-//      Log.e("NETWORK ERROR", error.getMessage());
-//    } else {
-//      String data = new String(error.networkResponse.data, Charset.defaultCharset());
-//      Log.e("CLIENT ERROR",
-//              error.networkResponse.statusCode
-//                      + " "
-//                      + data);
-//    }
-//  }
 }
