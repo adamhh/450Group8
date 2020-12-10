@@ -15,6 +15,7 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
 import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
 import edu.uw.comchat.util.StorageUtil;
 
@@ -22,6 +23,9 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +47,8 @@ public class HomeFragment extends Fragment {
   private FragmentHomeBinding mBinding;
 
   private NotificationViewModel mNotificationModel;
+  // Store incoming connection request.
+  private ConnectionListViewModel mConnectionModel;
   // TODO adjust home fragment, it's just in a bare bone state now.
 
   @Override
@@ -53,6 +59,7 @@ public class HomeFragment extends Fragment {
     mWeatherModel = provider.get(WeatherViewModel.class);
     mWeatherModel.getToken().setValue(mUserModel.getJwt());
     mNotificationModel = provider.get(NotificationViewModel.class);
+    mConnectionModel = provider.get(ConnectionListViewModel.class);
   }
 
   @Override
@@ -71,7 +78,7 @@ public class HomeFragment extends Fragment {
     StorageUtil util = new StorageUtil(getContext());
     mWeatherModel.connect(util.getLocation());
 
-    mNotificationModel.addResponseObserver(getViewLifecycleOwner(), notificationMap -> {
+    mNotificationModel.addChatResponseObserver(getViewLifecycleOwner(), notificationMap -> {
       try {
         mBinding.textHomeNotificationMessage.setText("Message: " + mNotificationModel.getLatestNotificationMessage());
         mBinding.textHomeNotificationSender.setText("From: " + mNotificationModel.getLatestNotificationSender());
@@ -81,6 +88,33 @@ public class HomeFragment extends Fragment {
         Log.i("Home Fragment", "NPE for at notification due to no message has been received, this error can be ignored.");
       }
     });
+
+    TimerTask getGroupTask = new TimerTask() {
+      @Override
+      public void run() {
+        mConnectionModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
+      }
+    };
+    Timer timer = new Timer("Update incoming request notification per 0.5 sec");
+    timer.scheduleAtFixedRate(getGroupTask, 500L, 500L);
+    mConnectionModel.addIncomingListObserver(getViewLifecycleOwner(), listConnection -> {
+      mNotificationModel.updateConnectionNotificationData(listConnection);
+    });
+
+    mNotificationModel.addConnectionResponseObserver(getViewLifecycleOwner(), incomingRequest -> {
+      try {
+        // TODO Update incoming request notification on homepage.
+        //  The view model is refreshed per 0.5s so the error will be repeatedly printed till there is a connection.
+        //  If it is removed then the error return again.
+        //  What I think you can do is deleting the message and repeatedly set text of object to empty for example ("").
+//        mBinding.textView.setText(mNotificationModel.getLatestConnectionRequest().get(0));
+      } catch (ArrayIndexOutOfBoundsException e){
+        Log.i("Out of bound Home, Notification model", "The error happens when there is no incoming request, this can be ignored.");
+      }
+    });
+
+
+
   }
 
   /**
