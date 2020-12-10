@@ -26,26 +26,51 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 
-
 /**
  * A fragment that shows the list of messages in a group.
- * <p></p>
- * * @author Jerry Springer (UI), Hung Vu (back-end)
- * * @version 11 November 2020
+ *
+ * @author Jerry Springer (UI), Hung Vu (back-end)
+ *
+ * @version 10 Dec 2020
  */
-// Ignore checkstyle member name error.
+// Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
 public class MessagePageFragment extends Fragment {
 
-  // Implement send message.
+  /**
+   * This is used to create proper received chat messages.
+   */
   private ChatViewModel mChatModel;
+
+  /**
+   * This is used to retrieve user's email and JWT.
+   */
   private UserInfoViewModel mUserModel;
+
+  /**
+   * This is used to create proper sent chat messages.
+   */
   private ChatSendViewModel mSendModel;
+
+  /**
+   * Some information to create a room.
+   */
+  private InRoomInfoViewModel mInRoomInfoViewModel;
+
+  /**
+   * This is used to get members to add or remove from a room.
+   */
+  private ConnectionListViewModel mConnectionListViewModel;
+
+  /**
+   * Id of chat room.
+   */
   private int mChatId;
+
+  /**
+   * Indicate whether a dropdown menu should be enabled. True means yes, false otherwise.
+   */
   private Boolean mEnableMenu;
 
-  // Get in-room info
-  private InRoomInfoViewModel mInRoomInfoViewModel;
-  private ConnectionListViewModel mConnectionListViewModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +78,6 @@ public class MessagePageFragment extends Fragment {
     ViewModelProvider provider = new ViewModelProvider(getActivity());
     mChatId = MessagePageFragmentArgs.fromBundle(getArguments()).getChatId();
     mEnableMenu = MessagePageFragmentArgs.fromBundle(getArguments()).getEnableMenu();
-    // Chat room.
     mSendModel = provider.get(ChatSendViewModel.class);
     mUserModel = provider.get(UserInfoViewModel.class);
     mChatModel = provider.get(ChatViewModel.class);
@@ -64,7 +88,7 @@ public class MessagePageFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // If true -> group chat -> enable menu, otherwise -> DM -> no menu.
+    // If true -> group chat -> enable menu, otherwise -> Direct Message (DM) -> no menu
     setHasOptionsMenu(mEnableMenu);
     return inflater.inflate(R.layout.fragment_message_list, container, false);
   }
@@ -148,8 +172,8 @@ public class MessagePageFragment extends Fragment {
       handleRemoveMemberToChatRoomAction();
     } else if (id == R.id.menu_chat_list_delete_room) {
       new MaterialAlertDialogBuilder(getActivity())
-              .setTitle("Message")
-              .setMessage("Are you sure want to delete this room? This will remove all chat in the room along with its members.")
+              .setTitle(getResources().getString(R.string.text_message_page_default))
+              .setMessage(getResources().getString(R.string.text_message_page_delete_room))
               .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline),
                       (dialog, which) -> {
                       })
@@ -158,7 +182,7 @@ public class MessagePageFragment extends Fragment {
                 ArrayList<String> roomToDelete = new ArrayList<String>();
                 roomToDelete.add(String.valueOf(mChatId));
                 roomToDelete.add(mUserModel.getJwt());
-                ModifyChatRoom.deleteRoom().accept(roomToDelete,this);
+                ModifyChatRoom.deleteRoom().accept(roomToDelete, this);
               })
               .show();
     }
@@ -192,7 +216,7 @@ public class MessagePageFragment extends Fragment {
             .map(connection -> connection.getEmail())
             .collect(Collectors.toList());
     // Default choice at index 0
-    emailList.add(0, "None");
+    emailList.add(0, getResources().getString(R.string.text_message_page_default_choice));
     CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
     //    boolean[] checkedItems = new boolean[multiItems.length];
     //    Log.i("", String.valueOf(multiItems[0]));
@@ -234,15 +258,17 @@ public class MessagePageFragment extends Fragment {
                           memberToModify.add(mUserModel.getJwt());
                           memberToModify.add(mUserModel.getEmail());
                         } catch (IndexOutOfBoundsException e) {
-                          // TODO dialog not show? Maybe because getActivity doesn't work inside lambda method? - Hung Vu
                           // userList -> multiItems[]
-                          // A change has been made to this method to "completely" mitigate the exception,
-                          //  but we will keep the catch phrase here just in case. However, the behavior
-                          //  (showing "removed" user) is still there, and will cause HTTP 400 response.
+                          // A change has been made to this method to "completely"
+                          // mitigate the exception, but we will keep the catch phrase
+                          // here just in case. However, the behavior (showing "removed" user)
+                          // is still there, and will cause HTTP 400 response.
+                          // 400 response code is already handled by ModifyChatRoom function.
                           new MaterialAlertDialogBuilder(getActivity())
-                                  .setTitle("Status")
-                                  .setMessage("Remove unsuccessfully. Please try again. "
-                                          + "Tap anywhere to close this message. ");
+                                  .setTitle(getResources().getString(
+                                          R.string.text_message_page_default))
+                                  .setMessage(getResources().getString(
+                                          R.string.text_message_page_remove_fail));
                           Log.i("MessagePageFragment", "Index out of bound when remove user.");
                           return;
                         }
@@ -263,15 +289,6 @@ public class MessagePageFragment extends Fragment {
     //  to our app.
     //  The latest msg is not there. I haven't found out a way to fix this yet - Hung Vu
     super.onResume();
-    //    FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
-    //    final RecyclerView rv = binding.recyclerMessages;
-    //    mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getJwt());
-    //    rv.setAdapter(new ChatRecyclerViewAdapter(
-    //            mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
-    //            mUserModel.getEmail()
-    //    ));
-    //    rv.getAdapter().notifyDataSetChanged();
-    //    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
   }
 
 }

@@ -27,6 +27,8 @@ import org.json.JSONObject;
  * who is in the room.
  *
  * @author Hung Vu
+ *
+ * @version 10 Dec 2020
  */
 // Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
 public class InRoomInfoViewModel extends AndroidViewModel {

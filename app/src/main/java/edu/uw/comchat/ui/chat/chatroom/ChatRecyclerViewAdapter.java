@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * Recycler View Adapter for chat messages in chat room.
+ *
+ * @version 10 Dec 2020
  */
 // Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
 public class ChatRecyclerViewAdapter extends
