@@ -100,8 +100,8 @@ public class ProfileFragment extends Fragment {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             mConnectionViewModel.removeConnection(mEmail);
-            binding.profileConnectButtonId.setText("Connection Removed");
-            binding.profileConnectButtonId.setClickable(false);
+            binding.profileClickedId.setText("Connection Removed");
+            binding.profileConnectButtonId.setVisibility(View.GONE);
           }
         });
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -115,17 +115,21 @@ public class ProfileFragment extends Fragment {
         break;
       case 2:
         //For incoming connection tab
-        alertDialogBuilder.setMessage("Would you like to accept or remove request?");
+        alertDialogBuilder.setMessage("Would you like to accept or deny request?");
         alertDialogBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             mConnectionViewModel.connectionRequest(mEmail);
+            binding.profileClickedId.setText("Request Sent");
+            binding.profileConnectButtonId.setVisibility(View.GONE);
           }
         });
-        alertDialogBuilder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("Deny", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             mConnectionViewModel.removeConnection(mEmail);
+            binding.profileClickedId.setText("Request Denied");
+            binding.profileConnectButtonId.setVisibility(View.GONE);
           }
         });
         AlertDialog alertDialog2 = alertDialogBuilder.show();
@@ -137,8 +141,8 @@ public class ProfileFragment extends Fragment {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             mConnectionViewModel.removeConnection(mEmail);
-            binding.profileConnectButtonId.setClickable(false);
-            binding.profileConnectButtonId.setText("Request Canceled");
+            binding.profileConnectButtonId.setVisibility(View.GONE);
+            binding.profileClickedId.setText("Request Canceled");
           }
         });
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -156,8 +160,8 @@ public class ProfileFragment extends Fragment {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             mConnectionViewModel.connectionRequest(mEmail);
-            binding.profileConnectButtonId.setClickable(false);
-            binding.profileConnectButtonId.setText("Request Sent");
+            binding.profileConnectButtonId.setVisibility(View.GONE);
+            binding.profileClickedId.setText("Request Sent");
           }
         });
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
