@@ -166,6 +166,7 @@ Source: https://material.io/develop/android/components/radiobuttons
         <item name="colorAccent">@color/redAccentColorLight</item>
     </style>
 
+
     <!--
     Customized radio button design for red theme.
     Source: https://material.io/develop/android/components/radiobuttons
@@ -191,6 +192,20 @@ Source: https://material.io/develop/android/components/radiobuttons
         <item name="android:paddingRight">12dp</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
+    </style>
+    <style name="AlertRadioTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/RadioTitleText</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/RadioBodyText</item>
+
+        <item name="colorSurface">#8F8F8F</item>
+
+    </style>
+    <style name="RadioBodyText" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="RadioTitleText" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">

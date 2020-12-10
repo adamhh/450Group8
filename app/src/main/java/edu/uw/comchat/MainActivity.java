@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         checked = 0;
     }
 
-    mAlertDialog = new MaterialAlertDialogBuilder(this)
+    mAlertDialog = new MaterialAlertDialogBuilder(this, R.style.AlertRadioTheme)
             .setTitle("Theme Options")
             // Recreate activity = lose all info (still can backup using bundle).
 

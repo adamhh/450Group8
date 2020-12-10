@@ -85,7 +85,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/email_profile"
-        android:textColor="@color/greyAccentColorLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -96,7 +95,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/username_profile"
-        android:textColor="@color/greyAccentColorLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email_id" />
 
