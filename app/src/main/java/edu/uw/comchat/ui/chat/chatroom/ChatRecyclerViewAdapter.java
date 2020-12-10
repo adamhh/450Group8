@@ -15,12 +15,35 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatMessageBinding;
 import java.util.List;
 
-public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
+/**
+ * Recycler View Adapter for chat messages in chat room.
+ */
+// Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
+public class ChatRecyclerViewAdapter extends
+        RecyclerView.Adapter<ChatRecyclerViewAdapter.MessageViewHolder> {
 
+  /**
+   * A List contains all chat message information.
+   */
   private final List<ChatMessage> mMessages;
+
+  /**
+   * Email of sender.
+   */
   private final String mEmail;
+
+  /**
+   * The theme.
+   */
   private final Resources.Theme mTheme;
 
+  /**
+   * Constructor.
+   *
+   * @param messages the list of chat message information
+   * @param email sender's email
+   * @param theme the theme
+   */
   public ChatRecyclerViewAdapter(List<ChatMessage> messages, String email, Resources.Theme theme) {
     mMessages = messages;
     mEmail = email;
@@ -47,6 +70,9 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
     return mMessages.size();
   }
 
+  /**
+   * Annonymous class for view holder.
+   */
   class MessageViewHolder extends RecyclerView.ViewHolder {
     private final View mView;
     private FragmentChatMessageBinding binding;
@@ -100,8 +126,8 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         card.requestLayout();
       } else {
         //This message is from another user. Format it as such
-        binding.textChatMessage.setText(message.getSender() +
-                ": " + message.getMessage());
+        binding.textChatMessage.setText(message.getSender()
+                + ": " + message.getMessage());
         ViewGroup.MarginLayoutParams layoutParams =
                 (ViewGroup.MarginLayoutParams) card.getLayoutParams();
 
