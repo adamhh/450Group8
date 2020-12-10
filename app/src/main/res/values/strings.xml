@@ -120,6 +120,7 @@
     <string name="connection_tab_incoming">Incoming</string>
     <string name="connection_tab_outgoing">Outgoing</string>
     <string name="connection_tab_suggested">Suggested</string>
+    <string name="connection_search_ok">Ok</string>
 
 
     <!-- Profile Fragment -->

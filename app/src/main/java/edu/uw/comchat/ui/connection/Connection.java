@@ -1,6 +1,10 @@
 package edu.uw.comchat.ui.connection;
 
+import android.util.Log;
+
 import java.io.Serializable;
+
+import edu.uw.comchat.R;
 
 /**
  * Represent a connection between two people.
@@ -58,6 +62,36 @@ public class Connection implements Serializable {
    */
   public String getLastName() {
     return mLastName;
+  }
+
+  /**
+   * In place of shared preferences
+   * @return
+   */
+  public static int getAvatar(String email) {
+    int avatar;
+    if (email.contains("10")) {
+      avatar = R.drawable.ic_avatar_red;
+    } else if (email.contains("9")) {
+      avatar = R.drawable.ic_avatar_black;
+    } else if (email.contains("8")) {
+      avatar = R.drawable.ic_avatar_forrest;
+    } else if (email.contains("7")) {
+      avatar = R.drawable.ic_avatar_light_blue;
+    } else if (email.contains("6")) {
+      avatar = R.drawable.ic_avatar_orange;
+    } else if (email.contains("5")) {
+      avatar = R.drawable.ic_avatar_purple;
+    } else if (email.contains("4")) {
+      avatar = R.drawable.ic_avatar_yellow;
+    } else if (email.contains("3")) {
+      avatar = R.drawable.ic_avatar_teal;
+    } else if (email.contains("2")) {
+      avatar = R.drawable.ic_avatar_green;
+    } else {
+      avatar = R.drawable.ic_avatar_blue;
+    }
+    return avatar;
   }
 
   @Override
