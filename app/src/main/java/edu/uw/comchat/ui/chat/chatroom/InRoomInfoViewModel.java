@@ -23,11 +23,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * This provides information of a chat group. Currently, it indicates
+ * This provides information of a chat room. Currently, it indicates
  * who is in the room.
  *
  * @author Hung Vu
  */
+// Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
 public class InRoomInfoViewModel extends AndroidViewModel {
   private MutableLiveData<List<String>> mUserInRoomInfo;
 
