@@ -65,6 +65,9 @@
         <argument
             android:name="enableMenu"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_messagePageFragment_to_navigation_chat"
+            app:destination="@id/navigation_chat" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

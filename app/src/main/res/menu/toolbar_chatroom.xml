@@ -9,5 +9,9 @@
         android:id="@+id/menu_chat_list_remove"
         android:title="@string/item_menu_chat_list_delete"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_chat_list_delete_room"
+        android:title="@string/item_menu_chat_list_delete_room"
+        app:showAsAction="never" />
 
 </menu>

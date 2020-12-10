@@ -6,8 +6,13 @@ import androidx.navigation.Navigation;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.ui.chat.CreateFragmentDirections;
+import edu.uw.comchat.ui.chat.chatroom.MessagePageFragmentDirections;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -266,6 +271,65 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
           Map<String, String> headers = new HashMap<>();
           // add headers <key,value>
           headers.put("Authorization", roomToCreate.get(2));
+          return headers;
+        }
+      };
+      request.setRetryPolicy(new DefaultRetryPolicy(
+              10_000,
+              DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+              DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+      //Instantiate the RequestQueue and add the request to the queue
+      RequestQueueSingleton.getInstance(fragment
+              .getActivity()
+              .getApplication()
+              .getApplicationContext())
+              .addToRequestQueue(request);
+    };
+  }
+
+
+  /**
+   * Provide a function which helps delete a group chat room.
+   * This function accept an array list, which contains a room id at index 0,
+   *  and JWT at index 1.
+   *
+   * This also requires a fragment as a second parameter
+   * to help perform a request.
+   *
+   * @return a ModifyChatRoom function which helps create a group chat room
+   */
+  static ModifyChatRoom deleteRoom(){
+    String url = "https://comchat-backend.herokuapp.com/chats";
+    return (roomToDelete, fragment) -> {
+      Request request = new JsonObjectRequest(
+              Request.Method.DELETE,
+              url + "/" + roomToDelete.get(0),
+              null,
+              response -> {
+                try {
+                  if (response.getString("success").equals("true")) {
+                    Log.i("DELETE a group room", "Delete successfully.");
+                    Navigation.findNavController(fragment.getView()).navigate(
+                            MessagePageFragmentDirections.actionMessagePageFragmentToNavigationChat()
+                    );
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Delete room successfully. Tap anywhere to turn off this message.")
+                            .show();
+                  } else {
+                    throw new IllegalStateException("Cannot delete room." + response);
+                  }
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              },
+              error -> HandleRequestError.handleErrorForChat(error)) {
+
+        @Override
+        public Map<String, String> getHeaders() {
+          Map<String, String> headers = new HashMap<>();
+          // add headers <key,value>
+          headers.put("Authorization", roomToDelete.get(1));
           return headers;
         }
       };
