@@ -49,9 +49,8 @@ public class WeatherDayRecyclerViewAdapter extends
     /**
      * Objects from this class represent a single weather row view for the day.
      */
-    public class WeatherDayViewHolder extends RecyclerView.ViewHolder {
-        private FragmentWeatherDayCardBinding mBinding;
-        private WeatherReport mReport;
+    public static class WeatherDayViewHolder extends RecyclerView.ViewHolder {
+        private final FragmentWeatherDayCardBinding mBinding;
 
         public WeatherDayViewHolder(@NonNull View view) {
             super(view);
@@ -63,7 +62,6 @@ public class WeatherDayRecyclerViewAdapter extends
          * @param report the report of the view holder.
          */
         void setReport(final WeatherReport report) {
-            mReport = report;
             mBinding.textWeatherDay.setText(report.getTime());
             mBinding.textWeatherDayTemp.setText(report.getTemp());
 

@@ -55,8 +55,21 @@
 
     <!-- Home Fragment -->
     <string name="title_home">Home</string>
-    <string name="text_home_default">Home</string>
-    <string name="text_home_notification_title">Notification</string>
+    <string name="content_home_profile_avatar">Profile image.</string>
+    <string name="text_home_location">Location</string>
+    <string name="text_home_hello">Hi</string>
+    <string name="text_home_email">Email</string>
+    <string name="text_home_welcome">Welcome back!</string>
+    <string name="text_home_weather_description">Description</string>
+    <string name="text_home_weather_date">Date</string>
+    <string name="text_home_weather_temp">0&#xb0;</string>
+    <string name="content_home_weather_image">Current weather image.</string>
+    <string name="text_home_notification_sender">Sender</string>
+    <string name="text_home_notification_message">Message</string>
+    <string name="text_home_notification_time">Time</string>
+    <string name="text_home_notification_date">Date</string>
+    <string name="text_home_notification_display">Your most recent notification will appear here.</string>
+
 
     <!-- Bottom navigation menu -->
     <string name="item_nav_home">Home</string>
