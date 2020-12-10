@@ -102,6 +102,7 @@ public class ConnectionFragment extends Fragment {
         String email = "";
         String fName = "";
         String lName = "";
+        String nickName = "";
         int tabPosition = 0;
         boolean found = false;
         boolean searching = true;
@@ -111,12 +112,11 @@ public class ConnectionFragment extends Fragment {
           //Search current connections
           for (int i = 0; i < connList.size(); i++) {
             Connection c = connList.get(i);
-            if (c.getEmail().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getFirstName().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getLastName().toLowerCase().equals(query.trim().toLowerCase())) {
+            if (checkForMatch(query, c)) {
               email = c.getEmail();
               fName = c.getFirstName();
               lName = c.getLastName();
+              nickName = c.getNickName();
               tabPosition = 1;
               found = true;
               searching = false;
@@ -127,12 +127,11 @@ public class ConnectionFragment extends Fragment {
           //Search incoming connections
           for (int j = 0; j < incList.size(); j++) {
             Connection c = incList.get(j);
-            if (c.getEmail().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getFirstName().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getLastName().toLowerCase().equals(query.trim().toLowerCase())) {
+            if (checkForMatch(query, c)) {
               email = c.getEmail();
               fName = c.getFirstName();
               lName = c.getLastName();
+              nickName = c.getNickName();
               tabPosition = 2;
               found = true;
               searching = false;
@@ -143,12 +142,11 @@ public class ConnectionFragment extends Fragment {
           //Search outgoing connections
           for (int h = 0; h < outList.size(); h++) {
             Connection c = outList.get(h);
-            if (c.getEmail().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getFirstName().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getLastName().toLowerCase().equals(query.trim().toLowerCase())) {
+            if (checkForMatch(query, c)) {
               email = c.getEmail();
               fName = c.getFirstName();
               lName = c.getLastName();
+              nickName = c.getNickName();
               tabPosition = 3;
               found = true;
               searching = false;
@@ -159,12 +157,11 @@ public class ConnectionFragment extends Fragment {
           //Search suggested connections
           for (int k = 0; k < suggList.size(); k++) {
             Connection c = suggList.get(k);
-            if (c.getEmail().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getFirstName().toLowerCase().equals(query.trim().toLowerCase())
-                    || c.getLastName().toLowerCase().equals(query.trim().toLowerCase())) {
+            if (checkForMatch(query, c)) {
               email = c.getEmail();
               fName = c.getFirstName();
               lName = c.getLastName();
+              nickName = c.getNickName();
               tabPosition = 4;
               found = true;
               searching = false;
@@ -178,7 +175,7 @@ public class ConnectionFragment extends Fragment {
           Navigation.findNavController(mView).navigate(
                   ConnectionFragmentDirections
                           .actionNavigationConnectionToProfileFragment(email, tabPosition,
-                                  fName, lName));
+                                  fName, lName, nickName));
         }
         else {
           new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
@@ -196,6 +193,11 @@ public class ConnectionFragment extends Fragment {
         return false;
       }
     });
+  }
+  private boolean checkForMatch(String query, Connection c) {
+    return c.getEmail().toLowerCase().equals(query.trim().toLowerCase())
+            || (c.getFirstName().toLowerCase() + " " + c.getLastName().toLowerCase()).equals(query.trim().toLowerCase())
+            || c.getNickName().toLowerCase().equals(query.trim().toLowerCase());
   }
 
 }

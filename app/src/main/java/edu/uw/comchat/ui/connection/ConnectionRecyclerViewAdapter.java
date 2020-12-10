@@ -118,89 +118,89 @@ public class ConnectionRecyclerViewAdapter extends
 
     }
 
-    /**
-     * Method that handles the option button being clicked on a connection card.
-     * Based on what tab the user is in the user will be presented with varying connection
-     * options (Accept, Remove, Cancel).
-     * @param view The view of the option button
-     * @param position The position of the connection card in the recycler view
-     */
-    private void onOptionClicked(View view, int position) {
-      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-      alertDialogBuilder.setTitle("Connection Options");
-      switch (mPosition) {
-        case 1:
-          alertDialogBuilder.setMessage("Would you like to remove connection?");
-          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              //mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
-              mConnectionViewModel.connectionListRemove(mConnections.get(position),
-                      (mConnections.get(position).getEmail()));
-            }
-          });
-          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              dialog.cancel();
-            }
-          });
-          AlertDialog alertDialog = alertDialogBuilder.show();
-          break;
-        case 2:
-          alertDialogBuilder.setMessage("Would you like to accept or remove request?");
-          alertDialogBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.incomingListAdd(mConnections.get(position),
-                      (mConnections.get(position).getEmail()));
-            }
-          });
-          alertDialogBuilder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.incomingListRemove(mConnections.get(position),
-                      (mConnections.get(position).getEmail()));
-            }
-          });
-          AlertDialog alertDialog2 = alertDialogBuilder.show();
-          break;
-        case 3:
-          alertDialogBuilder.setMessage("Connection request pending, would you like to cancel request?");
-          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.outgoingListRemove(mConnections.get(position),
-                      (mConnections.get(position).getEmail()));
-            }
-          });
-          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              dialog.cancel();
-            }
-          });
-          AlertDialog alertDialog3 = alertDialogBuilder.show();
-          break;
-        default:
-          alertDialogBuilder.setMessage("Would you like to send a connection request?");
-          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.suggListAdd(mConnections.get(position),
-                      (mConnections.get(position).getEmail()));
-            }
-          });
-          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              dialog.cancel();
-            }
-          });
-          AlertDialog alertDialog4 = alertDialogBuilder.show();
-          break;
-      }
-    }
+//    /**
+//     * Method that handles the option button being clicked on a connection card.
+//     * Based on what tab the user is in the user will be presented with varying connection
+//     * options (Accept, Remove, Cancel).
+//     * @param view The view of the option button
+//     * @param position The position of the connection card in the recycler view
+//     */
+//    private void onOptionClicked(View view, int position) {
+//      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+//      alertDialogBuilder.setTitle("Connection Options");
+//      switch (mPosition) {
+//        case 1:
+//          alertDialogBuilder.setMessage("Would you like to remove connection?");
+//          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              //mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
+//              mConnectionViewModel.connectionListRemove(mConnections.get(position),
+//                      (mConnections.get(position).getEmail()));
+//            }
+//          });
+//          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              dialog.cancel();
+//            }
+//          });
+//          AlertDialog alertDialog = alertDialogBuilder.show();
+//          break;
+//        case 2:
+//          alertDialogBuilder.setMessage("Would you like to accept or remove request?");
+//          alertDialogBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              mConnectionViewModel.incomingListAdd(mConnections.get(position),
+//                      (mConnections.get(position).getEmail()));
+//            }
+//          });
+//          alertDialogBuilder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              mConnectionViewModel.incomingListRemove(mConnections.get(position),
+//                      (mConnections.get(position).getEmail()));
+//            }
+//          });
+//          AlertDialog alertDialog2 = alertDialogBuilder.show();
+//          break;
+//        case 3:
+//          alertDialogBuilder.setMessage("Connection request pending, would you like to cancel request?");
+//          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              mConnectionViewModel.outgoingListRemove(mConnections.get(position),
+//                      (mConnections.get(position).getEmail()));
+//            }
+//          });
+//          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              dialog.cancel();
+//            }
+//          });
+//          AlertDialog alertDialog3 = alertDialogBuilder.show();
+//          break;
+//        default:
+//          alertDialogBuilder.setMessage("Would you like to send a connection request?");
+//          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              mConnectionViewModel.suggListAdd(mConnections.get(position),
+//                      (mConnections.get(position).getEmail()));
+//            }
+//          });
+//          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//              dialog.cancel();
+//            }
+//          });
+//          AlertDialog alertDialog4 = alertDialogBuilder.show();
+//          break;
+//      }
+//    }
 
 
     /**
@@ -214,11 +214,12 @@ public class ConnectionRecyclerViewAdapter extends
       String profileId = mConnections.get(position).getEmail();
       String firstId = mConnections.get(position).getFirstName();
       String lastId = mConnections.get(position).getLastName();
-
+      String nickName = mConnections.get(position).getNickName();
+      Log.d("NICKY", nickName);
       Navigation.findNavController(view).navigate(
               ConnectionFragmentDirections
                       .actionNavigationConnectionToProfileFragment(profileId, mPosition,
-                                                                   firstId, lastId));
+                                                                   firstId, lastId, nickName));
     }
 
     /**

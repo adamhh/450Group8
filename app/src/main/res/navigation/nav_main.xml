@@ -83,6 +83,9 @@
         <argument
             android:name="profilelastname"
             app:argType="string" />
+        <argument
+            android:name="profilenickname"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/locationFragment"
