@@ -24,7 +24,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/test_avatar" />
+            app:layout_constraintStart_toEndOf="@+id/card_avatar_id" />
 
         <ImageButton
             android:id="@+id/connection_card_option"
@@ -41,17 +41,17 @@
             app:srcCompat="@drawable/ic_connection_black_24dp" />
 
         <ImageView
-            android:id="@+id/test_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:id="@+id/card_avatar_id"
+            android:layout_width="42dp"
+            android:layout_height="67dp"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="11dp"
+            android:layout_marginTop="8dp"
             android:clickable="true"
             android:contentDescription="@string/card_avatar_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@mipmap/ic_launcher_test" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:text="TextView"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/card_email_id"
-            app:layout_constraintStart_toEndOf="@+id/test_avatar" />
+            app:layout_constraintStart_toEndOf="@+id/card_avatar_id" />
 
         <TextView
             android:id="@+id/card_lname_id"

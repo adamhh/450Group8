@@ -69,12 +69,12 @@ public class ConnectionRecyclerViewAdapter extends
     this.mConnections = items;
     mPosition = position;
     mConnectionViewModel = new ViewModelProvider(m).get(ConnectionListViewModel.class);
+
   }
 
   @NonNull
   @Override
   public ConnectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
     return new ConnectionViewHolder(LayoutInflater
             .from(parent.getContext())
             .inflate(R.layout.fragment_connection_card, parent, false));
@@ -114,6 +114,8 @@ public class ConnectionRecyclerViewAdapter extends
       binding.connectionCardOption.setOnClickListener(view1 -> onOptionClicked(view1,
                                                       mRecyclerView.getChildAdapterPosition(view)));
       binding.cardRootConnectionCard.setOnClickListener(this::onClick);
+
+
     }
 
     /**
@@ -132,7 +134,9 @@ public class ConnectionRecyclerViewAdapter extends
           alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
+              //mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
+              mConnectionViewModel.connectionListRemove(mConnections.get(position),
+                      (mConnections.get(position).getEmail()));
             }
           });
           alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -148,13 +152,15 @@ public class ConnectionRecyclerViewAdapter extends
           alertDialogBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.connectionRequest(mConnections.get(position).getEmail());
+              mConnectionViewModel.incomingListAdd(mConnections.get(position),
+                      (mConnections.get(position).getEmail()));
             }
           });
           alertDialogBuilder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
+              mConnectionViewModel.incomingListRemove(mConnections.get(position),
+                      (mConnections.get(position).getEmail()));
             }
           });
           AlertDialog alertDialog2 = alertDialogBuilder.show();
@@ -164,7 +170,8 @@ public class ConnectionRecyclerViewAdapter extends
           alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
+              mConnectionViewModel.outgoingListRemove(mConnections.get(position),
+                      (mConnections.get(position).getEmail()));
             }
           });
           alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -180,7 +187,8 @@ public class ConnectionRecyclerViewAdapter extends
           alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              mConnectionViewModel.connectionRequest(mConnections.get(position).getEmail());
+              mConnectionViewModel.suggListAdd(mConnections.get(position),
+                      (mConnections.get(position).getEmail()));
             }
           });
           alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -193,6 +201,7 @@ public class ConnectionRecyclerViewAdapter extends
           break;
       }
     }
+
 
     /**
      * Navigates to the profile the user clicks on from connection.
@@ -223,6 +232,7 @@ public class ConnectionRecyclerViewAdapter extends
       binding.cardEmailId.setText(connection.getEmail());
       binding.cardFnameId.setText(connection.getFirstName());
       binding.cardLnameId.setText(connection.getLastName());
+      binding.cardAvatarId.setImageResource(Connection.getAvatar(connection.getEmail()));
 
     }
 

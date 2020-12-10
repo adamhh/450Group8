@@ -45,8 +45,8 @@ public class ProfileFragment extends Fragment {
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_profile, container, false);
-    ImageView image = (ImageView) view.findViewById(R.id.profile_image);
-    image.setImageResource(R.drawable.ic_temp_avatar);
+//    ImageView image = (ImageView) view.findViewById(R.id.profile_image);
+//    image.setImageResource(R.drawable.ic_temp_avatar);
     mConnectionViewModel = new ViewModelProvider(getActivity()).get(ConnectionListViewModel.class);
     return view;
   }
@@ -61,6 +61,7 @@ public class ProfileFragment extends Fragment {
     binding.profileEmailId.setText(mEmail);
     binding.profileFirstId.setText(profileArgs.getProfilefirstname());
     binding.profileLastId.setText(profileArgs.getProfilelastname());
+    binding.profileImage.setImageResource(Connection.getAvatar(mEmail));
     mPosition = profileArgs.getPosition();
     String connectButtonText;
     switch (mPosition) {
