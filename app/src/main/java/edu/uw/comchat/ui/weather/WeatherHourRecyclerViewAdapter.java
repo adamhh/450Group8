@@ -50,9 +50,8 @@ public class WeatherHourRecyclerViewAdapter extends
     /**
      * Objects from this class represent a single weather column view for the hour.
      */
-    public class WeatherHourViewHolder extends RecyclerView.ViewHolder {
-        private FragmentWeatherHourCardBinding mBinding;
-        private WeatherReport mReport;
+    public static class WeatherHourViewHolder extends RecyclerView.ViewHolder {
+        private final FragmentWeatherHourCardBinding mBinding;
 
         public WeatherHourViewHolder(@NonNull View view) {
             super(view);
@@ -64,7 +63,6 @@ public class WeatherHourRecyclerViewAdapter extends
          * @param report the report of the view holder.
          */
         void setReport(final WeatherReport report) {
-            mReport = report;
             mBinding.textWeatherHourTime.setText(report.getTime());
             mBinding.textWeatherHourTemp.setText(report.getTemp());
 
@@ -72,6 +70,8 @@ public class WeatherHourRecyclerViewAdapter extends
             int hour = Integer.parseInt(split[0]);
             if (split[1].equals("pm"))
                 hour += 12;
+
+            hour %= 24;
 
             int id = report.getId();
             if (id >= 200 && id <= 232) { // ID for thunderstorm

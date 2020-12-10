@@ -55,7 +55,7 @@ public class WeatherFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
     mWeatherBinding = FragmentWeatherBinding.inflate(inflater);
@@ -65,11 +65,16 @@ public class WeatherFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-    // Add observer
+    // Establish weather connection
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-
     StorageUtil util = new StorageUtil(getContext());
     mWeatherModel.connect(util.getLocation());
+
+    // Setup recycler view layout managers
+    mWeatherBinding.listWeatherHour.setLayoutManager(
+            new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+    mWeatherBinding.listWeatherDaily.setLayoutManager(
+            new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
   }
 
   @Override
@@ -111,13 +116,14 @@ public class WeatherFragment extends Fragment {
     }
   }
 
-  // TODO there is no location info in JSON response. This method does nothing, just a template for later modification.
   private void populateWeatherPage(JSONObject response) throws JSONException {
+    // Set location
     String location = response.getString("City")
             + ", " + response.getString("State")
             + ", " + response.getString("Country");
     mWeatherBinding.textWeatherLocation.setText(location);
 
+    // Get and set current weather
     JSONObject current = response.getJSONObject("current");
     String currentTemp = current.getString("temp") + "\u00B0";
     mWeatherBinding.textWeatherCurrentTemp.setText(currentTemp);
@@ -126,10 +132,9 @@ public class WeatherFragment extends Fragment {
                     .getJSONObject(0)
                     .getString("description"));
 
+    // Get sunrise and sunset time.
     long sunriseTime = current.getLong("sunrise");
     long sunsetTime = current.getLong("sunset");
-
-    // Get sunrise and sunset time.
     final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     final String formattedSunriseTime = Instant.ofEpochSecond(sunriseTime)
             .atZone(TimeZone.getDefault().toZoneId())
@@ -138,9 +143,7 @@ public class WeatherFragment extends Fragment {
             .atZone(TimeZone.getDefault().toZoneId())
             .format(formatter);
 
-    Log.d("TIME", formattedSunriseTime);
-    Log.d("TIME", formattedSunsetTime);
-
+    // Setup hourly weather reports
     ArrayList<WeatherReport> hourlyReports = new ArrayList<>();
     JSONArray hourlyArray = response.getJSONArray("hourly");
     try {
@@ -160,6 +163,7 @@ public class WeatherFragment extends Fragment {
       e.printStackTrace();
     }
 
+    // Setup daily weather reports
     ArrayList<WeatherReport> dailyReports = new ArrayList<>();
     JSONArray dailyArray = response.getJSONArray("daily");
     try {
@@ -177,15 +181,8 @@ public class WeatherFragment extends Fragment {
       e.printStackTrace();
     }
 
+    // Set up recycler views
     mWeatherBinding.listWeatherHour.setAdapter(new WeatherHourRecyclerViewAdapter(hourlyReports));
     mWeatherBinding.listWeatherDaily.setAdapter(new WeatherDayRecyclerViewAdapter(dailyReports));
-
-    LinearLayoutManager hourLayoutManager
-            = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-    mWeatherBinding.listWeatherHour.setLayoutManager(hourLayoutManager);
-
-    LinearLayoutManager dayLayoutManager
-            = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-    mWeatherBinding.listWeatherDaily.setLayoutManager(dayLayoutManager);
   }
 }
