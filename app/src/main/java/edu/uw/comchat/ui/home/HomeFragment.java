@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -94,7 +96,6 @@ public class HomeFragment extends Fragment {
     mBinding.textHomeWelcomeMessage.setMovementMethod(new ScrollingMovementMethod());
 
     // Notification response observer
-    mNotificationModel.addResponseObserver(getViewLifecycleOwner(), notificationMap -> {
     mNotificationModel.addChatResponseObserver(getViewLifecycleOwner(), notificationMap -> {
       try {
         // Show notification and hide display message
@@ -122,9 +123,8 @@ public class HomeFragment extends Fragment {
     };
     Timer timer = new Timer("Update incoming request notification per 0.5 sec");
     timer.scheduleAtFixedRate(getGroupTask, 500L, 500L);
-    mConnectionModel.addIncomingListObserver(getViewLifecycleOwner(), listConnection -> {
-      mNotificationModel.updateConnectionNotificationData(listConnection);
-    });
+    mConnectionModel.addIncomingListObserver(getViewLifecycleOwner(), listConnection ->
+            mNotificationModel.updateConnectionNotificationData(listConnection));
 
     mNotificationModel.addConnectionResponseObserver(getViewLifecycleOwner(), incomingRequest -> {
       try {
