@@ -9,24 +9,27 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
-
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// View model class from lab 5, subject to change - Hung Vu.
-// Subject to change later on. Comment is intentionally left out.
+
+
+/**
+ * A view model for received messages in a chat room. This class
+ * is from lab 5 and is modified to suit our application.
+ *
+ * @author Hung Vu
+ */
+// Ignore checkstyle member name error. Checkstyle done, Sprint 3, Hung Vu.
 public class ChatViewModel extends AndroidViewModel {
 
   /**
@@ -57,8 +60,8 @@ public class ChatViewModel extends AndroidViewModel {
   /**
    * Return a reference to the List<> associated with the chat room. If the View Model does
    * not have a mapping for this chatID, it will be created.
-   * <p>
-   * WARNING: While this method returns a reference to a mutable list, it should not be
+   *
+   * <p>WARNING: While this method returns a reference to a mutable list, it should not be
    * mutated externally in client code. Use public methods available in this class as
    * needed.
    *
@@ -80,16 +83,16 @@ public class ChatViewModel extends AndroidViewModel {
    * Makes a request to the web service to get the first batch of messages for a given Chat Room.
    * Parses the response and adds the ChatMessage object to the List associated with the
    * ChatRoom. Informs observers of the update.
-   * <p>
-   * Subsequent requests to the web service for a given chat room should be made from
+   *
+   * <p>Subsequent requests to the web service for a given chat room should be made from
    * getNextMessages()
    *
    * @param chatId the chatroom id to request messages of
    * @param jwt    the users signed JWT
    */
   public void getFirstMessages(final int chatId, final String jwt) {
-    String url = getApplication().getResources().getString(R.string.base_url) +
-            "messages/" + chatId;
+    String url = getApplication().getResources().getString(R.string.base_url)
+            + "messages/" + chatId;
 
     Request request = new JsonObjectRequest(
             Request.Method.GET,
@@ -124,18 +127,18 @@ public class ChatViewModel extends AndroidViewModel {
    * messageId to the web service.
    * Parses the response and adds the ChatMessage object to the List associated with the
    * ChatRoom. Informs observers of the update.
-   * <p>
-   * Subsequent calls to this method receive earlier and earlier messages.
+   *
+   * <p>Subsequent calls to this method receive earlier and earlier messages.
    *
    * @param chatId the chatroom id to request messages of
    * @param jwt    the users signed JWT
    */
   public void getNextMessages(final int chatId, final String jwt) {
-    String url = getApplication().getResources().getString(R.string.base_url) +
-            "messages/" +
-            chatId +
-            "/" +
-            mMessages.get(chatId).getValue().get(0).getMessageId();
+    String url = getApplication().getResources().getString(R.string.base_url)
+            + "messages/"
+            + chatId
+            + "/"
+            + mMessages.get(chatId).getValue().get(0).getMessageId();
 
     Request request = new JsonObjectRequest(
             Request.Method.GET,
@@ -168,8 +171,8 @@ public class ChatViewModel extends AndroidViewModel {
    * When a chat message is received externally to this ViewModel, add it
    * with this method.
    *
-   * @param chatId
-   * @param message
+   * @param chatId an ID of chat room
+   * @param message a message
    */
   public void addMessage(final int chatId, final ChatMessage message) {
     List<ChatMessage> list = getMessageListByChatId(chatId);
@@ -212,15 +215,4 @@ public class ChatViewModel extends AndroidViewModel {
     }
   }
 
-//  private void handleError(final VolleyError error) {
-//    if (Objects.isNull(error.networkResponse)) {
-//      Log.e("NETWORK ERROR", error.getMessage());
-//    } else {
-//      String data = new String(error.networkResponse.data, Charset.defaultCharset());
-//      Log.e("CLIENT ERROR",
-//              error.networkResponse.statusCode
-//                      + " "
-//                      + data);
-//    }
-//  }
 }

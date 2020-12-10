@@ -19,8 +19,8 @@ import org.json.JSONObject;
 
 
 /**
- * A view model for chats message in a chat room. This class
- * is from lab 5 and modified to suit our application.
+ * A view model for sent messages in a chat room. This class
+ * is from lab 5 and is modified to suit our application.
  *
  * @author Hung Vu
  */
@@ -28,7 +28,7 @@ import org.json.JSONObject;
 public class ChatSendViewModel extends AndroidViewModel {
 
   /**
-   * Hold JSON object of chat message in a chat room.
+   * Hold JSON object of sent messages in a chat room.
    */
   private final MutableLiveData<JSONObject> mResponse;
 
