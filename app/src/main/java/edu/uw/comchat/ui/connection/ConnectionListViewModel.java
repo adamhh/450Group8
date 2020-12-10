@@ -202,7 +202,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
             Log.e("JSON PARSE ERROR", "Found in handle Success Connection list VM");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
         }
-        updateLists();
     }
 
     /**
@@ -302,8 +301,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
             Log.e("JSON PARSE ERROR", "Found in handle sugggested Connection list VM");
             Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
         }
-        updateLists();
-
     }
 
     /**
@@ -340,7 +337,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
-        updateLists();
     }
 
 
@@ -378,7 +374,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
         //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
-        updateLists();
     }
 
     /**

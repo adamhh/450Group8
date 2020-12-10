@@ -111,8 +111,8 @@ public class ConnectionRecyclerViewAdapter extends
       super(view);
       mView = view;
       binding = FragmentConnectionCardBinding.bind(view);
-      binding.connectionCardOption.setOnClickListener(view1 -> onOptionClicked(view1,
-                                                      mRecyclerView.getChildAdapterPosition(view)));
+//      binding.connectionCardOption.setOnClickListener(view1 -> onOptionClicked(view1,
+//                                                      mRecyclerView.getChildAdapterPosition(view)));
       binding.cardRootConnectionCard.setOnClickListener(this::onClick);
 
 

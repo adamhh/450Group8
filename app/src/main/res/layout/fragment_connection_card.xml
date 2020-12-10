@@ -26,19 +26,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/card_avatar_id" />
 
-        <ImageButton
-            android:id="@+id/connection_card_option"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/card_settings_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_connection_black_24dp" />
+        <!--            We can add back in if we want this option button but then need to update dynamically -->
+<!--        <ImageButton-->
+<!--            android:id="@+id/connection_card_option"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:background="#FFFFFF"-->
+<!--            android:contentDescription="@string/card_settings_description"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:srcCompat="@drawable/ic_connection_black_24dp" />-->
 
         <ImageView
             android:id="@+id/card_avatar_id"
