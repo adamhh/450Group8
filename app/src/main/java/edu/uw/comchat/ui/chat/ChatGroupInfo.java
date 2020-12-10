@@ -17,22 +17,24 @@ public class ChatGroupInfo implements Serializable {
   private final int mGroupId;
   private final String mMessage;
   private final String mTime;
+  private final boolean mIsGroupChat;
 
-  public ChatGroupInfo(String groupName, int groupId, String message, String time) {
+  public ChatGroupInfo(String groupName, int groupId, String message, String time, boolean groupFlag) {
     this.mGroupName = groupName;
     this.mGroupId = groupId;
     this.mMessage = message;
     this.mTime = time;
+    this.mIsGroupChat = groupFlag;
   }
 
   public static ChatGroupInfo createFromJsonString(final String groupAsJson) throws JSONException {
     final JSONObject group = new JSONObject(groupAsJson);
-
     return new ChatGroupInfo(
             group.getString("name"),
             group.getInt("chatid"),
             group.getString("message"),
-            group.getString("timestamp"));
+            group.getString("timestamp"),
+            group.getInt("direct") == 1 ? false : true);
   }
 
   public int getGroupId() {
@@ -47,6 +49,9 @@ public class ChatGroupInfo implements Serializable {
   }
   public String getTime(){
     return this.mTime;
+  }
+  public boolean isIsGroupChat(){
+    return mIsGroupChat;
   }
 
   /**

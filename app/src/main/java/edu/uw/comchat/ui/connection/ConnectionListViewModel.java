@@ -217,7 +217,8 @@ public class ConnectionListViewModel extends AndroidViewModel {
     public void getAllConnections(final String email, final String jwt) {
         mJwt = jwt;
         mEmail = email;
-        Log.i("JWT", mJwt);
+        // Due to timer task in home, these keep getting printed to logcat, so I comment out - Hung Vu
+//        Log.i("JWT", mJwt);
         String url = getApplication().getResources().getString(R.string.connections_url) + mEmail;
         JSONObject j = new JSONObject();
         Request request = new JsonObjectRequest(
@@ -254,7 +255,8 @@ public class ConnectionListViewModel extends AndroidViewModel {
     public void getSuggestedConnections(final String email, final String jwt) {
         mJwt = jwt;
         mEmail = email;
-        Log.i("JWT", mJwt);
+        // Due to timer task in home, these keep getting printed to logcat, so I comment out - Hung Vu
+//        Log.i("JWT", mJwt);
         String url = getApplication().getResources().getString(R.string.connections_url) + "stranger/" + mEmail;
         JSONObject j = new JSONObject();
         Request request = new JsonObjectRequest(
