@@ -52,7 +52,19 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                             + "from chat room "
                             + memberToDelete.get(0)
                             + response);
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Remove member " + memberToDelete.get(1) + " successfully. "
+                                    + "Tap anywhere to turn off this message.")
+                            .show();
                   } else {
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Remove member " + memberToDelete.get(1) + " fail. "
+                                    + "User might be not in chat anymore. "
+                                    + "Please try again. "
+                                    + "Tap anywhere to turn off this message. ")
+                            .show();
                     throw new IllegalStateException("Cannot delete user "
                             + memberToDelete.get(1)
                             + "from chat room "
@@ -63,7 +75,16 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                   e.printStackTrace();
                 }
               },
-              error -> HandleRequestError.handleErrorForChat(error)) {
+              error -> {
+                new MaterialAlertDialogBuilder(fragment.getActivity())
+                        .setTitle("Message")
+                        .setMessage("Remove member " + memberToDelete.get(1) + " fail. "
+                                + "User might be not in chat anymore. "
+                                + "Please try again. "
+                                + "Tap anywhere to turn off this message. ")
+                        .show();
+                HandleRequestError.handleErrorForChat(error);
+              }) {
 
         @Override
         public Map<String, String> getHeaders() {
@@ -109,7 +130,19 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                           + "to chat room "
                           + memberToAdd.get(0)
                           + response);
+                  new MaterialAlertDialogBuilder(fragment.getActivity())
+                          .setTitle("Message")
+                          .setMessage("Add member " + memberToAdd.get(1) + " successfully. "
+                                  + "Tap anywhere to turn off this message.")
+                          .show();
                 } else {
+                  new MaterialAlertDialogBuilder(fragment.getActivity())
+                          .setTitle("Message")
+                          .setMessage("Add member " + memberToAdd.get(1) + " fail. "
+                                  + "User might be in chat already. "
+                                  + "Please try again. "
+                                  + "Tap anywhere to turn off this message. ")
+                          .show();
                   throw new IllegalStateException("Cannot add user "
                           + memberToAdd.get(1)
                           + "to chat room "
@@ -117,7 +150,16 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                           + response);
                 }
               },
-              error -> HandleRequestError.handleErrorForChat(error)) {
+              error -> {
+                new MaterialAlertDialogBuilder(fragment.getActivity())
+                        .setTitle("Message")
+                        .setMessage("Add member " + memberToAdd.get(1) + " fail. "
+                                + "User might be in chat already. "
+                                + "Please try again. "
+                                + "Tap anywhere to turn off this message. ")
+                        .show();
+                HandleRequestError.handleErrorForChat(error);
+              }) {
 
         @Override
         public Map<String, String> getHeaders() {
@@ -182,12 +224,17 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                     populateRoom.add(roomToCreate.get(1));
                     populateRoom.add(roomToCreate.get(2));
                     addMember().accept(populateRoom, fragment);
-
                     Navigation.findNavController(fragment.getView()).navigate(
                             CreateFragmentDirections.actionCreateFragmentToMessageListFragment(
                                     response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Create group room successfully. "
+                                    + "You are able to add, remove member, and delete group room. "
+                                    + "Tap anywhere to turn off this message.")
+                            .show();
                   } else {
                     throw new IllegalStateException("Cannot create a new room." + response);
                   }
@@ -257,6 +304,12 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                                     response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Create DM room successfully. "
+                                    + "You won't be able to add, remove member, or delete DM room. "
+                                    + "Tap anywhere to turn off this message.")
+                            .show();
                   } else {
                     throw new IllegalStateException("Cannot create a new DM room." + response);
                   }
