@@ -120,7 +120,7 @@ public class ProfileFragment extends Fragment {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             mConnectionViewModel.connectionRequest(mEmail);
-            binding.profileClickedId.setText("Request Sent");
+            binding.profileClickedId.setText("Request Accepted");
             binding.profileConnectButtonId.setVisibility(View.GONE);
           }
         });
