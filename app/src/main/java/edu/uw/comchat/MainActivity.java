@@ -33,8 +33,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import edu.uw.comchat.util.StorageUtil;
 
-import java.util.function.BiConsumer;
-
 /**
  * This class is a main activity for the program (homepage/weather/connection/chat/).
  */
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         String sender = ((ChatMessage) intent.getSerializableExtra("chatMessage")).getSender();
         receiveNotification.add(message);
         receiveNotification.add(sender);
-        mNotificationViewModel.updateNotificationData(receiveTime, receiveNotification);
+        mNotificationViewModel.updateChatNotificationData(receiveTime, receiveNotification);
       }
     }
   }

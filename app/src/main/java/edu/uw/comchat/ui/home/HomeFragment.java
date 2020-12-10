@@ -4,11 +4,8 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +20,7 @@ import edu.uw.comchat.databinding.FragmentHomeBinding;
 import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.weather.WeatherReport;
+import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
 import edu.uw.comchat.util.StorageUtil;
 
@@ -31,6 +29,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment {
   private FragmentHomeBinding mBinding;
 
   private NotificationViewModel mNotificationModel;
+  // Store incoming connection request.
+  private ConnectionListViewModel mConnectionModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class HomeFragment extends Fragment {
     mWeatherModel = provider.get(WeatherViewModel.class);
     mWeatherModel.getToken().setValue(mUserModel.getJwt());
     mNotificationModel = provider.get(NotificationViewModel.class);
+    mConnectionModel = provider.get(ConnectionListViewModel.class);
   }
 
   @Override
@@ -91,6 +95,7 @@ public class HomeFragment extends Fragment {
 
     // Notification response observer
     mNotificationModel.addResponseObserver(getViewLifecycleOwner(), notificationMap -> {
+    mNotificationModel.addChatResponseObserver(getViewLifecycleOwner(), notificationMap -> {
       try {
         // Show notification and hide display message
         mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
@@ -108,6 +113,31 @@ public class HomeFragment extends Fragment {
         mBinding.textHomeNotificationDisplay.setVisibility(View.VISIBLE);
       }
     });
+
+    TimerTask getGroupTask = new TimerTask() {
+      @Override
+      public void run() {
+        mConnectionModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
+      }
+    };
+    Timer timer = new Timer("Update incoming request notification per 0.5 sec");
+    timer.scheduleAtFixedRate(getGroupTask, 500L, 500L);
+    mConnectionModel.addIncomingListObserver(getViewLifecycleOwner(), listConnection -> {
+      mNotificationModel.updateConnectionNotificationData(listConnection);
+    });
+
+    mNotificationModel.addConnectionResponseObserver(getViewLifecycleOwner(), incomingRequest -> {
+      try {
+        // TODO Update incoming request notification on homepage.
+        //  The view model is refreshed per 0.5s so the error will be repeatedly printed till there is a connection.
+        //  If it is removed then the error return again.
+        //  What I think you can do is deleting the message and repeatedly set text of object to empty for example ("").
+//        mBinding.textView.setText(mNotificationModel.getLatestConnectionRequest().get(0));
+      } catch (ArrayIndexOutOfBoundsException e){
+        Log.i("Out of bound Home, Notification model", "The error happens when there is no incoming request, this can be ignored.");
+      }
+    });
+
   }
 
   /**
