@@ -76,14 +76,12 @@ public class GroupRecyclerViewAdapter extends
     int position = mRecyclerView.getChildAdapterPosition(view);
 
     Integer groupId = mGroups.get(position).getGroupId();
+    boolean isGroupChat = mGroups.get(position).isIsGroupChat();
 
     // Navigates to the group
     Navigation.findNavController(view).navigate(
-            // TODO webservice should include a flag indicate whether a room is
-            //  a group or DM one, true for group, false for DM.
-            //  true value here is use for testing purpose only. - Hung Vu
             ChatPageFragmentDirections
-                    .actionNavigationChatToMessageListFragment(groupId, true));
+                    .actionNavigationChatToMessageListFragment(groupId, isGroupChat));
   }
 
 //  public void updateAdapter(List<ChatGroupInfo> items) {

@@ -146,6 +146,21 @@ public class MessagePageFragment extends Fragment {
       handleAddMemberToChatRoomAction();
     } else if (id == R.id.menu_chat_list_remove) {
       handleRemoveMemberToChatRoomAction();
+    } else if (id == R.id.menu_chat_list_delete_room) {
+      new MaterialAlertDialogBuilder(getActivity())
+              .setTitle("Message")
+              .setMessage("Are you sure want to delete this room? This will remove all chat in the room along with its members.")
+              .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline),
+                      (dialog, which) -> {
+                      })
+              .setPositiveButton(getResources().getString(
+                      R.string.item_menu_chat_list_accept), (dialog, which) -> {
+                ArrayList<String> roomToDelete = new ArrayList<String>();
+                roomToDelete.add(String.valueOf(mChatId));
+                roomToDelete.add(mUserModel.getJwt());
+                ModifyChatRoom.deleteRoom().accept(roomToDelete,this);
+              })
+              .show();
     }
 
     return super.onOptionsItemSelected(item);
@@ -217,6 +232,7 @@ public class MessagePageFragment extends Fragment {
                           // Choice has "None" at i = 0, so its length = userList + 1
                           memberToModify.add(String.valueOf(multiItems[choice[0]]));
                           memberToModify.add(mUserModel.getJwt());
+                          memberToModify.add(mUserModel.getEmail());
                         } catch (IndexOutOfBoundsException e) {
                           // TODO dialog not show? Maybe because getActivity doesn't work inside lambda method? - Hung Vu
                           // userList -> multiItems[]

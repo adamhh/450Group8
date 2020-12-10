@@ -1,13 +1,16 @@
 package edu.uw.comchat.util;
 
 import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.ui.chat.CreateFragmentDirections;
+import edu.uw.comchat.ui.chat.chatroom.MessagePageFragmentDirections;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,18 +18,24 @@ import java.util.function.BiConsumer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+
+
 /**
  * This interface provides functions which helps perform actions related to a chat room.
- * This includes adding and removing a user from chat room, or creating a new room.
+ * This includes adding and removing a user from chat room, or creating a new room,
+ * and deleting an existing room.
  *
  * @author Hung Vu
  */
 public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> {
   // TODO Have to change these functions to comply with latest API (12/8).
+
   /**
    * Provide a function which helps remove a user from specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   * email of user to be deleted at index 1, and jwt at index 2. Ignore index 3 and 4.
+   * email of user to be deleted at index 1, and jwt at index 2.
+   * Current user's email (the one performs action) at index 3.
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -47,7 +56,30 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                             + "from chat room "
                             + memberToDelete.get(0)
                             + response);
+                    if (memberToDelete.get(3).equals(memberToDelete.get(1))){
+                      Navigation.findNavController(fragment.getView()).navigate(
+                              MessagePageFragmentDirections.actionMessagePageFragmentToNavigationChat()
+                      );
+                      new MaterialAlertDialogBuilder(fragment.getActivity())
+                              .setTitle("Message")
+                              .setMessage("Exit room successfully. "
+                                      + "Tap anywhere to turn off this message.")
+                              .show();
+                    } else {
+                      new MaterialAlertDialogBuilder(fragment.getActivity())
+                              .setTitle("Message")
+                              .setMessage("Remove member " + memberToDelete.get(1) + " successfully. "
+                                      + "Tap anywhere to turn off this message.")
+                              .show();
+                    }
                   } else {
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Remove member " + memberToDelete.get(1) + " fail. "
+                                    + "User might be not in chat anymore. "
+                                    + "Please try again. "
+                                    + "Tap anywhere to turn off this message. ")
+                            .show();
                     throw new IllegalStateException("Cannot delete user "
                             + memberToDelete.get(1)
                             + "from chat room "
@@ -58,7 +90,16 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                   e.printStackTrace();
                 }
               },
-              error -> HandleRequestError.handleErrorForChat(error)) {
+              error -> {
+                new MaterialAlertDialogBuilder(fragment.getActivity())
+                        .setTitle("Message")
+                        .setMessage("Remove member " + memberToDelete.get(1) + " fail. "
+                                + "User might be not in chat anymore. "
+                                + "Please try again. "
+                                + "Tap anywhere to turn off this message. ")
+                        .show();
+                HandleRequestError.handleErrorForChat(error);
+              }) {
 
         @Override
         public Map<String, String> getHeaders() {
@@ -84,7 +125,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
   /**
    * Provide a function which helps add a user to a specific chat room.
    * This function accept an array list, which contains chatId at index 0,
-   * email of user to be added at index 1, and jwt at index 2. Ignore index 3 and 4.
+   * email of user to be added at index 1, and jwt at index 2. Ignore index 3.
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -104,7 +145,19 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                           + "to chat room "
                           + memberToAdd.get(0)
                           + response);
+                  new MaterialAlertDialogBuilder(fragment.getActivity())
+                          .setTitle("Message")
+                          .setMessage("Add member " + memberToAdd.get(1) + " successfully. "
+                                  + "Tap anywhere to turn off this message.")
+                          .show();
                 } else {
+                  new MaterialAlertDialogBuilder(fragment.getActivity())
+                          .setTitle("Message")
+                          .setMessage("Add member " + memberToAdd.get(1) + " fail. "
+                                  + "User might be in chat already. "
+                                  + "Please try again. "
+                                  + "Tap anywhere to turn off this message. ")
+                          .show();
                   throw new IllegalStateException("Cannot add user "
                           + memberToAdd.get(1)
                           + "to chat room "
@@ -112,7 +165,16 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                           + response);
                 }
               },
-              error -> HandleRequestError.handleErrorForChat(error)) {
+              error -> {
+                new MaterialAlertDialogBuilder(fragment.getActivity())
+                        .setTitle("Message")
+                        .setMessage("Add member " + memberToAdd.get(1) + " fail. "
+                                + "User might be in chat already. "
+                                + "Please try again. "
+                                + "Tap anywhere to turn off this message. ")
+                        .show();
+                HandleRequestError.handleErrorForChat(error);
+              }) {
 
         @Override
         public Map<String, String> getHeaders() {
@@ -143,7 +205,7 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
    * "true" for group, "false" for DM. In case of creating DM room,
    * there will be an index 4 storing targeted user's email. Index 4
    * won't be used by this function.
-   *
+   * <p>
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
@@ -177,12 +239,17 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                     populateRoom.add(roomToCreate.get(1));
                     populateRoom.add(roomToCreate.get(2));
                     addMember().accept(populateRoom, fragment);
-
                     Navigation.findNavController(fragment.getView()).navigate(
                             CreateFragmentDirections.actionCreateFragmentToMessageListFragment(
                                     response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Create group room successfully. "
+                                    + "You are able to add, remove member, and delete group room. "
+                                    + "Tap anywhere to turn off this message.")
+                            .show();
                   } else {
                     throw new IllegalStateException("Cannot create a new room." + response);
                   }
@@ -221,13 +288,13 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
    * "true" for group, "false" for DM. In case of creating DM room,
    * there will be an index 4 storing targeted user's email. Index 4 is used
    * by this function.
-   *
+   * <p>
    * This also requires a fragment as a second parameter
    * to help perform a request.
    *
    * @return a ModifyChatRoom function which helps create a group chat room
    */
-  static ModifyChatRoom createDmRoom(){
+  static ModifyChatRoom createDmRoom() {
     String url = "https://comchat-backend.herokuapp.com/chats";
     return (roomToCreate, fragment) -> {
       JSONObject body = new JSONObject();
@@ -252,6 +319,12 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
                                     response.getInt("chatID"), Boolean.valueOf(roomToCreate.get(3))
                             )
                     );
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Create DM room successfully. "
+                                    + "You won't be able to add, remove member, or delete DM room. "
+                                    + "Tap anywhere to turn off this message.")
+                            .show();
                   } else {
                     throw new IllegalStateException("Cannot create a new DM room." + response);
                   }
@@ -266,6 +339,65 @@ public interface ModifyChatRoom extends BiConsumer<ArrayList<String>, Fragment> 
           Map<String, String> headers = new HashMap<>();
           // add headers <key,value>
           headers.put("Authorization", roomToCreate.get(2));
+          return headers;
+        }
+      };
+      request.setRetryPolicy(new DefaultRetryPolicy(
+              10_000,
+              DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+              DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+      //Instantiate the RequestQueue and add the request to the queue
+      RequestQueueSingleton.getInstance(fragment
+              .getActivity()
+              .getApplication()
+              .getApplicationContext())
+              .addToRequestQueue(request);
+    };
+  }
+
+
+  /**
+   * Provide a function which helps delete a group chat room.
+   * This function accept an array list, which contains a room id at index 0,
+   * and JWT at index 1.
+   * <p>
+   * This also requires a fragment as a second parameter
+   * to help perform a request.
+   *
+   * @return a ModifyChatRoom function which helps create a group chat room
+   */
+  static ModifyChatRoom deleteRoom() {
+    String url = "https://comchat-backend.herokuapp.com/chats";
+    return (roomToDelete, fragment) -> {
+      Request request = new JsonObjectRequest(
+              Request.Method.DELETE,
+              url + "/" + roomToDelete.get(0),
+              null,
+              response -> {
+                try {
+                  if (response.getString("success").equals("true")) {
+                    Log.i("DELETE a group room", "Delete successfully.");
+                    Navigation.findNavController(fragment.getView()).navigate(
+                            MessagePageFragmentDirections.actionMessagePageFragmentToNavigationChat()
+                    );
+                    new MaterialAlertDialogBuilder(fragment.getActivity())
+                            .setTitle("Message")
+                            .setMessage("Delete room successfully. Tap anywhere to turn off this message.")
+                            .show();
+                  } else {
+                    throw new IllegalStateException("Cannot delete room." + response);
+                  }
+                } catch (JSONException e) {
+                  e.printStackTrace();
+                }
+              },
+              error -> HandleRequestError.handleErrorForChat(error)) {
+
+        @Override
+        public Map<String, String> getHeaders() {
+          Map<String, String> headers = new HashMap<>();
+          // add headers <key,value>
+          headers.put("Authorization", roomToDelete.get(1));
           return headers;
         }
       };
