@@ -156,10 +156,11 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 temp.add(contactsArray.getJSONObject(i).getString("email"));
                 temp.add(contactsArray.getJSONObject(i).getString("firstname"));
                 temp.add(contactsArray.getJSONObject(i).getString("lastname"));
+                temp.add(contactsArray.getJSONObject(i).getString("username"));
             }
             mFriendsHandle = new ArrayList<>();
-            for (int i = 0; i < temp.size(); i+=3) {
-                mFriendsHandle.add(new Connection(temp.get(i), temp.get(i+1), temp.get(i+2)));
+            for (int i = 0; i < temp.size(); i+=4) {
+                mFriendsHandle.add(new Connection(temp.get(i), temp.get(i+1), temp.get(i+2), temp.get(i+3)));
             }
             mFriendList.setValue(mFriendsHandle);
         } catch (JSONException e) {
@@ -173,11 +174,12 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 temp2.add(contactsArray.getJSONObject(i).getString("email"));
                 temp2.add(contactsArray.getJSONObject(i).getString("firstname"));
                 temp2.add(contactsArray.getJSONObject(i).getString("lastname"));
+                temp2.add(contactsArray.getJSONObject(i).getString("username"));
 
             }
             mOutgoingHandle = new ArrayList<>();
-            for (int i = 0; i < temp2.size(); i+=3) {
-                mOutgoingHandle.add(new Connection(temp2.get(i), temp2.get(i+1), temp2.get(i+2)));
+            for (int i = 0; i < temp2.size(); i+=4) {
+                mOutgoingHandle.add(new Connection(temp2.get(i), temp2.get(i+1), temp2.get(i+2), temp2.get(i+3)));
             }
             mOutgoingReqList.setValue(mOutgoingHandle);
         } catch (JSONException e) {
@@ -191,11 +193,12 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 temp3.add(contactsArray.getJSONObject(i).getString("email"));
                 temp3.add(contactsArray.getJSONObject(i).getString("firstname"));
                 temp3.add(contactsArray.getJSONObject(i).getString("lastname"));
+                temp3.add(contactsArray.getJSONObject(i).getString("username"));
 
             }
             mIncomingHandle = new ArrayList<>();
-            for (int i = 0; i < temp3.size(); i+=3) {
-                mIncomingHandle.add(new Connection(temp3.get(i), temp3.get(i+1), temp3.get(i+2)));
+            for (int i = 0; i < temp3.size(); i+=4) {
+                mIncomingHandle.add(new Connection(temp3.get(i), temp3.get(i+1), temp3.get(i+2), temp3.get(i+3)));
             }
             mIncomingReqList.setValue(mIncomingHandle);
         } catch (JSONException e) {
@@ -291,10 +294,11 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 temp.add(contactsArray.getJSONObject(i).getString("email"));
                 temp.add(contactsArray.getJSONObject(i).getString("firstname"));
                 temp.add(contactsArray.getJSONObject(i).getString("lastname"));
+                temp.add(contactsArray.getJSONObject(i).getString("username"));
             }
             mSuggHandle = new ArrayList<>();
-            for (int i = 0; i < temp.size(); i+=3) {
-                mSuggHandle.add(new Connection(temp.get(i), temp.get(i+1), temp.get(i+2)));
+            for (int i = 0; i < temp.size(); i+=4) {
+                mSuggHandle.add(new Connection(temp.get(i), temp.get(i+1), temp.get(i+2), temp.get(i+3)));
             }
             mSuggFriendList.setValue(mSuggHandle);
         } catch (JSONException e) {
@@ -376,69 +380,6 @@ public class ConnectionListViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
     }
 
-    /**
-     * Handles removal of connection from current friends.
-     * @param c The connection
-     */
-    public void connectionListRemove(Connection c, String theEmail) {
-        this.removeConnection(theEmail);
-        mFriendsHandle.remove(c);
-        mFriendList.setValue(mFriendsHandle);
-
-    }
-
-    /**
-     * Helps accept connection request.
-     * @param c The connection
-     */
-    public void incomingListAdd(Connection c, String theEmail) {
-        this.connectionRequest(theEmail);
-        mIncomingHandle.remove(c);
-        mIncomingReqList.setValue(mIncomingHandle);
-
-    }
-
-    /**
-     * Handles removal on connection from incoming list.
-     * @param c The connection
-     */
-    public void incomingListRemove(Connection c, String theEmail) {
-        this.removeConnection(theEmail);
-        mIncomingHandle.remove(c);
-        mIncomingReqList.setValue(mIncomingHandle);
-
-    }
-
-    /**
-     * Helps cancel an outgoing request.
-     * @param c The connection
-     */
-    public void outgoingListRemove(Connection c, String theEmail) {
-        this.removeConnection(theEmail);
-        mOutgoingHandle.remove(c);
-        mOutgoingReqList.setValue(mOutgoingHandle);
-
-    }
-
-    /**
-     * Handles removal on connection from current friends.
-     * @param c The connection
-     */
-    public void suggListAdd(Connection c, String theEmail) {
-        this.connectionRequest(theEmail);
-        mSuggHandle.remove(c);
-        mSuggFriendList.setValue(mSuggHandle);
-    }
-
-    /**
-     * Updates to help real time.
-     */
-    public void updateLists() {
-        mFriendList.setValue(mFriendsHandle);
-        mOutgoingReqList.setValue(mOutgoingHandle);
-        mIncomingReqList.setValue(mIncomingHandle);
-        mSuggFriendList.setValue(mSuggHandle);
-    }
 
     /**
      * Return a list of current connections.

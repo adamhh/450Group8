@@ -30,6 +30,11 @@ public class Connection implements Serializable {
    * The last name for the Connection.
    */
   private final String mLastName;
+  /**
+   * The nick name for the Connection.
+   */
+  private final String mNickName;
+
 
 
   /**
@@ -39,10 +44,11 @@ public class Connection implements Serializable {
    * @param fName The connections first name
    * @param lName The connections last name
    */
-  public Connection(String email, String fName, String lName) {
+  public Connection(String email, String fName, String lName, String nickName) {
     mEmail = email;
     mFirstName = fName;
     mLastName = lName;
+    mNickName = nickName;
   }
   public String getEmail() {
     return mEmail;
@@ -62,6 +68,14 @@ public class Connection implements Serializable {
    */
   public String getLastName() {
     return mLastName;
+  }
+
+  /**
+   * Accessor method for the Connections last name
+   * @return The Nick Name
+   */
+  public String getNickName() {
+    return mNickName;
   }
 
   /**

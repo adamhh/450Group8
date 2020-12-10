@@ -61,6 +61,7 @@ public class ProfileFragment extends Fragment {
     binding.profileEmailId.setText(mEmail);
     binding.profileFirstId.setText(profileArgs.getProfilefirstname());
     binding.profileLastId.setText(profileArgs.getProfilelastname());
+    binding.profileNicknameId.setText(profileArgs.getProfilenickname());
     binding.profileImage.setImageResource(Connection.getAvatar(mEmail));
     mPosition = profileArgs.getPosition();
     String connectButtonText;
