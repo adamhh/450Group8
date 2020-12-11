@@ -2,8 +2,6 @@ package edu.uw.comchat.ui.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -106,22 +104,20 @@ public class CreateFragment extends Fragment {
   private void handleAddTargetUser(String[] wantToCreateGroup) {
     List<Connection> friendList = mConnectionListViewModel.getConnectionList();
     List<String> emailList = friendList.stream()
-            .map(connection -> connection.getEmail())
+            .map(Connection::getEmail)
             .collect(Collectors.toList());
     // Default choice at index 0
     emailList.add(0, "None");
-    CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
+    CharSequence[] multiItems = emailList.toArray(new CharSequence[0]);
     mConnectionListViewModel.getAllConnections(mUserModel.getEmail(), mUserModel.getJwt());
 
     // Work around since "which" in setPositiveButton isn't the same as "which"
     //  in setSingleChoiceItem.
     int[] choice = new int[1];
 
-    new MaterialAlertDialogBuilder(getActivity())
+    new MaterialAlertDialogBuilder(getActivity(), R.style.AlertRadioTheme)
             //Multi-choice items (initialized with checked items)
-            .setSingleChoiceItems(multiItems, 0, (dialog, which) -> {
-              choice[0] = which;
-            })
+            .setSingleChoiceItems(multiItems, 0, (dialog, which) -> choice[0] = which)
             .setPositiveButton(getResources().getString(
                     R.string.item_menu_chat_list_accept), (dialog, which) -> {
                       if (choice[0] != 0) {
