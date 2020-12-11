@@ -76,7 +76,7 @@ public class GroupRecyclerViewAdapter extends
     int position = mRecyclerView.getChildAdapterPosition(view);
 
     Integer groupId = mGroups.get(position).getGroupId();
-    boolean isGroupChat = mGroups.get(position).isIsGroupChat();
+    boolean isGroupChat = mGroups.get(position).isGroupChat();
 
     // Navigates to the group
     Navigation.findNavController(view).navigate(
@@ -122,6 +122,9 @@ public class GroupRecyclerViewAdapter extends
         preview = preview.substring(0, 70) + "...";
       binding.textChatGroupMessage.setText(preview);
 
+      binding.textChatGroupName.setText("Room: " + group.getGroupName());
+      binding.textChatGroupMessage.setText(group.getMessage());
+      binding.textChatGroupType.setText(group.isGroupChat() ? "Group" : "Direct Message");
       try {
         binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
       } catch (IndexOutOfBoundsException e){

@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/messagePageFragment"
         android:name="edu.uw.comchat.ui.chat.chatroom.MessagePageFragment"
-        android:label="@string/title_message_list"
+        android:label="@string/title_message_page"
         tools:layout="@layout/fragment_message_list" >
         <argument
             android:name="chatId"

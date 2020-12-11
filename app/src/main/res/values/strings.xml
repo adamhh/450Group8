@@ -162,9 +162,12 @@
     <string name="text_chat_message">Message</string>
 
 
-    <!-- Message List Fragment -->
-    <string name="title_message_list">Conversation</string>
-    <string name="text_message_list_default">Message</string>
+    <!-- Message Page Fragment -->
+    <string name="title_message_page">Conversation</string>
+    <string name="text_message_page_default">Message</string>
+    <string name="text_message_page_delete_room">Are you sure want to delete this room? This will remove all chat in the room along with its members.</string>
+    <string name="text_message_page_default_choice">None</string>
+    <string name="text_message_page_remove_fail">Remove unsuccessfully. Please try again. Tap anywhere to close this message. </string>
 
     <!-- Create Fragment -->
     <string name="title_create">Message</string>

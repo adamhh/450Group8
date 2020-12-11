@@ -50,7 +50,7 @@ public class ChatGroupInfo implements Serializable {
   public String getTime(){
     return this.mTime;
   }
-  public boolean isIsGroupChat(){
+  public boolean isGroupChat(){
     return mIsGroupChat;
   }
 
