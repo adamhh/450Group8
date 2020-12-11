@@ -21,6 +21,7 @@ import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
 import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.weather.WeatherReport;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
@@ -30,6 +31,7 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -95,23 +97,25 @@ public class HomeFragment extends Fragment {
     // Set scroll behaviour for notification message
     mBinding.textHomeWelcomeMessage.setMovementMethod(new ScrollingMovementMethod());
 
+    // Hide empty notification and show display
+    mBinding.layoutInnerHomeChatNotification.setVisibility(View.INVISIBLE);
+    mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.INVISIBLE);
+    mBinding.textHomeNotificationDisplay.setVisibility(View.VISIBLE);
+
     // Notification response observer
     mNotificationModel.addChatResponseObserver(getViewLifecycleOwner(), notificationMap -> {
       try {
-        // Show notification and hide display message
-        mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
-        mBinding.layoutInnerHomeNotification.setVisibility(View.VISIBLE);
-
         mBinding.textHomeNotificationMessage.setText(mNotificationModel.getLatestNotificationMessage());
         mBinding.textHomeNotificationSender.setText(mNotificationModel.getLatestNotificationSender());
         mBinding.textHomeNotificationDate.setText(mNotificationModel.getLatestNotificationDate());
         mBinding.textHomeNotificationTime.setText(mNotificationModel.getLatestNotificationTime());
+
+        // Show notification and hide display message
+        mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeChatNotification.setVisibility(View.VISIBLE);
       } catch (NullPointerException e){
         Log.i("Home Fragment", "NPE for at notification due to no message has been received, this error can be ignored.");
-
-        // Hide empty notification and show display
-        mBinding.layoutInnerHomeNotification.setVisibility(View.INVISIBLE);
-        mBinding.textHomeNotificationDisplay.setVisibility(View.VISIBLE);
       }
     });
 
@@ -132,9 +136,21 @@ public class HomeFragment extends Fragment {
         //  The view model is refreshed per 0.5s so the error will be repeatedly printed till there is a connection.
         //  If it is removed then the error return again.
         //  What I think you can do is deleting the message and repeatedly set text of object to empty for example ("").
-//        mBinding.textView.setText(mNotificationModel.getLatestConnectionRequest().get(0));
+
+        // Get the notification data
+        List<String> connectionRequest = mNotificationModel.getLatestConnectionRequest();
+        mBinding.textHomeNotificationConnectionEmail.setText(connectionRequest.get(0));
+        mBinding.textHomeNotificationConnectionFirst.setText(connectionRequest.get(1));
+        mBinding.textHomeNotificationConnectionLast.setText(connectionRequest.get(2));
+        mBinding.imageHomeNotificationConnectionAvatar.setImageResource(
+                Connection.getAvatar(connectionRequest.get(0)));
+
+        // Show notification and hide display message
+        mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeChatNotification.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.VISIBLE);
+
       } catch (ArrayIndexOutOfBoundsException e){
-        Log.i("Out of bound Home, Notification model", "The error happens when there is no incoming request, this can be ignored.");
       }
     });
 
