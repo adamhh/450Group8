@@ -26,6 +26,7 @@ import java.util.Map;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentProfileBinding;
 import edu.uw.comchat.io.RequestQueueSingleton;
+import edu.uw.comchat.util.StorageUtil;
 
 /**
  * A fragment that is used to show a profile.
@@ -58,6 +59,25 @@ public class ProfileFragment extends Fragment {
     binding = FragmentProfileBinding.bind(view);
     ProfileFragmentArgs profileArgs = ProfileFragmentArgs.fromBundle(getArguments());
     mEmail = profileArgs.getProfileId();
+    StorageUtil mStorageUtil = new StorageUtil(getContext());
+    int theme = mStorageUtil.loadTheme();
+    if (theme == R.style.Theme_ComChatRed){
+      binding.profileEmailTitle.setTextColor(getResources().getColor(R.color.redAccentColorLight,
+              getActivity().getTheme()));
+      binding.profileUsernameTitle.setTextColor(getResources().getColor(R.color.redAccentColorLight,
+              getActivity().getTheme()));
+      binding.profileLine1.setBackgroundColor(getResources().getColor(R.color.redAccentColorLight,
+              getActivity().getTheme()));
+    } else {
+      binding.profileUsernameTitle.setTextColor(getResources().getColor(R.color.greyAccentColorLight,
+              getActivity().getTheme()));
+      binding.profileEmailTitle.setTextColor(getResources().getColor(R.color.greyAccentColorLight,
+              getActivity().getTheme()));
+      binding.profileLine1.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
+              getActivity().getTheme()));
+
+
+    }
     binding.profileEmailId.setText(mEmail);
     binding.profileFirstId.setText(profileArgs.getProfilefirstname());
     binding.profileLastId.setText(profileArgs.getProfilelastname());

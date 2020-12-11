@@ -17,6 +17,7 @@
         <item name="colorOnSecondary">@color/radioUnselectedLight</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/backgroundLightMode</item>
+
         <item name="android:statusBarColor" tools:targetApi="l">@color/notificationBarLightMode</item>
         <item name="android:textColor">@color/textLightMode</item>
         <item name="materialButtonStyle">@style/MaterialButtonTheme</item>

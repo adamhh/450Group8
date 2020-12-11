@@ -102,7 +102,6 @@
         android:id="@+id/profile_line_1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/profile_username_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="74dp"
-        android:background="@android:color/darker_gray"
+
         app:layout_constraintBottom_toTopOf="@+id/profile_email_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_first_id" />
@@ -122,7 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
+
         app:layout_constraintTop_toBottomOf="@+id/profile_nickname_id"
         tools:layout_editor_absoluteX="-24dp" />
 

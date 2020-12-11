@@ -1,10 +1,12 @@
 package edu.uw.comchat.ui.home;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeWeatherCardBinding;
 import edu.uw.comchat.ui.weather.WeatherReport;
+import edu.uw.comchat.util.StorageUtil;
 
 /**
  * A recycler view adapter that displays the weather in a column format.
@@ -28,6 +31,7 @@ public class HomeWeatherRecyclerViewAdapter extends
     @NonNull
     @Override
     public HomeWeatherRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         return new HomeWeatherRecyclerViewHolder(LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.fragment_home_weather_card, parent, false));
@@ -42,6 +46,7 @@ public class HomeWeatherRecyclerViewAdapter extends
     public int getItemCount() {
         return mReports.size();
     }
+
 
     /**
      * A view holder that represents the weather for single day in a column view adapter.
