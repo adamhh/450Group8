@@ -69,6 +69,7 @@
     <string name="text_home_notification_time">Time</string>
     <string name="text_home_notification_date">Date</string>
     <string name="text_home_notification_display">Your most recent notification will appear here.</string>
+    <string name="text_home_notification_connection_message">New connection request.</string>
 
 
     <!-- Bottom navigation menu -->
@@ -124,8 +125,6 @@
     <string name="title_connection">Connection</string>
 
     <!-- Connections Card Fragment -->
-    <string name="connection_card_name">Name</string>
-    <string name="connection_card_email">temporaryemail@uw.edu</string>
     <string name="card_message_description">message connection in card</string>
     <string name="card_settings_description">manage settings</string>
     <string name="card_avatar_description">avatar for user</string>
@@ -134,6 +133,9 @@
     <string name="connection_tab_outgoing">Outgoing</string>
     <string name="connection_tab_suggested">Suggested</string>
     <string name="connection_search_ok">Ok</string>
+    <string name="connection_card_first_name">First name</string>
+    <string name="connection_card_last_name">Last name</string>
+    <string name="connection_card_email">temporaryemail@uw.edu</string>
 
 
     <!-- Profile Fragment -->
