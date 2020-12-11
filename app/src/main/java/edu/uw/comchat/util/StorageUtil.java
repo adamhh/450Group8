@@ -13,11 +13,11 @@ public class StorageUtil {
         mContext = context;
     }
 
-    public void storeLocationZip(int zip) {
+    public void storeLocationZip(String zip) {
         getPreferences();
         mPreferences.edit()
-                .putString(getString(R.string.keys_zip), String.valueOf(zip))
-                .putBoolean(getString(R.string.keys_zip), true)
+                .putString(getString(R.string.keys_zip), zip)
+                .putBoolean(getString(R.string.keys_location_type), true)
                 .apply();
     }
     
@@ -35,8 +35,7 @@ public class StorageUtil {
         String[] location;
 
         if (mPreferences.getBoolean(getString(R.string.keys_location_type), true))
-            location = new String[] {mPreferences.getString(
-                    getString(R.string.keys_zip), "98402") };
+            location = new String[] {mPreferences.getString(getString(R.string.keys_zip), "98402") };
         else
             location = new String[] {
                     mPreferences.getString(getString(R.string.keys_latitude), "0"),
