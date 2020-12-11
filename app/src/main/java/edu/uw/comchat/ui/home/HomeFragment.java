@@ -20,18 +20,20 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
-import edu.uw.comchat.databinding.FragmentHomeWeatherCardBinding;
 import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.weather.WeatherReport;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
+import edu.uw.comchat.util.ColorUtil;
 import edu.uw.comchat.util.StorageUtil;
 
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,6 +57,7 @@ public class HomeFragment extends Fragment {
   private NotificationViewModel mNotificationModel;
   // Store incoming connection request.
   private ConnectionListViewModel mConnectionModel;
+  private ColorUtil mColorUtil;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,29 +76,18 @@ public class HomeFragment extends Fragment {
     setHasOptionsMenu(true);
     mBinding = FragmentHomeBinding.inflate(inflater);
     StorageUtil mStorageUtil = new StorageUtil(getContext());
-    int theme = mStorageUtil.loadTheme();
-    if (theme == R.style.Theme_ComChatRed){
-      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
-                                                 getActivity().getTheme()));
-      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
-              getActivity().getTheme()));
-      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
-              getActivity().getTheme()));
+    mColorUtil = new ColorUtil(getActivity(), mStorageUtil.loadTheme());
+    mColorUtil.setColor(mBinding.dividerProfile);
 
-    } else {
-      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
-                                                 getActivity().getTheme()));
-      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
-              getActivity().getTheme()));
-      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
-              getActivity().getTheme()));
-    }
     return mBinding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    // Sets user avatar
+    mBinding.imageViewAvatar.setImageResource(Connection.getAvatar(mUserModel.getEmail()));
 
     // Sets user email
     String hello = getString(R.string.text_home_hello) + " " + mUserModel.getEmail();
@@ -115,23 +107,25 @@ public class HomeFragment extends Fragment {
     // Set scroll behaviour for notification message
     mBinding.textHomeWelcomeMessage.setMovementMethod(new ScrollingMovementMethod());
 
+    // Hide empty notification and show display
+    mBinding.layoutInnerHomeChatNotification.setVisibility(View.INVISIBLE);
+    mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.INVISIBLE);
+    mBinding.textHomeNotificationDisplay.setVisibility(View.VISIBLE);
+
     // Notification response observer
     mNotificationModel.addChatResponseObserver(getViewLifecycleOwner(), notificationMap -> {
       try {
-        // Show notification and hide display message
-        mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
-        mBinding.layoutInnerHomeNotification.setVisibility(View.VISIBLE);
-
         mBinding.textHomeNotificationMessage.setText(mNotificationModel.getLatestNotificationMessage());
         mBinding.textHomeNotificationSender.setText(mNotificationModel.getLatestNotificationSender());
         mBinding.textHomeNotificationDate.setText(mNotificationModel.getLatestNotificationDate());
         mBinding.textHomeNotificationTime.setText(mNotificationModel.getLatestNotificationTime());
+
+        // Show notification and hide display message
+        mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeChatNotification.setVisibility(View.VISIBLE);
       } catch (NullPointerException e){
         Log.i("Home Fragment", "NPE for at notification due to no message has been received, this error can be ignored.");
-
-        // Hide empty notification and show display
-        mBinding.layoutInnerHomeNotification.setVisibility(View.INVISIBLE);
-        mBinding.textHomeNotificationDisplay.setVisibility(View.VISIBLE);
       }
     });
 
@@ -152,9 +146,21 @@ public class HomeFragment extends Fragment {
         //  The view model is refreshed per 0.5s so the error will be repeatedly printed till there is a connection.
         //  If it is removed then the error return again.
         //  What I think you can do is deleting the message and repeatedly set text of object to empty for example ("").
-//        mBinding.textView.setText(mNotificationModel.getLatestConnectionRequest().get(0));
-      } catch (ArrayIndexOutOfBoundsException e){
-        Log.i("Out of bound Home, Notification model", "The error happens when there is no incoming request, this can be ignored.");
+
+        // Get the notification data
+        List<String> connectionRequest = mNotificationModel.getLatestConnectionRequest();
+        mBinding.textHomeNotificationConnectionEmail.setText(connectionRequest.get(0));
+        mBinding.textHomeNotificationConnectionFirst.setText(connectionRequest.get(1));
+        mBinding.textHomeNotificationConnectionLast.setText(connectionRequest.get(2));
+        mBinding.imageHomeNotificationConnectionAvatar.setImageResource(
+                Connection.getAvatar(connectionRequest.get(0)));
+
+        // Show notification and hide display message
+        mBinding.textHomeNotificationDisplay.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeChatNotification.setVisibility(View.INVISIBLE);
+        mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.VISIBLE);
+
+      } catch (ArrayIndexOutOfBoundsException ignored){
       }
     });
 
@@ -260,7 +266,7 @@ public class HomeFragment extends Fragment {
       e.printStackTrace();
     }
 
-    mBinding.listHomeWeather.setAdapter(new HomeWeatherRecyclerViewAdapter(dailyReports));
+    mBinding.listHomeWeather.setAdapter(new HomeWeatherRecyclerViewAdapter(dailyReports, mColorUtil));
   }
 
   @Override

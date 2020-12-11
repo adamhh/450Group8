@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.home;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.util.List;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeWeatherCardBinding;
 import edu.uw.comchat.ui.weather.WeatherReport;
+import edu.uw.comchat.util.ColorUtil;
 import edu.uw.comchat.util.StorageUtil;
 
 /**
@@ -23,9 +25,11 @@ public class HomeWeatherRecyclerViewAdapter extends
         RecyclerView.Adapter<HomeWeatherRecyclerViewAdapter.HomeWeatherRecyclerViewHolder> {
 
     private final List<WeatherReport> mReports;
+    private final ColorUtil mColorUtil;
 
-    public HomeWeatherRecyclerViewAdapter(List<WeatherReport> reports) {
+    public HomeWeatherRecyclerViewAdapter(List<WeatherReport> reports, ColorUtil colorUtil) {
         mReports = reports;
+        mColorUtil = colorUtil;
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class HomeWeatherRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull HomeWeatherRecyclerViewHolder holder, int position) {
-        holder.setReport(mReports.get(position));
+        holder.setReport(mReports.get(position), mColorUtil);
     }
 
     @Override
@@ -68,10 +72,12 @@ public class HomeWeatherRecyclerViewAdapter extends
          * Sets the report for the view holder.
          * @param report the report being set.
          */
-        public void setReport(WeatherReport report) {
+        public void setReport(WeatherReport report, ColorUtil colorUtil) {
             mBinding.textHomeWeatherDate.setText(report.getTime());
             mBinding.textHomeWeatherDescription.setText(report.getDescription());
             mBinding.textHomeWeatherTemp.setText(report.getTemp());
+            colorUtil.setColor(mBinding.dividerTop);
+            colorUtil.setColor(mBinding.dividerBottom);
 
             int id = report.getId();
             if (id >= 200 && id <= 232) { // ID for thunderstorm

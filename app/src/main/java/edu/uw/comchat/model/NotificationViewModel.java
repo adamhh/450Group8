@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -78,9 +77,6 @@ public class NotificationViewModel extends ViewModel {
     incomingRequestInfo.add(lastIncomingConnection.getEmail());
     incomingRequestInfo.add(lastIncomingConnection.getFirstName());
     incomingRequestInfo.add(lastIncomingConnection.getLastName());
-    incomingRequestInfo.add(String.valueOf(lastIncomingConnection.getAvatar(
-            lastIncomingConnection.getEmail()
-    )));
     return incomingRequestInfo;
   }
 

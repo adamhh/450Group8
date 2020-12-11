@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.util.ColorUtil;
+import edu.uw.comchat.util.StorageUtil;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,7 +50,7 @@ public class ChatPageFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    setHasOptionsMenu(true);
+    setHasOptionsMenu(false);
     return inflater.inflate(R.layout.fragment_chat, container, false);
   }
 
@@ -60,10 +63,8 @@ public class ChatPageFragment extends Fragment {
     mChatPageViewModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
 
     binding = FragmentChatBinding.bind(mChatPageView);
-    binding.floatingActionButtonChatMessage.setOnClickListener(button -> {
-      Navigation.findNavController(getView()).navigate(
-              ChatPageFragmentDirections.actionNavigationChatToCreateFragment());
-    });
+    binding.floatingActionButtonChatMessage.setOnClickListener(button -> Navigation.findNavController(getView()).navigate(
+            ChatPageFragmentDirections.actionNavigationChatToCreateFragment()));
 
     // TODO I attempt to update chat group list per 0.5 sec to update UI in real time.
     //  For example, when user 1 delete 2 from chat group 3, screen of 2 will update.
@@ -81,12 +82,6 @@ public class ChatPageFragment extends Fragment {
     mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
   }
 
-  @Override
-  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
-    getActivity().getMenuInflater().inflate(R.menu.toolbar_create, menu);
-  }
-
   /**
    * When receive response from server, create chat rooms along with their respective groupId.
    *
@@ -95,7 +90,10 @@ public class ChatPageFragment extends Fragment {
   private void observeResponse(List<ChatGroupInfo> chatIdList) {
     binding = FragmentChatBinding.bind(mChatPageView);
 
-    binding.listRootChat.setAdapter(new GroupRecyclerViewAdapter(chatIdList));
+    StorageUtil storageUtil = new StorageUtil(getContext());
+    ColorUtil colorUtil = new ColorUtil(getActivity(), storageUtil.loadTheme());
+
+    binding.listRootChat.setAdapter(new GroupRecyclerViewAdapter(chatIdList, colorUtil));
 
     //Fail attempt to make dynamic chat page
 //    GroupRecyclerViewAdapter chatGroupListRV = new GroupRecyclerViewAdapter(chatIdList);
@@ -115,14 +113,6 @@ public class ChatPageFragment extends Fragment {
 //    else {
 //      Log.i("CPF", "has adapter");
 //      ((GroupRecyclerViewAdapter) binding.listRootChat.getAdapter()).updateAdapter(chatIdList);
-//    }
-
-
-
-    // Adds a divider in the list
-    binding.listRootChat.addItemDecoration(
-            new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
-
-
+//    }\
   }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/connection_search"
+        android:id="@+id/weather_search"
         android:title="@string/action_location_search"
         app:showAsAction="ifRoom|withText"
         app:actionViewClass="android.widget.SearchView" />

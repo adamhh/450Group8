@@ -47,7 +47,7 @@ public class CreateFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    setHasOptionsMenu(true);
+    setHasOptionsMenu(false);
     return inflater.inflate(R.layout.fragment_create, container, false);
   }
 
@@ -145,11 +145,4 @@ public class CreateFragment extends Fragment {
                     })
             .show();
   }
-
-  @Override
-  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
-    getActivity().getMenuInflater().inflate(R.menu.toolbar_create, menu);
-  }
-
 }

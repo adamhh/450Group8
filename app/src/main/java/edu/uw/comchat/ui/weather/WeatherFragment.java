@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.util.ColorUtil;
 import edu.uw.comchat.util.StorageUtil;
 
 import org.json.JSONArray;
@@ -28,6 +33,8 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Fragment that shows the weather in a tabular layout for multiple
@@ -39,14 +46,22 @@ import java.util.TimeZone;
 // Ignore checkstyle member name error.
 public class WeatherFragment extends Fragment {
 
+  private static final String ZIPCODE_REGEX = "^[0-9]{5}(?:-[0-9]{4})?$";
+
   // Connect to webservice - Hung Vu.
   private WeatherViewModel mWeatherModel;
   private FragmentWeatherBinding mWeatherBinding;
+  private StorageUtil mStorageUtil;
+  private ColorUtil mColorUtil;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mWeatherModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+
+    // Set storage util
+    mStorageUtil = new StorageUtil(getContext());
+    mColorUtil = new ColorUtil(getActivity(), mStorageUtil.loadTheme());
 
     // Set jwt dynamically.
     UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
@@ -65,10 +80,13 @@ public class WeatherFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+    // Set dividers
+    mColorUtil.setColor(mWeatherBinding.dividerCurrent);
+    mColorUtil.setColor(mWeatherBinding.dividerHour);
+
     // Establish weather connection
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
-    StorageUtil util = new StorageUtil(getContext());
-    mWeatherModel.connect(util.getLocation());
+    mWeatherModel.connect(mStorageUtil.getLocation());
 
     // Setup recycler view layout managers
     mWeatherBinding.listWeatherHour.setLayoutManager(
@@ -81,6 +99,35 @@ public class WeatherFragment extends Fragment {
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     getActivity().getMenuInflater().inflate(R.menu.toolbar_weather, menu);
+
+    ((SearchView) menu.findItem(R.id.weather_search)
+            .getActionView())
+            .setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+              @Override
+              public boolean onQueryTextSubmit(String s) {
+                Pattern pattern = Pattern.compile(ZIPCODE_REGEX);
+                Matcher matcher = pattern.matcher(s);
+                if (matcher.matches()) {
+                  mStorageUtil.storeLocationZip(s);
+                  mWeatherModel.connect(new String[] {s});
+                } else {
+                  new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+                          .setMessage("Using last known or default location.")
+                          .setTitle("Location not found")
+                          .setPositiveButton(R.string.connection_search_ok, (dialog, which) -> {
+                          })
+                          .show();
+                }
+
+                return false;
+              }
+
+              @Override
+              public boolean onQueryTextChange(String s) {
+                return false;
+              }
+            });
+
   }
 
   @Override
@@ -101,6 +148,7 @@ public class WeatherFragment extends Fragment {
       if (response.has("code")) {
         try {
           Log.i("JSON error", response.getJSONObject("data").getString("message"));
+
         } catch (JSONException e) {
           Log.e("JSON Parse Error", e.getMessage());
         }

@@ -52,7 +52,7 @@
         android:id="@+id/image_view_home_weather"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="128dp"
+        android:layout_marginStart="256dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:contentDescription="@string/content_home_weather_image"
