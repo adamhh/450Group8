@@ -9,6 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
+import edu.uw.comchat.util.ColorUtil;
+
 import java.util.List;
 
 
@@ -25,14 +27,17 @@ public class GroupRecyclerViewAdapter extends
 
   private final List<ChatGroupInfo> mGroups;
   private RecyclerView mRecyclerView;
+  private ColorUtil mColorUtil;
 
   /**
    * Creates a new group recycler view adapter with the given list of groups.
    *
-   * @param items the list of groups to be displayed.
+   * @param groups the list of groups to be displayed.
+   * @param colorUtil the utility used to help manage theme coloring.
    */
-  public GroupRecyclerViewAdapter(List<ChatGroupInfo> items) {
-    this.mGroups = items;
+  public GroupRecyclerViewAdapter(List<ChatGroupInfo> groups, ColorUtil colorUtil) {
+    mGroups = groups;
+    mColorUtil = colorUtil;
   }
 
   @NonNull
@@ -49,7 +54,7 @@ public class GroupRecyclerViewAdapter extends
 
   @Override
   public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-    holder.setGroup(mGroups.get(position));
+    holder.setGroup(mGroups.get(position), mColorUtil);
   }
 
   @Override
@@ -75,7 +80,7 @@ public class GroupRecyclerViewAdapter extends
     // Gets the index of the clicked group
     int position = mRecyclerView.getChildAdapterPosition(view);
 
-    Integer groupId = mGroups.get(position).getGroupId();
+    int groupId = mGroups.get(position).getGroupId();
     boolean isGroupChat = mGroups.get(position).isGroupChat();
 
     // Navigates to the group
@@ -84,18 +89,12 @@ public class GroupRecyclerViewAdapter extends
                     .actionNavigationChatToMessageListFragment(groupId, isGroupChat));
   }
 
-//  public void updateAdapter(List<ChatGroupInfo> items) {
-//    mGroups.clear();
-//    mGroups.addAll(items);
-//    notifyDataSetChanged();
-//  }
-
   /**
    * Objects from this class represent a single row view in the list of groups a user is in.
    */
   static class GroupViewHolder extends RecyclerView.ViewHolder {
     public final View mView;
-    public FragmentChatGroupBinding binding;
+    public FragmentChatGroupBinding mBinding;
 
     /**
      * Creates a new view  holder containing the group card fragment.
@@ -105,7 +104,7 @@ public class GroupRecyclerViewAdapter extends
     public GroupViewHolder(View view) {
       super(view);
       mView = view;
-      binding = FragmentChatGroupBinding.bind(view);
+      mBinding = FragmentChatGroupBinding.bind(view);
     }
 
     /**
@@ -114,24 +113,21 @@ public class GroupRecyclerViewAdapter extends
      * @param group the group of the view holder.
      */
     // Small adjustment to comply with 12/8/20 API - Hung Vu
-    void setGroup(final ChatGroupInfo group) {
-      binding.textChatGroupName.setText(group.getGroupName());
+    void setGroup(final ChatGroupInfo group, final ColorUtil colorUtil) {
+      mBinding.textChatGroupName.setText(group.getGroupName());
+      colorUtil.setColor(mBinding.dividerBottom);
 
       String preview = group.getMessage();
       if (preview.length() > 70)
         preview = preview.substring(0, 70) + "...";
-      binding.textChatGroupMessage.setText(preview);
+      mBinding.textChatGroupMessage.setText(preview);
 
-      binding.textChatGroupName.setText("Room: " + group.getGroupName());
-      binding.textChatGroupMessage.setText(group.getMessage());
-      binding.textChatGroupType.setText(group.isGroupChat() ? "Group" : "Direct Message");
+      mBinding.textChatGroupType.setText(group.isGroupChat() ? "Group" : "Direct Message");
       try {
-        binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
+        mBinding.textChatGroupDate.setText(group.getTime().substring(11, 16));
       } catch (IndexOutOfBoundsException e){
         Log.i("GroupRVAdapter", "Index out of bound in parsing time due to empty msg group chat");
       }
     }
-
   }
-
 }

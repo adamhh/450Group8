@@ -20,13 +20,13 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
-import edu.uw.comchat.databinding.FragmentHomeWeatherCardBinding;
 import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.connection.Connection;
 import edu.uw.comchat.ui.weather.WeatherReport;
 import edu.uw.comchat.ui.connection.ConnectionListViewModel;
 import edu.uw.comchat.ui.weather.WeatherViewModel;
+import edu.uw.comchat.util.ColorUtil;
 import edu.uw.comchat.util.StorageUtil;
 
 import java.time.Instant;
@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment {
   private NotificationViewModel mNotificationModel;
   // Store incoming connection request.
   private ConnectionListViewModel mConnectionModel;
+  private ColorUtil mColorUtil;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,29 +76,18 @@ public class HomeFragment extends Fragment {
     setHasOptionsMenu(true);
     mBinding = FragmentHomeBinding.inflate(inflater);
     StorageUtil mStorageUtil = new StorageUtil(getContext());
-    int theme = mStorageUtil.loadTheme();
-    if (theme == R.style.Theme_ComChatRed){
-      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
-                                                 getActivity().getTheme()));
-      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
-              getActivity().getTheme()));
-      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
-              getActivity().getTheme()));
+    mColorUtil = new ColorUtil(getActivity(), mStorageUtil.loadTheme());
+    mColorUtil.setColor(mBinding.dividerProfile);
 
-    } else {
-      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
-                                                 getActivity().getTheme()));
-      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
-              getActivity().getTheme()));
-      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
-              getActivity().getTheme()));
-    }
     return mBinding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    // Sets user avatar
+    mBinding.imageViewAvatar.setImageResource(Connection.getAvatar(mUserModel.getEmail()));
 
     // Sets user email
     String hello = getString(R.string.text_home_hello) + " " + mUserModel.getEmail();
@@ -170,7 +160,7 @@ public class HomeFragment extends Fragment {
         mBinding.layoutInnerHomeChatNotification.setVisibility(View.INVISIBLE);
         mBinding.layoutInnerHomeConnectionNotification.setVisibility(View.VISIBLE);
 
-      } catch (ArrayIndexOutOfBoundsException e){
+      } catch (ArrayIndexOutOfBoundsException ignored){
       }
     });
 
@@ -276,7 +266,7 @@ public class HomeFragment extends Fragment {
       e.printStackTrace();
     }
 
-    mBinding.listHomeWeather.setAdapter(new HomeWeatherRecyclerViewAdapter(dailyReports));
+    mBinding.listHomeWeather.setAdapter(new HomeWeatherRecyclerViewAdapter(dailyReports, mColorUtil));
   }
 
   @Override

@@ -22,6 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentWeatherBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.util.ColorUtil;
 import edu.uw.comchat.util.StorageUtil;
 
 import org.json.JSONArray;
@@ -51,6 +52,7 @@ public class WeatherFragment extends Fragment {
   private WeatherViewModel mWeatherModel;
   private FragmentWeatherBinding mWeatherBinding;
   private StorageUtil mStorageUtil;
+  private ColorUtil mColorUtil;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class WeatherFragment extends Fragment {
 
     // Set storage util
     mStorageUtil = new StorageUtil(getContext());
+    mColorUtil = new ColorUtil(getActivity(), mStorageUtil.loadTheme());
 
     // Set jwt dynamically.
     UserInfoViewModel userInfoViewModel = new ViewModelProvider(getActivity()).get(UserInfoViewModel.class);
@@ -76,6 +79,10 @@ public class WeatherFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+    // Set dividers
+    mColorUtil.setColor(mWeatherBinding.dividerCurrent);
+    mColorUtil.setColor(mWeatherBinding.dividerHour);
 
     // Establish weather connection
     mWeatherModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);

@@ -22,6 +22,7 @@ import edu.uw.comchat.MainActivity;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentConnectionCardBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
+import edu.uw.comchat.util.ColorUtil;
 
 import java.util.List;
 
@@ -57,19 +58,21 @@ public class ConnectionRecyclerViewAdapter extends
    */
   private ConnectionListViewModel mConnectionViewModel;
 
+  private final ColorUtil mColorUtil;
 
+
+  FragmentConnectionCardBinding binding;
+  
   /**
    * Creates a new connection recycler view adapter with the given list of connections.
    *
    * @param items the list of chats to be displayed.
    */
-  FragmentConnectionCardBinding binding;
-
-  public ConnectionRecyclerViewAdapter(List<Connection> items, int position, MainActivity m) {
+  public ConnectionRecyclerViewAdapter(List<Connection> items, int position, MainActivity m, ColorUtil colorUtil) {
     this.mConnections = items;
     mPosition = position;
     mConnectionViewModel = new ViewModelProvider(m).get(ConnectionListViewModel.class);
-
+    mColorUtil = colorUtil;
   }
 
   @NonNull
@@ -82,7 +85,7 @@ public class ConnectionRecyclerViewAdapter extends
 
   @Override
   public void onBindViewHolder(@NonNull ConnectionViewHolder holder, int position) {
-    holder.setConnection(mConnections.get(position));
+    holder.setConnection(mConnections.get(position), mColorUtil);
   }
 
   @Override
@@ -104,16 +107,15 @@ public class ConnectionRecyclerViewAdapter extends
    */
   public class ConnectionViewHolder extends RecyclerView.ViewHolder {
     public final View mView;
-    public FragmentConnectionCardBinding binding;
-    private Connection mConnection;
+    public FragmentConnectionCardBinding mBinding;
 
     public ConnectionViewHolder(View view) {
       super(view);
       mView = view;
-      binding = FragmentConnectionCardBinding.bind(view);
+      mBinding = FragmentConnectionCardBinding.bind(view);
 //      binding.connectionCardOption.setOnClickListener(view1 -> onOptionClicked(view1,
 //                                                      mRecyclerView.getChildAdapterPosition(view)));
-      binding.cardRootConnectionCard.setOnClickListener(this::onClick);
+      mBinding.cardRootConnectionCard.setOnClickListener(this::onClick);
 
 
     }
@@ -227,14 +229,13 @@ public class ConnectionRecyclerViewAdapter extends
      *
      * @param connection the connection of the view holder.
      */
-    void setConnection(final Connection connection) {
-      mConnection = connection;
+    void setConnection(final Connection connection, final ColorUtil colorUtil) {
       // TODO Make this get the person who is not you, if not found throw error
-      binding.cardEmailId.setText(connection.getEmail());
-      binding.cardFnameId.setText(connection.getFirstName());
-      binding.cardLnameId.setText(connection.getLastName());
-      binding.cardAvatarId.setImageResource(Connection.getAvatar(connection.getEmail()));
-
+      mBinding.cardEmailId.setText(connection.getEmail());
+      mBinding.cardFnameId.setText(connection.getFirstName());
+      mBinding.cardLnameId.setText(connection.getLastName());
+      mBinding.cardAvatarId.setImageResource(Connection.getAvatar(connection.getEmail()));
+      colorUtil.setColor(mBinding.dividerBottom);
     }
 
   }
