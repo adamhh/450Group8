@@ -141,9 +141,9 @@
     <!-- Profile Fragment -->
     <string name="nickname_profile">NickName</string>
     <string name="name_profile">Sample Name</string>
-    <string name="email_profile">Email</string>
+    <string name="email_profile">Email:</string>
     <string name="connect_status_profile">Connect Status</string>
-    <string name="username_profile">Username</string>
+    <string name="username_profile">Username:</string>
     <string name="title_profile">Profile</string>
     <string name="avatar_profile_description">Avatar for profile</string>
 
