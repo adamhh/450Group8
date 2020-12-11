@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,7 +168,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
                 == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener( getActivity(), location -> {
-                        Log.d("LOCATION", "" + (location == null));
                         if (location != null) {
                             mLocationModel.setLocation(location);
                         }
