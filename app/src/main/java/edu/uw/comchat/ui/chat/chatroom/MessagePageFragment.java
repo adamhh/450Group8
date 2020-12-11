@@ -100,11 +100,9 @@ public class MessagePageFragment extends Fragment {
     FragmentMessageListBinding binding = FragmentMessageListBinding.bind(getView());
 
     // Send button was clicked. Send the message via the SendViewModel
-    binding.buttonSend.setOnClickListener(button -> {
-      mSendModel.sendMessage(mChatId,
-              mUserModel.getJwt(),
-              binding.editMessageBox.getText().toString());
-    });
+    binding.buttonSend.setOnClickListener(button -> mSendModel.sendMessage(mChatId,
+            mUserModel.getJwt(),
+            binding.editMessageBox.getText().toString()));
 
     //when we get the response back from the server, clear the edittext
     mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
@@ -123,9 +121,7 @@ public class MessagePageFragment extends Fragment {
 
     //When the user scrolls to the top of the RV, the swiper list will "refresh"
     //The user is out of messages, go out to the service and get more
-    binding.swipeContainer.setOnRefreshListener(() -> {
-      mChatModel.getNextMessages(mChatId, mUserModel.getJwt());
-    });
+    binding.swipeContainer.setOnRefreshListener(() -> mChatModel.getNextMessages(mChatId, mUserModel.getJwt()));
 
     mChatModel.addMessageObserver(mChatId, getViewLifecycleOwner(),
             list -> {
@@ -171,7 +167,7 @@ public class MessagePageFragment extends Fragment {
     } else if (id == R.id.menu_chat_list_remove) {
       handleRemoveMemberToChatRoomAction();
     } else if (id == R.id.menu_chat_list_delete_room) {
-      new MaterialAlertDialogBuilder(getActivity())
+      new MaterialAlertDialogBuilder(getActivity(), R.style.AlertRadioTheme)
               .setTitle(getResources().getString(R.string.text_message_page_default))
               .setMessage(getResources().getString(R.string.text_message_page_delete_room))
               .setNegativeButton(getResources().getString(R.string.item_menu_chat_list_decline),
@@ -179,7 +175,7 @@ public class MessagePageFragment extends Fragment {
                       })
               .setPositiveButton(getResources().getString(
                       R.string.item_menu_chat_list_accept), (dialog, which) -> {
-                ArrayList<String> roomToDelete = new ArrayList<String>();
+                ArrayList<String> roomToDelete = new ArrayList<>();
                 roomToDelete.add(String.valueOf(mChatId));
                 roomToDelete.add(mUserModel.getJwt());
                 ModifyChatRoom.deleteRoom().accept(roomToDelete, this);
@@ -198,7 +194,7 @@ public class MessagePageFragment extends Fragment {
     List<String> emailList = mInRoomInfoViewModel.getMemberList();
     // Default choice at index 0
     emailList.add(0, "None");
-    CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
+    CharSequence[] multiItems = emailList.toArray(new CharSequence[0]);
     createDialog(multiItems, ModifyChatRoom.removeMember());
     // Note, if the response is delayed, the next call to this method will still use old info.
     //  However, the response can arrive when the dialog is opened with old info
@@ -213,11 +209,11 @@ public class MessagePageFragment extends Fragment {
   private void handleAddMemberToChatRoomAction() {
     List<Connection> friendList = mConnectionListViewModel.getConnectionList();
     List<String> emailList = friendList.stream()
-            .map(connection -> connection.getEmail())
+            .map(Connection::getEmail)
             .collect(Collectors.toList());
     // Default choice at index 0
     emailList.add(0, getResources().getString(R.string.text_message_page_default_choice));
-    CharSequence[] multiItems = emailList.toArray(new CharSequence[emailList.size()]);
+    CharSequence[] multiItems = emailList.toArray(new CharSequence[0]);
     //    boolean[] checkedItems = new boolean[multiItems.length];
     //    Log.i("", String.valueOf(multiItems[0]));
     //    Log.i("", friendList.toString());
@@ -239,11 +235,9 @@ public class MessagePageFragment extends Fragment {
     // Work around since "which" in setPositiveButton isn't the same as "which"
     //  in setSingleChoiceItem.
     int[] choice = new int[1];
-    new MaterialAlertDialogBuilder(getActivity())
+    new MaterialAlertDialogBuilder(getActivity(), R.style.AlertRadioTheme)
             //Multi-choice items (initialized with checked items)
-            .setSingleChoiceItems(multiItems, 0, (dialog, which) -> {
-              choice[0] = which;
-            })
+            .setSingleChoiceItems(multiItems, 0, (dialog, which) -> choice[0] = which)
             .setPositiveButton(getResources().getString(
                     R.string.item_menu_chat_list_accept), (dialog, which) -> {
 
@@ -264,7 +258,7 @@ public class MessagePageFragment extends Fragment {
                           // here just in case. However, the behavior (showing "removed" user)
                           // is still there, and will cause HTTP 400 response.
                           // 400 response code is already handled by ModifyChatRoom function.
-                          new MaterialAlertDialogBuilder(getActivity())
+                          new MaterialAlertDialogBuilder(getActivity(), R.style.AlertRadioTheme)
                                   .setTitle(getResources().getString(
                                           R.string.text_message_page_default))
                                   .setMessage(getResources().getString(
