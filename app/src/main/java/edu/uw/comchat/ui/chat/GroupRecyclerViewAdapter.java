@@ -93,10 +93,9 @@ public class GroupRecyclerViewAdapter extends
   /**
    * Objects from this class represent a single row view in the list of groups a user is in.
    */
-  class GroupViewHolder extends RecyclerView.ViewHolder {
+  static class GroupViewHolder extends RecyclerView.ViewHolder {
     public final View mView;
     public FragmentChatGroupBinding binding;
-    private ChatGroupInfo mGroup;
 
     /**
      * Creates a new view  holder containing the group card fragment.
@@ -116,10 +115,13 @@ public class GroupRecyclerViewAdapter extends
      */
     // Small adjustment to comply with 12/8/20 API - Hung Vu
     void setGroup(final ChatGroupInfo group) {
-      mGroup = group;
-      binding.textChatGroupName.setText("Group Name: " + group.getGroupName());
-      binding.textChatGroupMessage.setText(group.getMessage());
-//      Log.i("group", group.toString());
+      binding.textChatGroupName.setText(group.getGroupName());
+
+      String preview = group.getMessage();
+      if (preview.length() > 70)
+        preview = preview.substring(0, 70) + "...";
+      binding.textChatGroupMessage.setText(preview);
+
       try {
         binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
       } catch (IndexOutOfBoundsException e){
