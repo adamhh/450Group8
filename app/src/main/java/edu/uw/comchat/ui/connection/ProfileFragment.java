@@ -62,11 +62,11 @@ public class ProfileFragment extends Fragment {
     StorageUtil mStorageUtil = new StorageUtil(getContext());
     int theme = mStorageUtil.loadTheme();
     if (theme == R.style.Theme_ComChatRed){
-      binding.profileEmailTitle.setTextColor(getResources().getColor(R.color.redAccentColorLight,
+      binding.profileEmailTitle.setTextColor(getResources().getColor(R.color.redAccentColorDark,
               getActivity().getTheme()));
-      binding.profileUsernameTitle.setTextColor(getResources().getColor(R.color.redAccentColorLight,
+      binding.profileUsernameTitle.setTextColor(getResources().getColor(R.color.redAccentColorDark,
               getActivity().getTheme()));
-      binding.profileLine1.setBackgroundColor(getResources().getColor(R.color.redAccentColorLight,
+      binding.profileLine1.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
               getActivity().getTheme()));
     } else {
       binding.profileUsernameTitle.setTextColor(getResources().getColor(R.color.greyAccentColorLight,

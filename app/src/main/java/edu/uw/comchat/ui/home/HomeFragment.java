@@ -75,11 +75,11 @@ public class HomeFragment extends Fragment {
     StorageUtil mStorageUtil = new StorageUtil(getContext());
     int theme = mStorageUtil.loadTheme();
     if (theme == R.style.Theme_ComChatRed){
-      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.redAccentColorLight,
+      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
                                                  getActivity().getTheme()));
-      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.redAccentColorLight,
+      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
               getActivity().getTheme()));
-      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.redAccentColorLight,
+      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
               getActivity().getTheme()));
 
     } else {
