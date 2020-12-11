@@ -1,5 +1,6 @@
 package edu.uw.comchat.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentHomeBinding;
+import edu.uw.comchat.databinding.FragmentHomeWeatherCardBinding;
 import edu.uw.comchat.model.NotificationViewModel;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.ui.weather.WeatherReport;
@@ -70,6 +72,24 @@ public class HomeFragment extends Fragment {
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
     mBinding = FragmentHomeBinding.inflate(inflater);
+    StorageUtil mStorageUtil = new StorageUtil(getContext());
+    int theme = mStorageUtil.loadTheme();
+    if (theme == R.style.Theme_ComChatRed){
+      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
+                                                 getActivity().getTheme()));
+      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
+              getActivity().getTheme()));
+      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.redAccentColorDark,
+              getActivity().getTheme()));
+
+    } else {
+      mBinding.dividerProfile.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
+                                                 getActivity().getTheme()));
+      mBinding.dividerProfileTop.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
+              getActivity().getTheme()));
+      mBinding.dividerProfileBottom.setBackgroundColor(getResources().getColor(R.color.greyAccentColorLight,
+              getActivity().getTheme()));
+    }
     return mBinding.getRoot();
   }
 
