@@ -76,7 +76,7 @@ public class GroupRecyclerViewAdapter extends
     int position = mRecyclerView.getChildAdapterPosition(view);
 
     Integer groupId = mGroups.get(position).getGroupId();
-    boolean isGroupChat = mGroups.get(position).isIsGroupChat();
+    boolean isGroupChat = mGroups.get(position).isGroupChat();
 
     // Navigates to the group
     Navigation.findNavController(view).navigate(
@@ -117,8 +117,9 @@ public class GroupRecyclerViewAdapter extends
     // Small adjustment to comply with 12/8/20 API - Hung Vu
     void setGroup(final ChatGroupInfo group) {
       mGroup = group;
-      binding.textChatGroupName.setText("Group Name: " + group.getGroupName());
+      binding.textChatGroupName.setText("Room: " + group.getGroupName());
       binding.textChatGroupMessage.setText(group.getMessage());
+      binding.textChatGroupType.setText(group.isGroupChat() ? "Group" : "Direct Message");
 //      Log.i("group", group.toString());
       try {
         binding.textChatGroupDate.setText(group.getTime().substring(11, 16));
