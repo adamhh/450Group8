@@ -1,16 +1,14 @@
 package edu.uw.comchat.ui.connection;
 
-import android.util.Log;
-
-import java.io.Serializable;
-
+import androidx.annotation.Nullable;
 import edu.uw.comchat.R;
+import java.io.Serializable;
 
 /**
  * Represent a connection between two people.
  *
  * @author Jerry Springer
- *
+ * <p>
  * Changed to reflect needs
  * @author Adam Hall
  * @version 17 November 2020
@@ -36,10 +34,10 @@ public class Connection implements Serializable {
   private final String mNickName;
 
 
-
   /**
    * Constructor method for a connection that takes the email, first name,
    * and last name.
+   *
    * @param email The connections email
    * @param fName The connections first name
    * @param lName The connections last name
@@ -50,12 +48,14 @@ public class Connection implements Serializable {
     mLastName = lName;
     mNickName = nickName;
   }
+
   public String getEmail() {
     return mEmail;
   }
 
   /**
    * Accessor method for the Connections first name
+   *
    * @return The First Name
    */
   public String getFirstName() {
@@ -64,6 +64,7 @@ public class Connection implements Serializable {
 
   /**
    * Accessor method for the Connections last name
+   *
    * @return The Last Name
    */
   public String getLastName() {
@@ -72,6 +73,7 @@ public class Connection implements Serializable {
 
   /**
    * Accessor method for the Connections last name
+   *
    * @return The Nick Name
    */
   public String getNickName() {
@@ -80,6 +82,7 @@ public class Connection implements Serializable {
 
   /**
    * In place of shared preferences
+   *
    * @return
    */
   public static int getAvatar(String email) {
@@ -111,6 +114,25 @@ public class Connection implements Serializable {
   @Override
   public String toString() {
     return "Email: " + mEmail + ", First Name: " + mFirstName + ", Last Name: " + mLastName;
+  }
+
+  // Help compare objects - Hung Vu
+  @Override
+  public boolean equals(@Nullable Object other) {
+
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof Connection)) {
+      return false;
+    }
+
+    Connection otherConnection = (Connection) other;
+
+    return mEmail.equals(otherConnection.mEmail)
+            && mLastName.equals(otherConnection.mLastName)
+            && mFirstName.equals(otherConnection.mFirstName)
+            && mNickName.equals(otherConnection.mNickName);
   }
 
 

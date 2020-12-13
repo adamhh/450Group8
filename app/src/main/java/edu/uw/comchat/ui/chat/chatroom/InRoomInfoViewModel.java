@@ -12,7 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
-import edu.uw.comchat.ui.chat.ChatGroupInfo;
+import edu.uw.comchat.ui.chat.ChatRoomInfo;
 import edu.uw.comchat.util.HandleRequestError;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +101,7 @@ public class InRoomInfoViewModel extends AndroidViewModel {
   }
 
   private void handelSuccess(JSONObject response) {
-    ArrayList<ChatGroupInfo> list = new ArrayList<>();
+    ArrayList<ChatRoomInfo> list = new ArrayList<>();
     if (!response.has("rows")) {
       throw new IllegalStateException("Unexpected response in InRoomInfoViewModel: " + response);
     }
