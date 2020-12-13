@@ -176,7 +176,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
       for (int i = 0; i < temp.size(); i += 4) {
         mFriendsHandle.add(new Connection(temp.get(i), temp.get(i + 1), temp.get(i + 2), temp.get(i + 3)));
       }
-      if (mFriendsHandle.equals(mFriendList)) {
+      if (mFriendsHandle.equals(mFriendList)) { // If equal, then not update the data to prevent scrolling issue - Hung Vu
         return;
       }
       mFriendList.setValue(mFriendsHandle);
@@ -198,7 +198,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
       for (int i = 0; i < temp2.size(); i += 4) {
         mOutgoingHandle.add(new Connection(temp2.get(i), temp2.get(i + 1), temp2.get(i + 2), temp2.get(i + 3)));
       }
-      if (mOutgoingHandle.equals(mOutgoingReqList)) {
+      if (mOutgoingHandle.equals(mOutgoingReqList)) { // If equal, then not update the data to prevent scrolling issue - Hung Vu
         return;
       }
       mOutgoingReqList.setValue(mOutgoingHandle);
@@ -220,7 +220,7 @@ public class ConnectionListViewModel extends AndroidViewModel {
       for (int i = 0; i < temp3.size(); i += 4) {
         mIncomingHandle.add(new Connection(temp3.get(i), temp3.get(i + 1), temp3.get(i + 2), temp3.get(i + 3)));
       }
-      if (mIncomingHandle.equals(mIncomingReqList)) {
+      if (mIncomingHandle.equals(mIncomingReqList)) { // If equal, then not update the data to prevent scrolling issue - Hung Vu
         return;
       }
       mIncomingReqList.setValue(mIncomingHandle);

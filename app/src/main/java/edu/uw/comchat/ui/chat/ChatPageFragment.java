@@ -66,9 +66,6 @@ public class ChatPageFragment extends Fragment {
     binding.floatingActionButtonChatMessage.setOnClickListener(button -> Navigation.findNavController(getView()).navigate(
             ChatPageFragmentDirections.actionNavigationChatToCreateFragment()));
 
-    // TODO I attempt to update chat group list per 0.5 sec to update UI in real time.
-    //  For example, when user 1 delete 2 from chat group 3, screen of 2 will update.
-    //  But this doesn't work - Hung Vu.
     TimerTask getGroupTask = new TimerTask() {
       @Override
       public void run() {
@@ -78,7 +75,7 @@ public class ChatPageFragment extends Fragment {
       }
     };
     Timer timer = new Timer("Update group page per 0.5 sec");
-    timer.schedule(getGroupTask, 500L);
+    timer.scheduleAtFixedRate(getGroupTask, 500L, 500L);
     mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
   }
 
@@ -95,24 +92,5 @@ public class ChatPageFragment extends Fragment {
 
     binding.listRootChat.setAdapter(new GroupRecyclerViewAdapter(chatIdList, colorUtil));
 
-    //Fail attempt to make dynamic chat page
-//    GroupRecyclerViewAdapter chatGroupListRV = new GroupRecyclerViewAdapter(chatIdList);
-//
-//    // Sets the recycler view adapter for the list (re-use of elements when scrolling)
-//    binding.listRootChat.setAdapter(
-//            chatGroupListRV);
-//
-//    // Attempt to update chat page in real time - Hung Vu.
-//    chatGroupListRV.notifyDataSetChanged();
-//    GroupRecyclerViewAdapter adapter = (GroupRecyclerViewAdapter) binding.listRootChat.;
-//    if (adapter == null){
-//      Log.i("CPF", "null adapter");
-//      binding.listRootChat.setAdapter(
-//              chatGroupListRV);
-//    }
-//    else {
-//      Log.i("CPF", "has adapter");
-//      ((GroupRecyclerViewAdapter) binding.listRootChat.getAdapter()).updateAdapter(chatIdList);
-//    }\
   }
 }
