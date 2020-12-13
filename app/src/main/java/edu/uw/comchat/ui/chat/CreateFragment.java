@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @version 12 Dec 2020
  */
 // Ignore checkstyle member name error. Checkstyle done, post Sprint 3, Hung Vu.
-public class CreateChatRoomFragment extends Fragment {
+public class CreateFragment extends Fragment {
 
   private UserInfoViewModel mUserModel;
   private ConnectionListViewModel mConnectionListViewModel;

@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/createFragment"
-        android:name="edu.uw.comchat.ui.chat.CreateChatRoomFragment"
+        android:name="edu.uw.comchat.ui.chat.CreateFragment"
         android:label="@string/title_create"
         tools:layout="@layout/fragment_create" >
         <action

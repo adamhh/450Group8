@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatGroupBinding;
 import edu.uw.comchat.util.ColorUtil;
-
 import java.util.List;
 
 
@@ -18,13 +17,16 @@ import java.util.List;
  * A recycler view adapter to be used for the list of chat groups
  * a user belongs to.
  *
- * @author Jerry Springer
- @version 12 Dec 2020
+ * @author Jerry Springer (UI), Hung Vu (backend and maintain)
+ * @version 12 Dec 2020
  */
-// Ignore checkstyle member name error.
+// Ignore checkstyle member name error. Checkstyle done, post Sprint 3, Hung Vu.
 public class GroupRecyclerViewAdapter extends
         RecyclerView.Adapter<GroupRecyclerViewAdapter.GroupViewHolder> {
 
+  /**
+   * An information list of rooms to be displayed.
+   */
   private final List<ChatRoomInfo> mGroups;
   private RecyclerView mRecyclerView;
   private ColorUtil mColorUtil;
@@ -32,7 +34,7 @@ public class GroupRecyclerViewAdapter extends
   /**
    * Creates a new group recycler view adapter with the given list of groups.
    *
-   * @param groups the list of groups to be displayed.
+   * @param groups    the list of groups to be displayed.
    * @param colorUtil the utility used to help manage theme coloring.
    */
   public GroupRecyclerViewAdapter(List<ChatRoomInfo> groups, ColorUtil colorUtil) {
@@ -118,14 +120,15 @@ public class GroupRecyclerViewAdapter extends
       colorUtil.setColor(mBinding.dividerBottom);
 
       String preview = group.getMessage();
-      if (preview.length() > 70)
+      if (preview.length() > 70) {
         preview = preview.substring(0, 70) + "...";
+      }
       mBinding.textChatGroupMessage.setText(preview);
 
       mBinding.textChatGroupType.setText(group.isGroupChat() ? "Group" : "Direct Message");
       try {
         mBinding.textChatGroupDate.setText(group.getTime().substring(11, 16));
-      } catch (IndexOutOfBoundsException e){
+      } catch (IndexOutOfBoundsException e) {
         Log.i("GroupRVAdapter", "Index out of bound in parsing time due to empty msg group chat");
       }
     }

@@ -22,7 +22,8 @@ import java.util.TimerTask;
 /**
  * A fragment that shows the list of chats a user has with other.
  * <p></p>
- * @author Jerry Springer (UI), Hung Vu (connect to web service).
+ *
+ * @author Jerry Springer (UI), Hung Vu (backend).
  * @version 12 Dec 2020
  */
 // Ignore checkstyle member name error. Checkstyle done, post Sprint 3, Hung Vu.

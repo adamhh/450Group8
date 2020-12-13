@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 /**
  * View model to hold required information to form groups in chat page.
- * This is not for inside chatroom.
+ * This is not for inside a chat room.
  *
  * @author Hung Vu
  * @version 12 Dec 2020
@@ -35,7 +35,7 @@ public class ChatPageViewModel extends AndroidViewModel {
   private MutableLiveData<List<ChatRoomInfo>> mGroupInfo;
 
   /**
-   * An information list of rooms to be displayed.
+   * An information array of rooms to be displayed.
    */
   private static ChatRoomInfo[] mGroupArray;
 
