@@ -22,13 +22,14 @@ import java.util.stream.Collectors;
 
 
 /**
- * A fragment to create new groups of people for chats.
+ * A fragment to create new chat room.
  * <p></p>
- * * @author Jerry Springer (fragment flow), Hung Vu (backend, functionality)
+ *
+ * @author Jerry Springer (concept/idea), Hung Vu (backend, functionality)
  * @version 12 Dec 2020
  */
-// Ignore checkstyle member name error.
-public class CreateFragment extends Fragment {
+// Ignore checkstyle member name error. Checkstyle done, post Sprint 3, Hung Vu.
+public class CreateChatRoomFragment extends Fragment {
 
   private UserInfoViewModel mUserModel;
   private ConnectionListViewModel mConnectionListViewModel;
@@ -80,13 +81,15 @@ public class CreateFragment extends Fragment {
       if (mBinding.editTextCreate.getText().toString().isEmpty()) {
         mBinding.editTextCreate.setError("Chat group name can't be empty.");
       }
+
       ArrayList<String> infoToCreateRoom = new ArrayList<>();
       infoToCreateRoom.add(mBinding.editTextCreate.getText().toString());
       infoToCreateRoom.add(mUserModel.getEmail());
       infoToCreateRoom.add(mUserModel.getJwt());
       infoToCreateRoom.add(wantToCreateGroup[0]);
       infoToCreateRoom.add(mBinding.editTextTargetUser.getText().toString());
-      if(Boolean.valueOf(wantToCreateGroup[0]).equals(Boolean.TRUE)) {
+
+      if (Boolean.valueOf(wantToCreateGroup[0]).equals(Boolean.TRUE)) {
         ModifyChatRoom.createGroupRoom().accept(infoToCreateRoom, this);
       } else {
         ModifyChatRoom.createDmRoom().accept(infoToCreateRoom, this);
@@ -97,7 +100,8 @@ public class CreateFragment extends Fragment {
   }
 
   /**
-   * Create a dialog to select DM user and update "wantToCreateGroup" signal accordingly;
+   * Create a dialog to select DM user and update "wantToCreateGroup" signal accordingly.
+   *
    * @param wantToCreateGroup index 0 store true if a user want to create group chat,
    *                          false for a DM room.
    */
