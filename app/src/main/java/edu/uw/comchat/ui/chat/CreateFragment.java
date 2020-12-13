@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * A fragment to create new groups of people for chats.
  * <p></p>
  * * @author Jerry Springer (fragment flow), Hung Vu (backend, functionality)
- * * @version 3 November 2020
+ * @version 12 Dec 2020
  */
 // Ignore checkstyle member name error.
 public class CreateFragment extends Fragment {

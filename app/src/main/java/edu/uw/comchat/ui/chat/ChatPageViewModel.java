@@ -2,48 +2,60 @@ package edu.uw.comchat.ui.chat;
 
 import android.app.Application;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * View model to hold required information to form groups in chat page.
+ * This is not for inside chatroom.
  *
  * @author Hung Vu
- * @version 19 November 2020
+ * @version 12 Dec 2020
  */
+// Ignore checkstyle member name error. Checkstyle done, post Sprint 3, Hung Vu.
 public class ChatPageViewModel extends AndroidViewModel {
+
   private MutableLiveData<List<ChatRoomInfo>> mGroupInfo;
+
+  /**
+   * An information list of rooms to be displayed.
+   */
   private static ChatRoomInfo[] mGroupArray;
 
-
+  /**
+   * Constructor.
+   *
+   * @param application the application context
+   */
   public ChatPageViewModel(@NonNull Application application) {
     super(application);
     mGroupInfo = new MutableLiveData<>();
     mGroupInfo.setValue(new ArrayList<>());
   }
 
+  /**
+   * Add response observer to this view model.
+   *
+   * @param owner a life cycle of observer
+   * @param observer the action to perform when changes happen
+   */
   public void addResponseObserver(@NonNull LifecycleOwner owner,
                                   @NonNull Observer<? super List<ChatRoomInfo>> observer) {
     mGroupInfo.observe(owner, observer);
@@ -57,7 +69,8 @@ public class ChatPageViewModel extends AndroidViewModel {
    * @param jwt   json web token.
    */
   public void getAllUserCommunicationGroup(final String email, final String jwt) {
-    String url = getApplication().getResources().getString(R.string.base_url) + "chats/getchatid/" + email;
+    String url = getApplication().getResources().getString(R.string.base_url)
+            + "chats/getchatid/" + email;
 
     Request request = new JsonObjectRequest(
             Request.Method.GET,
@@ -98,7 +111,8 @@ public class ChatPageViewModel extends AndroidViewModel {
       JSONArray contactsArray = response.getJSONArray("chats");
       mGroupArray = new ChatRoomInfo[contactsArray.length()];
       for (int i = 0; i < contactsArray.length(); i++) {
-        mGroupArray[i] = ChatRoomInfo.createFromJsonString(contactsArray.getJSONObject(i).toString());
+        mGroupArray[i] = ChatRoomInfo.createFromJsonString(
+                contactsArray.getJSONObject(i).toString());
       }
       mGroupInfo.setValue(Arrays.asList(mGroupArray));
     } catch (JSONException e) {
@@ -107,19 +121,4 @@ public class ChatPageViewModel extends AndroidViewModel {
     }
   }
 
-//    /**
-//     * Print to the console error messages.
-//     * @param error an error received from server
-//     */
-//    private void handleError(final VolleyError error) {
-//        if (Objects.isNull(error.networkResponse)) {
-//            Log.e("NETWORK ERROR", error.getMessage());
-//        } else {
-//            String data = new String(error.networkResponse.data, Charset.defaultCharset());
-//            Log.e("CLIENT ERROR",
-//                    error.networkResponse.statusCode
-//                            + " "
-//                            + data);
-//        }
-//    }
 }

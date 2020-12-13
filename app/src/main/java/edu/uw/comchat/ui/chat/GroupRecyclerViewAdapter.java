@@ -19,7 +19,7 @@ import java.util.List;
  * a user belongs to.
  *
  * @author Jerry Springer
- * @version 3 November 2020
+ @version 12 Dec 2020
  */
 // Ignore checkstyle member name error.
 public class GroupRecyclerViewAdapter extends
