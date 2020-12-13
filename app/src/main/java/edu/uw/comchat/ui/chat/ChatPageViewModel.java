@@ -11,20 +11,17 @@ import androidx.lifecycle.Observer;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import edu.uw.comchat.R;
 import edu.uw.comchat.io.RequestQueueSingleton;
 import edu.uw.comchat.util.HandleRequestError;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +34,8 @@ import org.json.JSONObject;
  * @version 19 November 2020
  */
 public class ChatPageViewModel extends AndroidViewModel {
-  private MutableLiveData<List<ChatGroupInfo>> mGroupInfo;
-  private static ChatGroupInfo[] mGroupArray;
+  private MutableLiveData<List<ChatRoomInfo>> mGroupInfo;
+  private static ChatRoomInfo[] mGroupArray;
 
 
   public ChatPageViewModel(@NonNull Application application) {
@@ -48,7 +45,7 @@ public class ChatPageViewModel extends AndroidViewModel {
   }
 
   public void addResponseObserver(@NonNull LifecycleOwner owner,
-                                  @NonNull Observer<? super List<ChatGroupInfo>> observer) {
+                                  @NonNull Observer<? super List<ChatRoomInfo>> observer) {
     mGroupInfo.observe(owner, observer);
   }
 
@@ -93,15 +90,15 @@ public class ChatPageViewModel extends AndroidViewModel {
    * @param response web response
    */
   private void handelSuccess(final JSONObject response) {
-    ArrayList<ChatGroupInfo> list = new ArrayList<>();
+    ArrayList<ChatRoomInfo> list = new ArrayList<>();
     if (!response.has("chats")) {
       throw new IllegalStateException("Unexpected response in ChatPageViewModel: " + response);
     }
     try {
       JSONArray contactsArray = response.getJSONArray("chats");
-      mGroupArray = new ChatGroupInfo[contactsArray.length()];
+      mGroupArray = new ChatRoomInfo[contactsArray.length()];
       for (int i = 0; i < contactsArray.length(); i++) {
-        mGroupArray[i] = ChatGroupInfo.createFromJsonString(contactsArray.getJSONObject(i).toString());
+        mGroupArray[i] = ChatRoomInfo.createFromJsonString(contactsArray.getJSONObject(i).toString());
       }
       mGroupInfo.setValue(Arrays.asList(mGroupArray));
     } catch (JSONException e) {

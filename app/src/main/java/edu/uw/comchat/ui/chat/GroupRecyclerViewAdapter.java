@@ -25,7 +25,7 @@ import java.util.List;
 public class GroupRecyclerViewAdapter extends
         RecyclerView.Adapter<GroupRecyclerViewAdapter.GroupViewHolder> {
 
-  private final List<ChatGroupInfo> mGroups;
+  private final List<ChatRoomInfo> mGroups;
   private RecyclerView mRecyclerView;
   private ColorUtil mColorUtil;
 
@@ -35,7 +35,7 @@ public class GroupRecyclerViewAdapter extends
    * @param groups the list of groups to be displayed.
    * @param colorUtil the utility used to help manage theme coloring.
    */
-  public GroupRecyclerViewAdapter(List<ChatGroupInfo> groups, ColorUtil colorUtil) {
+  public GroupRecyclerViewAdapter(List<ChatRoomInfo> groups, ColorUtil colorUtil) {
     mGroups = groups;
     mColorUtil = colorUtil;
   }
@@ -80,7 +80,7 @@ public class GroupRecyclerViewAdapter extends
     // Gets the index of the clicked group
     int position = mRecyclerView.getChildAdapterPosition(view);
 
-    int groupId = mGroups.get(position).getGroupId();
+    int groupId = mGroups.get(position).getRoomId();
     boolean isGroupChat = mGroups.get(position).isGroupChat();
 
     // Navigates to the group
@@ -113,8 +113,8 @@ public class GroupRecyclerViewAdapter extends
      * @param group the group of the view holder.
      */
     // Small adjustment to comply with 12/8/20 API - Hung Vu
-    void setGroup(final ChatGroupInfo group, final ColorUtil colorUtil) {
-      mBinding.textChatGroupName.setText(group.getGroupName());
+    void setGroup(final ChatRoomInfo group, final ColorUtil colorUtil) {
+      mBinding.textChatGroupName.setText(group.getRoomName());
       colorUtil.setColor(mBinding.dividerBottom);
 
       String preview = group.getMessage();
