@@ -116,7 +116,7 @@ public class Connection implements Serializable {
     return "Email: " + mEmail + ", First Name: " + mFirstName + ", Last Name: " + mLastName;
   }
 
-  // Help comparing objects - Hung Vu
+  // Help compare objects - Hung Vu
   @Override
   public boolean equals(@Nullable Object other) {
 

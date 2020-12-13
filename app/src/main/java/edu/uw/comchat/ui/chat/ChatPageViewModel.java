@@ -103,7 +103,6 @@ public class ChatPageViewModel extends AndroidViewModel {
    * @param response web response
    */
   private void handelSuccess(final JSONObject response) {
-    ArrayList<ChatRoomInfo> list = new ArrayList<>();
     if (!response.has("chats")) {
       throw new IllegalStateException("Unexpected response in ChatPageViewModel: " + response);
     }
@@ -113,6 +112,9 @@ public class ChatPageViewModel extends AndroidViewModel {
       for (int i = 0; i < contactsArray.length(); i++) {
         mGroupArray[i] = ChatRoomInfo.createFromJsonString(
                 contactsArray.getJSONObject(i).toString());
+      }
+      if (mGroupInfo.getValue().equals(Arrays.asList(mGroupArray))){ // If there is no change to room list, then return.
+        return;
       }
       mGroupInfo.setValue(Arrays.asList(mGroupArray));
     } catch (JSONException e) {

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.comchat.ui.connection.Connection;
+
 /**
  * Represent a messaging group.
  *
@@ -125,13 +127,23 @@ public class ChatRoomInfo implements Serializable {
    * @return true if other group ID matches this group ID, false otherwise
    */
   @Override
+  // Help compare objects - Hung Vu
   public boolean equals(@Nullable Object other) {
-    boolean result = false;
-    if (other instanceof ChatRoomInfo) {
-      result = mRoomId == ((ChatRoomInfo) other).mRoomId;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof ChatRoomInfo)) {
+      return false;
     }
 
-    return result;
+    ChatRoomInfo otherConnection = (ChatRoomInfo) other;
+
+    return mMessage.equals(otherConnection.mMessage)
+            && mRoomName.equals(otherConnection.mRoomName)
+            && mTime.equals(otherConnection.mTime)
+            && mIsGroupChat == otherConnection.mIsGroupChat // Primitive boolean.
+            && mRoomId == otherConnection.mRoomId; // Primitive int.
+
   }
 
   @Override
