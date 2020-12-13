@@ -4,19 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
 import edu.uw.comchat.R;
 import edu.uw.comchat.databinding.FragmentChatBinding;
 import edu.uw.comchat.model.UserInfoViewModel;
 import edu.uw.comchat.util.ColorUtil;
 import edu.uw.comchat.util.StorageUtil;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,13 +25,13 @@ import java.util.TimerTask;
  * * @author Jerry Springer (UI), Hung Vu (connect to web service).
  * * @version 3 November 2020
  */
-// Ignore checkstyle member name error.
+// Ignore checkstyle member name error. Checkstyle done, post Sprint 3, Hung Vu.
 public class ChatPageFragment extends Fragment {
 
-  FragmentChatBinding binding;
-  ChatPageViewModel mChatPageViewModel;
-  UserInfoViewModel mUserViewModel;
-  View mChatPageView;
+  private FragmentChatBinding binding;
+  private ChatPageViewModel mChatPageViewModel;
+  private UserInfoViewModel mUserViewModel;
+  private View mChatPageView;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +56,10 @@ public class ChatPageFragment extends Fragment {
     mChatPageViewModel.addResponseObserver(getViewLifecycleOwner(), this::observeResponse);
 
     binding = FragmentChatBinding.bind(mChatPageView);
-    binding.floatingActionButtonChatMessage.setOnClickListener(button -> Navigation.findNavController(getView()).navigate(
-            ChatPageFragmentDirections.actionNavigationChatToCreateFragment()));
+    binding.floatingActionButtonChatMessage.setOnClickListener(
+            button -> Navigation.findNavController(getView()).navigate(
+              ChatPageFragmentDirections.actionNavigationChatToCreateFragment()
+            ));
 
     TimerTask getGroupTask = new TimerTask() {
       @Override
@@ -72,13 +71,14 @@ public class ChatPageFragment extends Fragment {
     };
     Timer timer = new Timer("Update group page per 0.5 sec");
     timer.scheduleAtFixedRate(getGroupTask, 500L, 500L);
-    mChatPageViewModel.getAllUserCommunicationGroup(mUserViewModel.getEmail(), mUserViewModel.getJwt());
+    mChatPageViewModel.getAllUserCommunicationGroup(
+            mUserViewModel.getEmail(), mUserViewModel.getJwt());
   }
 
   /**
-   * When receive response from server, create chat rooms along with their respective groupId.
+   * When receive response from server, create chat rooms along with their respective roomId.
    *
-   * @param chatIdList a list of ChatGroupInfo
+   * @param chatIdList a list of ChatRoomInfo
    */
   private void observeResponse(List<ChatRoomInfo> chatIdList) {
     binding = FragmentChatBinding.bind(mChatPageView);
