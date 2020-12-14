@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,10 +60,8 @@ public class ConnectionRecyclerViewAdapter extends
   private ConnectionListViewModel mConnectionViewModel;
 
   private final ColorUtil mColorUtil;
+  Parcelable recyclerViewState;
 
-
-  FragmentConnectionCardBinding binding;
-  
   /**
    * Creates a new connection recycler view adapter with the given list of connections.
    *
@@ -78,6 +77,7 @@ public class ConnectionRecyclerViewAdapter extends
   @NonNull
   @Override
   public ConnectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
     return new ConnectionViewHolder(LayoutInflater
             .from(parent.getContext())
             .inflate(R.layout.fragment_connection_card, parent, false));
@@ -86,14 +86,24 @@ public class ConnectionRecyclerViewAdapter extends
   @Override
   public void onBindViewHolder(@NonNull ConnectionViewHolder holder, int position) {
     holder.setConnection(mConnections.get(position), mColorUtil);
+
   }
+
+
 
   @Override
   public int getItemCount() {
     return mConnections.size();
   }
 
-
+  @Override
+  public int getItemViewType(int position){
+    return position;
+  }
+  @Override
+  public long getItemId(int position) {
+    return position;
+  }
   @Override
   public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
     super.onAttachedToRecyclerView(recyclerView);
@@ -113,96 +123,10 @@ public class ConnectionRecyclerViewAdapter extends
       super(view);
       mView = view;
       mBinding = FragmentConnectionCardBinding.bind(view);
-//      binding.connectionCardOption.setOnClickListener(view1 -> onOptionClicked(view1,
-//                                                      mRecyclerView.getChildAdapterPosition(view)));
       mBinding.cardRootConnectionCard.setOnClickListener(this::onClick);
 
 
     }
-
-//    /**
-//     * Method that handles the option button being clicked on a connection card.
-//     * Based on what tab the user is in the user will be presented with varying connection
-//     * options (Accept, Remove, Cancel).
-//     * @param view The view of the option button
-//     * @param position The position of the connection card in the recycler view
-//     */
-//    private void onOptionClicked(View view, int position) {
-//      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-//      alertDialogBuilder.setTitle("Connection Options");
-//      switch (mPosition) {
-//        case 1:
-//          alertDialogBuilder.setMessage("Would you like to remove connection?");
-//          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              //mConnectionViewModel.removeConnection(mConnections.get(position).getEmail());
-//              mConnectionViewModel.connectionListRemove(mConnections.get(position),
-//                      (mConnections.get(position).getEmail()));
-//            }
-//          });
-//          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              dialog.cancel();
-//            }
-//          });
-//          AlertDialog alertDialog = alertDialogBuilder.show();
-//          break;
-//        case 2:
-//          alertDialogBuilder.setMessage("Would you like to accept or remove request?");
-//          alertDialogBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              mConnectionViewModel.incomingListAdd(mConnections.get(position),
-//                      (mConnections.get(position).getEmail()));
-//            }
-//          });
-//          alertDialogBuilder.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              mConnectionViewModel.incomingListRemove(mConnections.get(position),
-//                      (mConnections.get(position).getEmail()));
-//            }
-//          });
-//          AlertDialog alertDialog2 = alertDialogBuilder.show();
-//          break;
-//        case 3:
-//          alertDialogBuilder.setMessage("Connection request pending, would you like to cancel request?");
-//          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              mConnectionViewModel.outgoingListRemove(mConnections.get(position),
-//                      (mConnections.get(position).getEmail()));
-//            }
-//          });
-//          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              dialog.cancel();
-//            }
-//          });
-//          AlertDialog alertDialog3 = alertDialogBuilder.show();
-//          break;
-//        default:
-//          alertDialogBuilder.setMessage("Would you like to send a connection request?");
-//          alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              mConnectionViewModel.suggListAdd(mConnections.get(position),
-//                      (mConnections.get(position).getEmail()));
-//            }
-//          });
-//          alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//              dialog.cancel();
-//            }
-//          });
-//          AlertDialog alertDialog4 = alertDialogBuilder.show();
-//          break;
-//      }
-//    }
 
 
     /**
