@@ -51,7 +51,7 @@ public class RegisterViewModel extends AndroidViewModel {
    * @param first first name of user.
    * @param last last name of user.
    * @param email email of user.
-   * @param username The nickname
+   * @param username The nickname.
    * @param password account password.
    */
   public void connect(final String first,
