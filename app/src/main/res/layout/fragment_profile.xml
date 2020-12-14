@@ -41,30 +41,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_first_id" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_name_id" />
 
     <TextView
-        android:id="@+id/profile_first_id"
+        android:id="@+id/profile_name_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="102dp"
-        android:layout_marginEnd="2dp"
-        android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/profile_last_id"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
-
-    <TextView
-        android:id="@+id/profile_last_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="102dp"
         android:text="TextView"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_first_id"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
     <TextView
@@ -115,7 +101,7 @@
 
         app:layout_constraintBottom_toTopOf="@+id/profile_email_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_first_id" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_name_id" />
 
     <View
         android:layout_width="match_parent"
@@ -133,7 +119,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_first_id" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_name_id" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,7 +69,7 @@
             android:id="@+id/card_lname_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="@string/connection_card_last_name"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/card_fname_id"
