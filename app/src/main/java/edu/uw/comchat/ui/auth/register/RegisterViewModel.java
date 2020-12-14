@@ -56,6 +56,7 @@ public class RegisterViewModel extends AndroidViewModel {
   public void connect(final String first,
                       final String last,
                       final String email,
+                      final String username,
                       final String password) {
     String url = "https://comchat-backend.herokuapp.com/register";
 
@@ -64,6 +65,7 @@ public class RegisterViewModel extends AndroidViewModel {
       body.put("first", first);
       body.put("last", last);
       body.put("email", email);
+      body.put("username", username);
       body.put("password", password);
       //      Log.i("JSON body", body.toString());
     } catch (JSONException e) {
