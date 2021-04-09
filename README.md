@@ -8,7 +8,7 @@ ComChat also allows user's to retrieve weather information using device location
 on a map (google maps android api). </br>
 
 ## **Visuals**
-![screenshot](public/images/portfolio/screenshot.PNG)
+![screenshot](/androidSS.png)
 
 
 ## **Technologies**
