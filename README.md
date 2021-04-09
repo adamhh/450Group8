@@ -10,7 +10,6 @@ on a map (google maps android api). </br>
 ## **Visuals**
 ![screenshot](/androidSS.png)
 
-
 ## **Technologies**
 * Java
 * Node.js
