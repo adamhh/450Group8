@@ -14,7 +14,7 @@ on a map (google maps android api). </br>
 ### Live messaging between connections
 ![CCmessage](https://user-images.githubusercontent.com/47022779/114324633-0dcfb500-9ae0-11eb-9ea0-1df307e57469.gif)
 
-### Selecting weather from point on map
+### Selecting weather from a point on map
 ![CCweather](https://user-images.githubusercontent.com/47022779/114323925-571e0580-9adc-11eb-8e5e-f1b9505f9119.gif)
 
 ### Removing a connection
