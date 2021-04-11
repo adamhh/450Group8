@@ -10,6 +10,9 @@ on a map (google maps android api). </br>
 ## **Visuals**
 ![screenshot](/androidSS.png)
 
+## **Demos**
+![CCweather](https://user-images.githubusercontent.com/47022779/114323925-571e0580-9adc-11eb-8e5e-f1b9505f9119.gif)
+
 ## **Technologies**
 * Java
 * Node.js
