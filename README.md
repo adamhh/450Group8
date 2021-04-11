@@ -11,8 +11,12 @@ on a map (google maps android api). </br>
 ![screenshot](/androidSS.png)
 
 ## **Demos**
+
 ### Selecting weather from point on map
 ![CCweather](https://user-images.githubusercontent.com/47022779/114323925-571e0580-9adc-11eb-8e5e-f1b9505f9119.gif)
+
+### Removing a connection
+![CCconnection](https://user-images.githubusercontent.com/47022779/114324094-30ac9a00-9add-11eb-8d88-68730355d642.gif)
 
 ## **Technologies**
 * Java
